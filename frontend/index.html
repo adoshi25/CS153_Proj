@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>World Simulation Platform</title>
+  <link href="https://unpkg.com/maplibre-gl@4.3.2/dist/maplibre-gl.css" rel="stylesheet" />
+  <script src="https://unpkg.com/maplibre-gl@4.3.2/dist/maplibre-gl.js"></script>
+  <script src="https://unpkg.com/deck.gl@8.9.27/dist.min.js"></script>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { background:#07070f; color:#e0e0e0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; overflow:hidden; height:100vh; }
+
+    /* ── LANDING SCREEN ── */
+    #landing {
+      position:fixed; inset:0; z-index:100;
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      background: radial-gradient(ellipse at center, #0d1117 0%, #07070f 100%);
+      transition: opacity 0.6s ease;
+    }
+    #landing.hidden { opacity:0; pointer-events:none; }
+
+    .landing-title {
+      font-size:42px; font-weight:700; color:#fff;
+      letter-spacing:-1px; margin-bottom:10px; text-align:center;
+    }
+    .landing-sub {
+      font-size:15px; color:#666; margin-bottom:48px; text-align:center; max-width:480px; line-height:1.6;
+    }
+
+    .input-wrap {
+      width:640px; position:relative;
+    }
+    #scenario-input {
+      width:100%; padding:18px 20px; padding-right:140px;
+      background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.12);
+      border-radius:14px; color:#fff; font-size:15px; outline:none;
+      transition:border-color 0.2s; resize:none; height:90px; line-height:1.5;
+      font-family: inherit;
+    }
+    #scenario-input:focus { border-color:rgba(99,179,237,0.5); }
+    #scenario-input::placeholder { color:#444; }
+
+    #generate-btn {
+      position:absolute; right:12px; bottom:12px;
+      padding:10px 22px; background:#3b82f6; border:none; border-radius:9px;
+      color:#fff; font-size:14px; font-weight:600; cursor:pointer;
+      transition:background 0.2s; white-space:nowrap;
+    }
+    #generate-btn:hover    { background:#2563eb; }
+    #generate-btn:disabled { background:#1e3a5f; color:#555; cursor:not-allowed; }
+
+    #generate-status {
+      margin-top:16px; font-size:13px; color:#666; height:20px; text-align:center;
+    }
+    .status-pulse { animation: fadepulse 1.5s infinite; }
+    @keyframes fadepulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+    .examples {
+      margin-top:40px; display:flex; flex-wrap:wrap; gap:8px;
+      max-width:640px; justify-content:center;
+    }
+    .example-chip {
+      padding:7px 14px; background:rgba(255,255,255,0.04);
+      border:1px solid rgba(255,255,255,0.08); border-radius:20px;
+      font-size:12px; color:#888; cursor:pointer; transition:all 0.15s;
+    }
+    .example-chip:hover { background:rgba(255,255,255,0.09); color:#ccc; border-color:rgba(255,255,255,0.2); }
+
+    /* ── SIMULATION VIEW ── */
+    #sim { position:fixed; inset:0; opacity:0; transition:opacity 0.6s ease; pointer-events:none; }
+    #sim.visible { opacity:1; pointer-events:all; }
+
+    #map { position:absolute; inset:0; }
+
+    /* Left panel */
+    #panel {
+      position:absolute; top:0; left:0; width:272px; height:100%;
+      background:rgba(7,7,15,0.88); backdrop-filter:blur(10px);
+      border-right:1px solid rgba(255,255,255,0.06);
+      display:flex; flex-direction:column; z-index:10; padding:20px 18px;
+    }
+
+    #back-btn {
+      display:flex; align-items:center; gap:6px; color:#555; font-size:12px;
+      cursor:pointer; margin-bottom:18px; transition:color 0.15s; background:none; border:none;
+    }
+    #back-btn:hover { color:#aaa; }
+
+    #scene-name { font-size:14px; color:#fff; font-weight:600; line-height:1.4; margin-bottom:4px; }
+    #scene-desc { font-size:11px; color:#555; line-height:1.5; margin-bottom:18px; }
+
+    .stats { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:18px; }
+    .stat { background:rgba(255,255,255,0.04); border-radius:8px; padding:10px 12px; }
+    .stat-label { font-size:9px; text-transform:uppercase; letter-spacing:1px; color:#444; }
+    .stat-value { font-size:22px; color:#fff; margin-top:2px; font-weight:600; }
+
+    .section-label { font-size:9px; text-transform:uppercase; letter-spacing:1.5px; color:#444; margin-bottom:8px; }
+
+    .speed-row { display:flex; gap:5px; margin-bottom:18px; }
+    .spd {
+      flex:1; padding:6px 0; background:rgba(255,255,255,0.04);
+      border:1px solid rgba(255,255,255,0.08); border-radius:6px;
+      color:#666; font-size:11px; cursor:pointer; transition:all 0.15s; text-align:center;
+    }
+    .spd:hover  { color:#aaa; border-color:rgba(255,255,255,0.15); }
+    .spd.active { background:rgba(59,130,246,0.2); border-color:#3b82f6; color:#93c5fd; }
+
+    /* Live state ticker */
+    #live-stats { margin-bottom:14px; }
+    .live-row {
+      display:flex; align-items:center; justify-content:space-between;
+      padding:5px 0; border-bottom:1px solid rgba(255,255,255,0.04);
+      font-size:11px;
+    }
+    .live-row:last-child { border-bottom:none; }
+    .live-name { color:#777; max-width:140px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .live-bar-wrap { flex:1; margin:0 8px; height:3px; background:rgba(255,255,255,0.07); border-radius:2px; }
+    .live-bar { height:100%; border-radius:2px; background:#3b82f6; transition:width 0.4s ease, background 0.4s ease; }
+    .live-val { color:#aaa; font-variant-numeric:tabular-nums; min-width:36px; text-align:right; }
+
+    #iv-list { flex:1; overflow-y:auto; }
+    .iv-btn {
+      width:100%; margin-bottom:7px; padding:10px 12px; text-align:left;
+      background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.07);
+      border-radius:8px; color:#bbb; font-size:12px; cursor:pointer; transition:all 0.2s;
+      line-height:1.4; font-family:inherit;
+    }
+    .iv-btn:hover { background:rgba(239,68,68,0.12); border-color:rgba(239,68,68,0.35); color:#fff; }
+    .iv-btn.fired { background:rgba(239,68,68,0.2); border-color:#ef4444; color:#fca5a5; }
+    .iv-label { font-weight:600; font-size:12px; }
+    .iv-desc  { font-size:10px; color:#555; margin-top:2px; }
+
+    #legend { margin-top:auto; padding-top:14px; border-top:1px solid rgba(255,255,255,0.05); }
+    .leg-row { display:flex; align-items:center; gap:8px; margin-bottom:5px; font-size:11px; color:#666; }
+    .leg-dot { width:9px; height:9px; border-radius:50%; flex-shrink:0; }
+
+    /* Status bar */
+    #statusbar {
+      position:absolute; bottom:18px; left:50%; transform:translateX(-50%);
+      background:rgba(7,7,15,0.85); border:1px solid rgba(255,255,255,0.07);
+      border-radius:20px; padding:6px 16px; font-size:11px; color:#555;
+      z-index:10; white-space:nowrap; pointer-events:none;
+    }
+    #sdot { display:inline-block; width:6px; height:6px; border-radius:50%; background:#22c55e; margin-right:7px; }
+    #sdot.live { animation:pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    /* New scene button */
+    #new-scene-btn {
+      position:absolute; top:18px; right:18px; z-index:10;
+      padding:8px 16px; background:rgba(255,255,255,0.06);
+      border:1px solid rgba(255,255,255,0.1); border-radius:8px;
+      color:#aaa; font-size:12px; cursor:pointer; transition:all 0.2s;
+    }
+    #new-scene-btn:hover { background:rgba(255,255,255,0.1); color:#fff; }
+  </style>
+</head>
+<body>
+
+<!-- LANDING SCREEN -->
+<div id="landing">
+  <div class="landing-title">See the world change.</div>
+  <div class="landing-sub">Describe any real-world scenario. Watch it simulate in real time — agents responding, cascades spreading, society adapting.</div>
+
+  <div class="input-wrap">
+    <textarea id="scenario-input" placeholder="Describe a scenario... e.g. 'A drought in California disrupts food supply chains across the US'"></textarea>
+    <button id="generate-btn" onclick="generateScene()">Simulate →</button>
+  </div>
+  <div id="generate-status"></div>
+
+  <div class="examples">
+    <div class="example-chip" onclick="fillExample(this)">War in Iran disrupts global oil shipping</div>
+    <div class="example-chip" onclick="fillExample(this)">New subway line opens in NYC, reducing car traffic</div>
+    <div class="example-chip" onclick="fillExample(this)">Amazon deforestation spreads carbon across South America</div>
+    <div class="example-chip" onclick="fillExample(this)">Bank collapse in Japan cascades through Asian markets</div>
+    <div class="example-chip" onclick="fillExample(this)">EV adoption under the Inflation Reduction Act reduces US emissions</div>
+    <div class="example-chip" onclick="fillExample(this)">California drought reshapes food supply chains nationwide</div>
+  </div>
+</div>
+
+<!-- SIMULATION VIEW -->
+<div id="sim">
+  <div id="map"></div>
+
+  <div id="panel">
+    <button id="back-btn" onclick="showLanding()">← New scenario</button>
+    <div id="scene-name">Loading...</div>
+    <div id="scene-desc"></div>
+
+    <div class="stats">
+      <div class="stat"><div class="stat-label">Tick</div><div class="stat-value" id="tick-val">0</div></div>
+      <div class="stat"><div class="stat-label">Agents</div><div class="stat-value" id="agent-val">—</div></div>
+    </div>
+
+    <div class="section-label">Speed</div>
+    <div class="speed-row">
+      <div class="spd" onclick="setSpeed(0.5,this)">½×</div>
+      <div class="spd active" onclick="setSpeed(1,this)">1×</div>
+      <div class="spd" onclick="setSpeed(3,this)">3×</div>
+      <div class="spd" onclick="setSpeed(10,this)">10×</div>
+    </div>
+
+    <div class="section-label">Live State</div>
+    <div id="live-stats"></div>
+
+    <div class="section-label">Interventions</div>
+    <div id="iv-list"></div>
+
+    <div id="legend"></div>
+  </div>
+
+  <button id="new-scene-btn" onclick="showLanding()">+ New scenario</button>
+  <div id="statusbar"><span id="sdot"></span><span id="stext">Connecting...</span></div>
+</div>
+
+<script>
+// ─────────────────────────────────────────────────────────────────────────────
+// State
+// ─────────────────────────────────────────────────────────────────────────────
+let map      = null;
+let overlay  = null;
+let ws       = null;
+let sceneInfo = null;
+let viewFitted = false;
+
+const DEFAULT_NODE_COLOR  = [80, 140, 255];
+const AGENT_COLOR         = [255, 215, 60];
+const BLOCKED_EDGE_COLOR  = [239, 68, 68, 220];
+const DEFAULT_EDGE_COLOR  = [80, 140, 220, 100];
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Landing ↔ Simulation transitions
+// ─────────────────────────────────────────────────────────────────────────────
+function showLanding() {
+  document.getElementById('landing').classList.remove('hidden');
+  document.getElementById('sim').classList.remove('visible');
+  viewFitted = false;
+}
+
+function showSim() {
+  document.getElementById('landing').classList.add('hidden');
+  document.getElementById('sim').classList.add('visible');
+}
+
+function fillExample(el) {
+  document.getElementById('scenario-input').value = el.textContent;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Generate scene from description
+// ─────────────────────────────────────────────────────────────────────────────
+async function generateScene() {
+  const description = document.getElementById('scenario-input').value.trim();
+  if (!description) return;
+
+  const btn    = document.getElementById('generate-btn');
+  const status = document.getElementById('generate-status');
+
+  btn.disabled  = true;
+  btn.textContent = 'Generating...';
+  status.innerHTML = '<span class="status-pulse">Designing world, placing agents, wiring dynamics...</span>';
+
+  try {
+    const res  = await fetch('/generate', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ description }),
+    });
+
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.detail || 'Generation failed');
+    }
+
+    const data = await res.json();
+    status.textContent = `Created: ${data.nodes} nodes, ${data.edges} edges`;
+
+    // Switch to simulation view and reload scene metadata
+    showSim();
+    await loadSceneMeta();
+    connectWebSocket();
+
+  } catch (e) {
+    status.textContent = `Error: ${e.message}`;
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Simulate →';
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Map + Deck.gl
+// ─────────────────────────────────────────────────────────────────────────────
+function initMap() {
+  map = new maplibregl.Map({
+    container: 'map',
+    style: 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json',
+    center: [20, 20],
+    zoom: 2,
+    antialias: true,
+  });
+
+  overlay = new deck.MapboxOverlay({
+    interleaved: false,
+    layers: [],
+  });
+
+  map.addControl(overlay);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Heat: 0–1 value computed from node state — drives color & size reactivity
+// Scans common stress/risk/price fields across any domain
+// ─────────────────────────────────────────────────────────────────────────────
+function nodeHeat(d) {
+  const s = d.state || {};
+  // Fields that indicate "intensity" when high — normalize by expected max
+  const checks = [
+    ['stress_index',    100],
+    ['risk_level',      100],
+    ['threat_level',    1],
+    ['congestion',      1],
+    ['deforestation',   100],
+    ['carbon_ppm',      500],
+    ['price_index',     200],
+    ['oil_price_usd',   200],
+  ];
+  for (const [field, max] of checks) {
+    if (s[field] !== undefined && s[field] !== null) {
+      return Math.min(1, Math.max(0, s[field] / max));
+    }
+  }
+  return 0;
+}
+
+// Blend base color toward [255,60,20] (hot red) based on heat 0–1
+function heatColor(base, heat) {
+  const hot = [255, 60, 20];
+  return [
+    Math.round(base[0] + heat * (hot[0] - base[0])),
+    Math.round(base[1] + heat * (hot[1] - base[1])),
+    Math.round(base[2] + heat * (hot[2] - base[2])),
+  ];
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Build Deck.gl layers from snapshot — fully data-driven
+// ─────────────────────────────────────────────────────────────────────────────
+function buildLayers(snapshot) {
+  const visual = sceneInfo?.visual || {};
+  const nodes  = snapshot.nodes || [];
+  const edges  = snapshot.edges || [];
+
+  const nodeById = {};
+  for (const n of nodes) nodeById[n.id] = n;
+
+  const layers = [];
+
+  // ── Edges as arcs — width scales with flow, color reacts to congestion
+  const arcData = edges
+    .map(e => {
+      const from = nodeById[e.from_id];
+      const to   = nodeById[e.to_id];
+      if (!from || !to) return null;
+      return { ...e,
+        src: [from.position.lon, from.position.lat],
+        tgt: [to.position.lon,   to.position.lat],
+      };
+    })
+    .filter(Boolean);
+
+  layers.push(new deck.ArcLayer({
+    id: 'edges',
+    data: arcData,
+    getSourcePosition: d => d.src,
+    getTargetPosition: d => d.tgt,
+    getSourceColor: d => {
+      if (d.state?.blocked) return BLOCKED_EDGE_COLOR;
+      const base = visual[d.type]?.color_normal || DEFAULT_EDGE_COLOR;
+      const congestion = d.state?.congestion || 0;
+      const ratio = d.capacity > 0 ? (d.flow || 0) / d.capacity : 0;
+      const stress = Math.max(congestion, ratio);
+      if (stress < 0.01) return base;
+      return [...heatColor(base, Math.min(stress, 1)), base[3] ?? 180];
+    },
+    getTargetColor: d => {
+      if (d.state?.blocked) return BLOCKED_EDGE_COLOR;
+      const base = visual[d.type]?.color_normal || DEFAULT_EDGE_COLOR;
+      const congestion = d.state?.congestion || 0;
+      const ratio = d.capacity > 0 ? (d.flow || 0) / d.capacity : 0;
+      const stress = Math.max(congestion, ratio);
+      if (stress < 0.01) return base;
+      return [...heatColor(base, Math.min(stress, 1)), base[3] ?? 180];
+    },
+    getWidth: d => {
+      if (d.state?.blocked) return 4;
+      const ratio = d.capacity > 0 ? (d.flow || 0) / d.capacity : 0;
+      return Math.max(1.5, ratio * 6 + 1.5);
+    },
+    pickable: true,
+    updateTriggers: { getSourceColor: snapshot.tick, getTargetColor: snapshot.tick, getWidth: snapshot.tick },
+  }));
+
+  // ── Infrastructure nodes — color and size react to state each tick
+  const infra = nodes.filter(n => !n.agent);
+  if (infra.length) {
+    // Outer glow ring for high-heat nodes
+    layers.push(new deck.ScatterplotLayer({
+      id: 'infra-glow',
+      data: infra.filter(d => nodeHeat(d) > 0.2),
+      getPosition:  d => [d.position.lon, d.position.lat],
+      getFillColor: d => {
+        const heat = nodeHeat(d);
+        return [255, 80, 20, Math.round(heat * 60)];
+      },
+      getRadius: d => (visual[d.type]?.radius || 30000) * (2.0 + nodeHeat(d)),
+      updateTriggers: { getFillColor: snapshot.tick, getRadius: snapshot.tick },
+    }));
+    layers.push(new deck.ScatterplotLayer({
+      id: 'infra',
+      data: infra,
+      getPosition:  d => [d.position.lon, d.position.lat],
+      getFillColor: d => heatColor(visual[d.type]?.color || DEFAULT_NODE_COLOR, nodeHeat(d)),
+      getRadius:    d => (visual[d.type]?.radius || 30000) * (1 + nodeHeat(d) * 0.6),
+      opacity: 0.92,
+      pickable: true,
+      updateTriggers: { getFillColor: snapshot.tick, getRadius: snapshot.tick },
+    }));
+  }
+
+  // ── Agents — bright, with glow ring
+  const agents = nodes.filter(n => n.agent);
+  if (agents.length) {
+    layers.push(new deck.ScatterplotLayer({
+      id: 'agents-glow',
+      data: agents,
+      getPosition:  d => [d.position.lon, d.position.lat],
+      getFillColor: [255, 215, 60, 40],
+      getRadius: 80000,
+      updateTriggers: { getPosition: snapshot.tick },
+    }));
+    layers.push(new deck.ScatterplotLayer({
+      id: 'agents',
+      data: agents,
+      getPosition:  d => [d.position.lon, d.position.lat],
+      getFillColor: d => {
+        const s = d.state?.status;
+        if (s === 'arrived')  return [100, 255, 180];
+        if (s === 'no_route') return [239, 68, 68];
+        return AGENT_COLOR;
+      },
+      getRadius: 48000,
+      opacity: 1,
+      pickable: true,
+      updateTriggers: { getPosition: snapshot.tick, getFillColor: snapshot.tick },
+    }));
+  }
+
+  return layers;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Fit map to scene
+// ─────────────────────────────────────────────────────────────────────────────
+function fitToScene(nodes) {
+  if (viewFitted || !nodes.length || !map) return;
+  viewFitted = true;
+  const lons = nodes.map(n => n.position.lon);
+  const lats = nodes.map(n => n.position.lat);
+  map.fitBounds(
+    [[Math.min(...lons) - 3, Math.min(...lats) - 3],
+     [Math.max(...lons) + 3, Math.max(...lats) + 3]],
+    { duration: 1500, padding: 80 }
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// WebSocket
+// ─────────────────────────────────────────────────────────────────────────────
+function connectWebSocket() {
+  if (ws) { ws.close(); ws = null; }
+
+  ws = new WebSocket(`ws://${location.host}/ws`);
+
+  ws.onopen = () => setStatus('live');
+
+  ws.onmessage = ({ data }) => {
+    const snap = JSON.parse(data);
+    fitToScene(snap.nodes || []);
+    if (overlay) overlay.setProps({ layers: buildLayers(snap) });
+    document.getElementById('tick-val').textContent  = snap.tick;
+    const agents = (snap.nodes || []).filter(n => n.agent);
+    document.getElementById('agent-val').textContent = agents.length;
+    updateLiveStats(snap);
+  };
+
+  ws.onclose = () => setStatus('disconnected');
+  ws.onerror = () => setStatus('error');
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Scene metadata → panel
+// ─────────────────────────────────────────────────────────────────────────────
+async function loadSceneMeta() {
+  try {
+    const res = await fetch('/scene');
+    sceneInfo = await res.json();
+
+    if (!sceneInfo.scene_id) return;
+
+    document.getElementById('scene-name').textContent = sceneInfo.scene_id.replace(/_/g, ' ');
+    document.getElementById('scene-desc').textContent = sceneInfo.description || '';
+    viewFitted = false;
+
+    // Interventions
+    const list = document.getElementById('iv-list');
+    list.innerHTML = '';
+    for (const iv of (sceneInfo.interventions || [])) {
+      const btn = document.createElement('button');
+      btn.className = 'iv-btn';
+      btn.id = `iv-${iv.id}`;
+      btn.innerHTML = `<div class="iv-label">${iv.label}</div><div class="iv-desc">${iv.description || ''}</div>`;
+      btn.onclick = () => triggerIntervention(iv.id, btn);
+      list.appendChild(btn);
+    }
+
+    // Legend
+    const leg = document.getElementById('legend');
+    leg.innerHTML = '<div class="section-label" style="margin-bottom:8px">Legend</div>';
+    for (const type of (sceneInfo.node_types || [])) {
+      const c   = sceneInfo.visual?.[type]?.color || DEFAULT_NODE_COLOR;
+      const hex = `rgb(${c[0]},${c[1]},${c[2]})`;
+      leg.innerHTML += `<div class="leg-row"><div class="leg-dot" style="background:${hex}"></div>${type.replace(/_/g,' ')}</div>`;
+    }
+    leg.innerHTML += `
+      <div class="leg-row"><div class="leg-dot" style="background:rgb(255,215,60)"></div>moving agents</div>
+      <div class="leg-row"><div class="leg-dot" style="background:rgb(239,68,68);border-radius:2px;height:4px;width:14px"></div>blocked route</div>`;
+
+  } catch(e) {
+    console.error('Failed to load scene meta', e);
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Interventions
+// ─────────────────────────────────────────────────────────────────────────────
+async function triggerIntervention(id, btn) {
+  const res = await fetch(`/intervention/${id}`, { method: 'POST' });
+  if (res.ok) {
+    btn.classList.add('fired');
+    btn.querySelector('.iv-desc').textContent = 'Applied — watch the map';
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Speed
+// ─────────────────────────────────────────────────────────────────────────────
+function setSpeed(mult, el) {
+  fetch(`/control/speed/${mult}`, { method: 'POST' });
+  document.querySelectorAll('.spd').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Status
+// ─────────────────────────────────────────────────────────────────────────────
+function setStatus(s) {
+  const dot  = document.getElementById('sdot');
+  const text = document.getElementById('stext');
+  if (s === 'live') {
+    dot.style.background = '#22c55e'; dot.classList.add('live');
+    text.textContent = 'Live';
+  } else if (s === 'disconnected') {
+    dot.style.background = '#ef4444'; dot.classList.remove('live');
+    text.textContent = 'Disconnected';
+  } else {
+    dot.style.background = '#f59e0b';
+    text.textContent = 'Error';
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Boot
+// ─────────────────────────────────────────────────────────────────────────────
+async function boot() {
+  initMap();
+
+  // If a scene is already loaded on the server, go straight to sim view
+  const res  = await fetch('/scene');
+  const meta = await res.json();
+  if (meta.scene_id) {
+    showSim();
+    await loadSceneMeta();
+    connectWebSocket();
+  }
+}
+
+boot();
+</script>
+</body>
+</html>

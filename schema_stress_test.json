@@ -1,0 +1,388 @@
+{
+  "meta": {
+    "schema_version": "0.1",
+    "purpose": "Stress test — verify universal schema holds across 3 domains without modification",
+    "clock": {
+      "current_time": "2024-01-15T06:00:00Z",
+      "time_scale": 3600,
+      "tick": 0
+    }
+  },
+
+  "domains": {
+
+    "supply_chain": {
+      "description": "Strait of Hormuz — oil shipping, naval blockage intervention",
+      "tick_resolution_seconds": 3600,
+
+      "nodes": [
+        {
+          "id": "strait_hormuz",
+          "type": "chokepoint",
+          "position": { "lat": 26.5667, "lon": 56.2500 },
+          "state": { "status": "active", "military_presence": 0.9 },
+          "properties": { "daily_oil_flow_barrels": 21000000, "width_km": 55 },
+          "active": true
+        },
+        {
+          "id": "port_fujairah",
+          "type": "port",
+          "position": { "lat": 25.1288, "lon": 56.3264 },
+          "state": { "status": "active", "congestion": 0.2 },
+          "properties": { "capacity_barrels_per_day": 1500000, "country": "UAE" },
+          "active": true
+        },
+        {
+          "id": "port_rotterdam",
+          "type": "port",
+          "position": { "lat": 51.9500, "lon": 4.1500 },
+          "state": { "status": "active", "congestion": 0.4 },
+          "properties": { "capacity_barrels_per_day": 3000000, "country": "NL" },
+          "active": true
+        },
+        {
+          "id": "cape_good_hope",
+          "type": "waypoint",
+          "position": { "lat": -34.3568, "lon": 18.4733 },
+          "state": { "status": "active", "weather_risk": 0.3 },
+          "properties": { "alternative_route": true },
+          "active": true
+        },
+        {
+          "id": "ship_maersk_01",
+          "type": "ship",
+          "position": { "lat": 26.1, "lon": 56.8 },
+          "state": { "status": "en_route", "speed_knots": 14, "current_edge": "lane_fujairah_hormuz" },
+          "properties": { "cargo_barrels": 2000000, "operator": "Maersk", "destination": "port_rotterdam" },
+          "active": true,
+          "agent": true,
+          "agent_tier": "gnn"
+        },
+        {
+          "id": "ceo_maersk",
+          "type": "executive",
+          "position": { "lat": 55.6761, "lon": 12.5683 },
+          "state": { "status": "active", "last_decision_tick": 0 },
+          "properties": { "company": "Maersk", "manages_fleet": ["ship_maersk_01"] },
+          "active": true,
+          "agent": true,
+          "agent_tier": "llm"
+        }
+      ],
+
+      "edges": [
+        {
+          "id": "lane_fujairah_hormuz",
+          "from_id": "port_fujairah",
+          "to_id": "strait_hormuz",
+          "type": "shipping_lane",
+          "directed": true,
+          "capacity": 50,
+          "flow": 34,
+          "cost": 1.2,
+          "state": { "blocked": false, "risk": 0.1 },
+          "properties": { "distance_km": 150, "typical_transit_hours": 12 },
+          "active": true
+        },
+        {
+          "id": "lane_hormuz_rotterdam_direct",
+          "from_id": "strait_hormuz",
+          "to_id": "port_rotterdam",
+          "type": "shipping_lane",
+          "directed": true,
+          "capacity": 40,
+          "flow": 28,
+          "cost": 10.5,
+          "state": { "blocked": false, "risk": 0.1 },
+          "properties": { "distance_km": 9500, "typical_transit_hours": 336 },
+          "active": true
+        },
+        {
+          "id": "lane_fujairah_cape",
+          "from_id": "port_fujairah",
+          "to_id": "cape_good_hope",
+          "type": "shipping_lane",
+          "directed": true,
+          "capacity": 20,
+          "flow": 3,
+          "cost": 18.0,
+          "state": { "blocked": false, "risk": 0.3 },
+          "properties": { "distance_km": 8300, "typical_transit_hours": 600 },
+          "active": true
+        },
+        {
+          "id": "lane_cape_rotterdam",
+          "from_id": "cape_good_hope",
+          "to_id": "port_rotterdam",
+          "type": "shipping_lane",
+          "directed": true,
+          "capacity": 20,
+          "flow": 3,
+          "cost": 8.5,
+          "state": { "blocked": false, "risk": 0.15 },
+          "properties": { "distance_km": 9600, "typical_transit_hours": 336 },
+          "active": true
+        }
+      ]
+    },
+
+    "city_traffic": {
+      "description": "Los Angeles — highway intervention, traffic redistribution",
+      "tick_resolution_seconds": 60,
+
+      "nodes": [
+        {
+          "id": "intersection_101_olympic",
+          "type": "intersection",
+          "position": { "lat": 34.0522, "lon": -118.2437 },
+          "state": { "status": "active", "congestion": 0.7, "signal_phase": "NS_green" },
+          "properties": { "lanes": 4, "traffic_light": true },
+          "active": true
+        },
+        {
+          "id": "onramp_101_north",
+          "type": "highway_onramp",
+          "position": { "lat": 34.0611, "lon": -118.2350 },
+          "state": { "status": "active", "congestion": 0.9 },
+          "properties": { "highway": "US-101", "direction": "north" },
+          "active": true
+        },
+        {
+          "id": "intersection_venice_lincoln",
+          "type": "intersection",
+          "position": { "lat": 33.9850, "lon": -118.4695 },
+          "state": { "status": "active", "congestion": 0.3, "signal_phase": "EW_green" },
+          "properties": { "lanes": 2, "traffic_light": true },
+          "active": true
+        },
+        {
+          "id": "bldg_lax_airport",
+          "type": "destination",
+          "position": { "lat": 33.9425, "lon": -118.4081 },
+          "state": { "status": "active", "demand": 0.8 },
+          "properties": { "type": "airport", "avg_daily_trips": 90000 },
+          "active": true
+        },
+        {
+          "id": "car_agent_001",
+          "type": "car",
+          "position": { "lat": 34.0522, "lon": -118.2437 },
+          "state": { "status": "en_route", "speed_mph": 18, "current_edge": "road_olympic_venice" },
+          "properties": { "destination": "bldg_lax_airport", "route": ["road_olympic_venice", "road_venice_lincoln"] },
+          "active": true,
+          "agent": true,
+          "agent_tier": "rule"
+        }
+      ],
+
+      "edges": [
+        {
+          "id": "road_olympic_onramp",
+          "from_id": "intersection_101_olympic",
+          "to_id": "onramp_101_north",
+          "type": "road",
+          "directed": true,
+          "capacity": 1800,
+          "flow": 1620,
+          "cost": 4.2,
+          "state": { "blocked": false, "congestion": 0.9, "construction": false },
+          "properties": { "speed_limit_mph": 35, "lanes": 2, "road_type": "arterial" },
+          "active": true
+        },
+        {
+          "id": "road_olympic_venice",
+          "from_id": "intersection_101_olympic",
+          "to_id": "intersection_venice_lincoln",
+          "type": "road",
+          "directed": false,
+          "capacity": 900,
+          "flow": 310,
+          "cost": 7.1,
+          "state": { "blocked": false, "congestion": 0.3, "construction": false },
+          "properties": { "speed_limit_mph": 35, "lanes": 2, "road_type": "arterial" },
+          "active": true
+        },
+        {
+          "id": "road_venice_lincoln",
+          "from_id": "intersection_venice_lincoln",
+          "to_id": "bldg_lax_airport",
+          "type": "road",
+          "directed": true,
+          "capacity": 1200,
+          "flow": 480,
+          "cost": 5.5,
+          "state": { "blocked": false, "congestion": 0.4, "construction": false },
+          "properties": { "speed_limit_mph": 45, "lanes": 3, "road_type": "arterial" },
+          "active": true
+        },
+        {
+          "id": "highway_101_segment_A",
+          "from_id": "onramp_101_north",
+          "to_id": "intersection_101_olympic",
+          "type": "highway",
+          "directed": true,
+          "capacity": 4000,
+          "flow": 3800,
+          "cost": 1.2,
+          "state": { "blocked": false, "congestion": 0.95, "construction": false },
+          "properties": { "speed_limit_mph": 65, "lanes": 4, "road_type": "highway" },
+          "active": true
+        }
+      ]
+    },
+
+    "emissions": {
+      "description": "Pacific Northwest — forest policy intervention, carbon flow effects",
+      "tick_resolution_seconds": 86400,
+
+      "nodes": [
+        {
+          "id": "region_portland_metro",
+          "type": "urban_region",
+          "position": { "lat": 45.5051, "lon": -122.6750 },
+          "state": { "status": "active", "carbon_ppm": 418.5, "temp_c": 12.4 },
+          "properties": { "area_km2": 1500, "population": 2500000, "emissions_tons_per_day": 45000 },
+          "active": true
+        },
+        {
+          "id": "forest_patch_cascade_01",
+          "type": "forest",
+          "position": { "lat": 45.8000, "lon": -121.8000 },
+          "state": { "status": "active", "health": 0.85, "carbon_ppm": 390.1 },
+          "properties": { "area_km2": 8000, "sequestration_tons_per_day": 12000, "species": "douglas_fir" },
+          "active": true
+        },
+        {
+          "id": "region_seattle_metro",
+          "type": "urban_region",
+          "position": { "lat": 47.6062, "lon": -122.3321 },
+          "state": { "status": "active", "carbon_ppm": 415.2, "temp_c": 11.8 },
+          "properties": { "area_km2": 2000, "population": 4000000, "emissions_tons_per_day": 62000 },
+          "active": true
+        },
+        {
+          "id": "forest_patch_olympic_01",
+          "type": "forest",
+          "position": { "lat": 47.8021, "lon": -123.6044 },
+          "state": { "status": "active", "health": 0.92, "carbon_ppm": 385.0 },
+          "properties": { "area_km2": 3700, "sequestration_tons_per_day": 8500, "species": "sitka_spruce" },
+          "active": true
+        },
+        {
+          "id": "region_industrial_longview",
+          "type": "industrial_region",
+          "position": { "lat": 46.1382, "lon": -122.9382 },
+          "state": { "status": "active", "carbon_ppm": 432.0, "temp_c": 13.1 },
+          "properties": { "area_km2": 200, "population": 40000, "emissions_tons_per_day": 28000 },
+          "active": true
+        }
+      ],
+
+      "edges": [
+        {
+          "id": "atm_portland_cascade",
+          "from_id": "region_portland_metro",
+          "to_id": "forest_patch_cascade_01",
+          "type": "atmospheric_flow",
+          "directed": false,
+          "capacity": 1.0,
+          "flow": 0.62,
+          "cost": 0.0,
+          "state": { "wind_direction": "east", "wind_speed_ms": 4.2 },
+          "properties": { "distance_km": 65, "dominant_season": "all" },
+          "active": true
+        },
+        {
+          "id": "atm_cascade_seattle",
+          "from_id": "forest_patch_cascade_01",
+          "to_id": "region_seattle_metro",
+          "type": "atmospheric_flow",
+          "directed": false,
+          "capacity": 1.0,
+          "flow": 0.45,
+          "cost": 0.0,
+          "state": { "wind_direction": "north", "wind_speed_ms": 3.8 },
+          "properties": { "distance_km": 130, "dominant_season": "all" },
+          "active": true
+        },
+        {
+          "id": "atm_longview_portland",
+          "from_id": "region_industrial_longview",
+          "to_id": "region_portland_metro",
+          "type": "atmospheric_flow",
+          "directed": true,
+          "capacity": 1.0,
+          "flow": 0.71,
+          "cost": 0.0,
+          "state": { "wind_direction": "south", "wind_speed_ms": 5.1 },
+          "properties": { "distance_km": 75, "dominant_season": "winter" },
+          "active": true
+        },
+        {
+          "id": "atm_olympic_seattle",
+          "from_id": "forest_patch_olympic_01",
+          "to_id": "region_seattle_metro",
+          "type": "atmospheric_flow",
+          "directed": true,
+          "capacity": 1.0,
+          "flow": 0.55,
+          "cost": 0.0,
+          "state": { "wind_direction": "east", "wind_speed_ms": 6.0 },
+          "properties": { "distance_km": 85, "dominant_season": "all" },
+          "active": true
+        }
+      ]
+    }
+  },
+
+  "event_bus": {
+    "subscriptions": [
+      {
+        "publisher_domain": "supply_chain",
+        "event_type": "oil_delivery_delayed",
+        "subscriber_domain": "markets",
+        "handler": "adjust_oil_futures"
+      },
+      {
+        "publisher_domain": "city_traffic",
+        "event_type": "highway_blocked",
+        "subscriber_domain": "supply_chain",
+        "handler": "reroute_port_deliveries"
+      },
+      {
+        "publisher_domain": "emissions",
+        "event_type": "forest_removed",
+        "subscriber_domain": "emissions",
+        "handler": "recalculate_carbon_flow"
+      }
+    ]
+  },
+
+  "schema_validation": {
+    "universal_node_fields": ["id", "type", "position", "state", "properties", "active"],
+    "universal_edge_fields": ["id", "from_id", "to_id", "type", "directed", "capacity", "flow", "cost", "state", "active"],
+    "domain_specific_fields": "properties{}",
+    "agent_additional_fields": ["agent", "agent_tier"],
+    "verdict": "PENDING — review below"
+  },
+
+  "stress_test_findings": {
+    "schema_held": true,
+    "issues": [],
+    "notes": [
+      "position lat/lon works for all three domains — even abstract agents (CEO in Copenhagen) have a real location",
+      "capacity/flow semantics differ per domain (ships vs vehicles per hour vs atmospheric fraction) but the fields themselves are universal",
+      "cost semantics differ (days vs minutes vs zero for atmospheric) but again the field is universal",
+      "agent nodes use the same schema as infrastructure nodes — they are just nodes that update position each tick",
+      "event_bus subscriptions are declared at domain level — no domain needs to know internals of another",
+      "cross-domain shared node example: port_rotterdam could appear in both supply_chain and a markets domain with same id/position"
+    ],
+    "open_question_resolved": {
+      "q1_schema_fields": "RESOLVED — universal fields confirmed above",
+      "q2_agent_observation": "RESOLVED — GNN sees k-hop subgraph, LLM sees NL digest",
+      "q3_intervention_structure": "RESOLVED — typed graph mutation {type, target_id, changes, tick, source}",
+      "q4_time": "RESOLVED — global clock, per-domain tick_resolution_seconds",
+      "q5_cross_domain_bridges": "RESOLVED — shared node ids + event bus subscriptions"
+    }
+  }
+}

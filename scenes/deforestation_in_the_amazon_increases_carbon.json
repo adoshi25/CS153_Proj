@@ -1,0 +1,811 @@
+{
+  "meta": {
+    "title": "Amazon Deforestation Carbon Spread",
+    "description": "Deforestation in the Amazon increases carbon emissions that diffuse across South American regions over years.",
+    "tick_resolution_seconds": 86400,
+    "domain": "climate"
+  },
+  "nodes": [
+    {
+      "id": "amazon_core",
+      "type": "forest_region",
+      "position": {
+        "lat": -3.4653,
+        "lon": -62.2159
+      },
+      "state": {
+        "carbon_ppm": 520.0,
+        "deforestation_rate": 0.08,
+        "forest_cover": 0.72,
+        "status": "en_route",
+        "route": [],
+        "progress": 0.0,
+        "current_node": "amazon_east"
+      },
+      "properties": {
+        "name": "Amazon Core (Amazonas)",
+        "area_km2": 1800000,
+        "baseline_carbon": 400.0
+      },
+      "active": true,
+      "agent": true,
+      "agent_tier": "rule"
+    },
+    {
+      "id": "amazon_east",
+      "type": "forest_region",
+      "position": {
+        "lat": -3.119,
+        "lon": -52.2125
+      },
+      "state": {
+        "carbon_ppm": 480.0,
+        "deforestation_rate": 0.06,
+        "forest_cover": 0.65
+      },
+      "properties": {
+        "name": "Eastern Amazon (Par\u00e1)",
+        "area_km2": 1200000,
+        "baseline_carbon": 400.0
+      },
+      "active": true,
+      "agent": false,
+      "agent_tier": null
+    },
+    {
+      "id": "cerrado",
+      "type": "savanna_region",
+      "position": {
+        "lat": -12.9714,
+        "lon": -50.0333
+      },
+      "state": {
+        "carbon_ppm": 440.0,
+        "deforestation_rate": 0.05,
+        "forest_cover": 0.45
+      },
+      "properties": {
+        "name": "Cerrado (Central Brazil)",
+        "area_km2": 2040000,
+        "baseline_carbon": 420.0
+      },
+      "active": true,
+      "agent": false,
+      "agent_tier": null
+    },
+    {
+      "id": "mato_grosso",
+      "type": "frontier_region",
+      "position": {
+        "lat": -12.6819,
+        "lon": -56.9211
+      },
+      "state": {
+        "carbon_ppm": 490.0,
+        "deforestation_rate": 0.09,
+        "forest_cover": 0.55,
+        "status": "en_route",
+        "route": [],
+        "progress": 0.0,
+        "current_node": "cerrado"
+      },
+      "properties": {
+        "name": "Mato Grosso Frontier",
+        "area_km2": 903000,
+        "baseline_carbon": 400.0
+      },
+      "active": true,
+      "agent": true,
+      "agent_tier": "rule"
+    },
+    {
+      "id": "rondonia",
+      "type": "frontier_region",
+      "position": {
+        "lat": -10.9157,
+        "lon": -62.7837
+      },
+      "state": {
+        "carbon_ppm": 500.0,
+        "deforestation_rate": 0.1,
+        "forest_cover": 0.5,
+        "status": "en_route",
+        "route": [],
+        "progress": 0.0,
+        "current_node": "andes_foothills"
+      },
+      "properties": {
+        "name": "Rond\u00f4nia Frontier",
+        "area_km2": 237590,
+        "baseline_carbon": 400.0
+      },
+      "active": true,
+      "agent": true,
+      "agent_tier": "rule"
+    },
+    {
+      "id": "andes_foothills",
+      "type": "mountain_region",
+      "position": {
+        "lat": -13.532,
+        "lon": -71.9675
+      },
+      "state": {
+        "carbon_ppm": 415.0,
+        "deforestation_rate": 0.02,
+        "forest_cover": 0.8
+      },
+      "properties": {
+        "name": "Andean Foothills (Peru/Bolivia)",
+        "area_km2": 500000,
+        "baseline_carbon": 410.0
+      },
+      "active": true,
+      "agent": false,
+      "agent_tier": null
+    },
+    {
+      "id": "gran_chaco",
+      "type": "dry_forest_region",
+      "position": {
+        "lat": -22.0,
+        "lon": -60.0
+      },
+      "state": {
+        "carbon_ppm": 430.0,
+        "deforestation_rate": 0.04,
+        "forest_cover": 0.6
+      },
+      "properties": {
+        "name": "Gran Chaco (Argentina/Paraguay)",
+        "area_km2": 1000000,
+        "baseline_carbon": 420.0
+      },
+      "active": true,
+      "agent": false,
+      "agent_tier": null
+    },
+    {
+      "id": "atlantic_forest",
+      "type": "coastal_forest_region",
+      "position": {
+        "lat": -22.9068,
+        "lon": -43.1729
+      },
+      "state": {
+        "carbon_ppm": 425.0,
+        "deforestation_rate": 0.03,
+        "forest_cover": 0.12
+      },
+      "properties": {
+        "name": "Atlantic Forest (Brazil Coast)",
+        "area_km2": 150000,
+        "baseline_carbon": 415.0
+      },
+      "active": true,
+      "agent": false,
+      "agent_tier": null
+    },
+    {
+      "id": "venezuela_llanos",
+      "type": "grassland_region",
+      "position": {
+        "lat": 7.8889,
+        "lon": -66.1761
+      },
+      "state": {
+        "carbon_ppm": 410.0,
+        "deforestation_rate": 0.02,
+        "forest_cover": 0.35
+      },
+      "properties": {
+        "name": "Venezuelan Llanos",
+        "area_km2": 400000,
+        "baseline_carbon": 408.0
+      },
+      "active": true,
+      "agent": false,
+      "agent_tier": null
+    },
+    {
+      "id": "colombia_amazon",
+      "type": "forest_region",
+      "position": {
+        "lat": -0.229,
+        "lon": -73.9625
+      },
+      "state": {
+        "carbon_ppm": 430.0,
+        "deforestation_rate": 0.03,
+        "forest_cover": 0.75
+      },
+      "properties": {
+        "name": "Colombian Amazon",
+        "area_km2": 380000,
+        "baseline_carbon": 410.0
+      },
+      "active": true,
+      "agent": false,
+      "agent_tier": null
+    },
+    {
+      "id": "patagonia",
+      "type": "temperate_region",
+      "position": {
+        "lat": -45.8696,
+        "lon": -67.4977
+      },
+      "state": {
+        "carbon_ppm": 405.0,
+        "deforestation_rate": 0.01,
+        "forest_cover": 0.25
+      },
+      "properties": {
+        "name": "Patagonia (Argentina)",
+        "area_km2": 780000,
+        "baseline_carbon": 403.0
+      },
+      "active": true,
+      "agent": false,
+      "agent_tier": null
+    }
+  ],
+  "edges": [
+    {
+      "id": "amazon_core_to_amazon_east",
+      "from_id": "amazon_core",
+      "to_id": "amazon_east",
+      "type": "carbon_flow",
+      "directed": false,
+      "capacity": 100.0,
+      "flow": 0.0,
+      "cost": 1.2,
+      "state": {
+        "blocked": false
+      },
+      "properties": {
+        "distance_km": 980.0,
+        "free_flow_cost": 1.2,
+        "wind_factor": 0.8
+      },
+      "active": true
+    },
+    {
+      "id": "amazon_core_to_mato_grosso",
+      "from_id": "amazon_core",
+      "to_id": "mato_grosso",
+      "type": "carbon_flow",
+      "directed": false,
+      "capacity": 100.0,
+      "flow": 0.0,
+      "cost": 1.1,
+      "state": {
+        "blocked": false
+      },
+      "properties": {
+        "distance_km": 1100.0,
+        "free_flow_cost": 1.1,
+        "wind_factor": 0.9
+      },
+      "active": true
+    },
+    {
+      "id": "amazon_core_to_rondonia",
+      "from_id": "amazon_core",
+      "to_id": "rondonia",
+      "type": "carbon_flow",
+      "directed": false,
+      "capacity": 100.0,
+      "flow": 0.0,
+      "cost": 0.9,
+      "state": {
+        "blocked": false
+      },
+      "properties": {
+        "distance_km": 800.0,
+        "free_flow_cost": 0.9,
+        "wind_factor": 1.0
+      },
+      "active": true
+    },
+    {
+      "id": "amazon_core_to_colombia",
+      "from_id": "amazon_core",
+      "to_id": "colombia_amazon",
+      "type": "carbon_flow",
+      "directed": false,
+      "capacity": 100.0,
+      "flow": 0.0,
+      "cost": 1.3,
+      "state": {
+        "blocked": false
+      },
+      "properties": {
+        "distance_km": 1300.0,
+        "free_flow_cost": 1.3,
+        "wind_factor": 0.7
+      },
+      "active": true
+    },
+    {
+      "id": "amazon_core_to_andes",
+      "from_id": "amazon_core",
+      "to_id": "andes_foothills",
+      "type": "carbon_flow",
+      "directed": false,
+      "capacity": 80.0,
+      "flow": 0.0,
+      "cost": 1.5,
+      "state": {
+        "blocked": false
+      },
+      "properties": {
+        "distance_km": 1500.0,
+        "free_flow_cost": 1.5,
+        "wind_factor": 0.6
+      },
+      "active": true
+    },
+    {
+      "id": "mato_grosso_to_cerrado",
+      "from_id": "mato_grosso",
+      "to_id": "cerrado",
+      "type": "carbon_flow",
+      "directed": false,
+      "capacity": 100.0,
+      "flow": 0.0,
+      "cost": 0.8,
+      "state": {
+        "blocked": false
+      },
+      "properties": {
+        "distance_km": 600.0,
+        "free_flow_cost": 0.8,
+        "wind_factor": 1.0
+      },
+      "active": true
+    },
+    {
+      "id": "mato_grosso_to_rondonia",
+      "from_id": "mato_grosso",
+      "to_id": "rondonia",
+      "type": "carbon_flow",
+      "directed": false,
+      "capacity": 100.0,
+      "flow": 0.0,
+      "cost": 0.7,
+      "state": {
+        "blocked": false
+      },
+      "properties": {
+        "distance_km": 650.0,
+        "free_flow_cost": 0.7,
+        "wind_factor": 1.0
+      },
+      "active": true
+    },
+    {
+      "id": "cerrado_to_atlantic_forest",
+      "from_id": "cerrado",
+      "to_id": "atlantic_forest",
+      "type": "carbon_flow",
+      "directed": false,
+      "capacity": 90.0,
+      "flow": 0.0,
+      "cost": 1.0,
+      "state": {
+        "blocked": false
+      },
+      "properties": {
+        "distance_km": 900.0,
+        "free_flow_cost": 1.0,
+        "wind_factor": 0.9
+      },
+      "active": true
+    },
+    {
+      "id": "cerrado_to_gran_chaco",
+      "from_id": "cerrado",
+      "to_id": "gran_chaco",
+      "type": "carbon_flow",
+      "directed": false,
+      "capacity": 100.0,
+      "flow": 0.0,
+      "cost": 1.1,
+      "state": {
+        "blocked": false
+      },
+      "properties": {
+        "distance_km": 1100.0,
+        "free_flow_cost": 1.1,
+        "wind_factor": 0.85
+      },
+      "active": true
+    },
+    {
+      "id": "amazon_east_to_atlantic_forest",
+      "from_id": "amazon_east",
+      "to_id": "atlantic_forest",
+      "type": "carbon_flow",
+      "directed": false,
+      "capacity": 80.0,
+      "flow": 0.0,
+      "cost": 1.4,
+      "state": {
+        "blocked": false
+      },
+      "properties": {
+        "distance_km": 1800.0,
+        "free_flow_cost": 1.4,
+        "wind_factor": 0.7
+      },
+      "active": true
+    },
+    {
+      "id": "colombia_to_venezuela",
+      "from_id": "colombia_amazon",
+      "to_id": "venezuela_llanos",
+      "type": "carbon_flow",
+      "directed": false,
+      "capacity": 90.0,
+      "flow": 0.0,
+      "cost": 1.0,
+      "state": {
+        "blocked": false
+      },
+      "properties": {
+        "distance_km": 900.0,
+        "free_flow_cost": 1.0,
+        "wind_factor": 0.85
+      },
+      "active": true
+    },
+    {
+      "id": "gran_chaco_to_patagonia",
+      "from_id": "gran_chaco",
+      "to_id": "patagonia",
+      "type": "carbon_flow",
+      "directed": false,
+      "capacity": 80.0,
+      "flow": 0.0,
+      "cost": 1.6,
+      "state": {
+        "blocked": false
+      },
+      "properties": {
+        "distance_km": 2500.0,
+        "free_flow_cost": 1.6,
+        "wind_factor": 0.6
+      },
+      "active": true
+    },
+    {
+      "id": "andes_to_colombia",
+      "from_id": "andes_foothills",
+      "to_id": "colombia_amazon",
+      "type": "carbon_flow",
+      "directed": false,
+      "capacity": 70.0,
+      "flow": 0.0,
+      "cost": 1.2,
+      "state": {
+        "blocked": false
+      },
+      "properties": {
+        "distance_km": 1200.0,
+        "free_flow_cost": 1.2,
+        "wind_factor": 0.75
+      },
+      "active": true
+    }
+  ],
+  "behaviors": {
+    "carbon_diffusion": {
+      "template": "diffusion",
+      "params": {
+        "node_type": "forest_region",
+        "edge_type": "carbon_flow",
+        "field": "carbon_ppm",
+        "rate": 0.04,
+        "min_value": 400.0,
+        "max_value": 650.0
+      }
+    },
+    "savanna_carbon_diffusion": {
+      "template": "diffusion",
+      "params": {
+        "node_type": "savanna_region",
+        "edge_type": "carbon_flow",
+        "field": "carbon_ppm",
+        "rate": 0.035,
+        "min_value": 400.0,
+        "max_value": 620.0
+      }
+    },
+    "frontier_carbon_diffusion": {
+      "template": "diffusion",
+      "params": {
+        "node_type": "frontier_region",
+        "edge_type": "carbon_flow",
+        "field": "carbon_ppm",
+        "rate": 0.05,
+        "min_value": 400.0,
+        "max_value": 650.0
+      }
+    },
+    "dry_forest_diffusion": {
+      "template": "diffusion",
+      "params": {
+        "node_type": "dry_forest_region",
+        "edge_type": "carbon_flow",
+        "field": "carbon_ppm",
+        "rate": 0.03,
+        "min_value": 400.0,
+        "max_value": 600.0
+      }
+    },
+    "coastal_forest_diffusion": {
+      "template": "diffusion",
+      "params": {
+        "node_type": "coastal_forest_region",
+        "edge_type": "carbon_flow",
+        "field": "carbon_ppm",
+        "rate": 0.03,
+        "min_value": 400.0,
+        "max_value": 580.0
+      }
+    },
+    "grassland_diffusion": {
+      "template": "diffusion",
+      "params": {
+        "node_type": "grassland_region",
+        "edge_type": "carbon_flow",
+        "field": "carbon_ppm",
+        "rate": 0.025,
+        "min_value": 400.0,
+        "max_value": 560.0
+      }
+    },
+    "mountain_diffusion": {
+      "template": "diffusion",
+      "params": {
+        "node_type": "mountain_region",
+        "edge_type": "carbon_flow",
+        "field": "carbon_ppm",
+        "rate": 0.02,
+        "min_value": 400.0,
+        "max_value": 550.0
+      }
+    },
+    "temperate_diffusion": {
+      "template": "diffusion",
+      "params": {
+        "node_type": "temperate_region",
+        "edge_type": "carbon_flow",
+        "field": "carbon_ppm",
+        "rate": 0.02,
+        "min_value": 400.0,
+        "max_value": 540.0
+      }
+    },
+    "amazon_core_deforestation_emissions": {
+      "template": "decay_growth",
+      "params": {
+        "node_type": "forest_region",
+        "field": "carbon_ppm",
+        "rate": 0.15,
+        "source_field": "deforestation_rate",
+        "source_scale": 50.0,
+        "min_value": 400.0,
+        "max_value": 650.0
+      }
+    },
+    "frontier_emissions": {
+      "template": "decay_growth",
+      "params": {
+        "node_type": "frontier_region",
+        "field": "carbon_ppm",
+        "rate": 0.2,
+        "source_field": "deforestation_rate",
+        "source_scale": 55.0,
+        "min_value": 400.0,
+        "max_value": 650.0
+      }
+    },
+    "forest_cover_loss": {
+      "template": "decay_growth",
+      "params": {
+        "node_type": "forest_region",
+        "field": "forest_cover",
+        "rate": -0.003,
+        "min_value": 0.05,
+        "max_value": 1.0
+      }
+    },
+    "frontier_cover_loss": {
+      "template": "decay_growth",
+      "params": {
+        "node_type": "frontier_region",
+        "field": "forest_cover",
+        "rate": -0.005,
+        "min_value": 0.05,
+        "max_value": 1.0
+      }
+    },
+    "carbon_cascade": {
+      "template": "threshold_cascade",
+      "params": {
+        "node_type": "forest_region",
+        "watch_field": "carbon_ppm",
+        "threshold": 530.0,
+        "direction": "above",
+        "cascade_field": "carbon_ppm",
+        "cascade_value": 15.0,
+        "edge_type": "carbon_flow",
+        "propagation": 0.5
+      }
+    }
+  },
+  "interventions": [
+    {
+      "id": "mass_deforestation_event",
+      "label": "Mass Deforestation Event",
+      "description": "A large-scale deforestation surge in the Amazon Core dramatically raises carbon emissions and spreads across the continent.",
+      "type": "mutate_node",
+      "target_id": "amazon_core",
+      "changes": {
+        "state.carbon_ppm": 600.0,
+        "state.deforestation_rate": 0.18,
+        "state.forest_cover": 0.45
+      },
+      "also_mutate": [
+        {
+          "target_id": "rondonia",
+          "changes": {
+            "state.carbon_ppm": 580.0,
+            "state.deforestation_rate": 0.2,
+            "state.forest_cover": 0.3
+          }
+        },
+        {
+          "target_id": "mato_grosso",
+          "changes": {
+            "state.carbon_ppm": 560.0,
+            "state.deforestation_rate": 0.18,
+            "state.forest_cover": 0.35
+          }
+        }
+      ]
+    },
+    {
+      "id": "reforestation_program",
+      "label": "Amazon Reforestation Program",
+      "description": "A major reforestation initiative reduces deforestation rates and lowers carbon emissions in the Amazon Core.",
+      "type": "mutate_node",
+      "target_id": "amazon_core",
+      "changes": {
+        "state.deforestation_rate": 0.01,
+        "state.carbon_ppm": 420.0,
+        "state.forest_cover": 0.85
+      },
+      "also_mutate": [
+        {
+          "target_id": "rondonia",
+          "changes": {
+            "state.deforestation_rate": 0.02,
+            "state.carbon_ppm": 415.0
+          }
+        },
+        {
+          "target_id": "mato_grosso",
+          "changes": {
+            "state.deforestation_rate": 0.02,
+            "state.carbon_ppm": 415.0
+          }
+        }
+      ]
+    },
+    {
+      "id": "block_amazon_east_corridor",
+      "label": "Block Eastern Carbon Corridor",
+      "description": "Prevailing winds shift, blocking carbon flow from the Amazon Core to the Eastern Amazon.",
+      "type": "mutate_edge",
+      "target_id": "amazon_core_to_amazon_east",
+      "changes": {
+        "state.blocked": true,
+        "flow": 0.0
+      }
+    }
+  ],
+  "visual_config": {
+    "forest_region": {
+      "layer": "ScatterplotLayer",
+      "color": [
+        34,
+        139,
+        34
+      ],
+      "radius": 120000
+    },
+    "frontier_region": {
+      "layer": "ScatterplotLayer",
+      "color": [
+        255,
+        140,
+        0
+      ],
+      "radius": 100000
+    },
+    "savanna_region": {
+      "layer": "ScatterplotLayer",
+      "color": [
+        210,
+        180,
+        80
+      ],
+      "radius": 110000
+    },
+    "dry_forest_region": {
+      "layer": "ScatterplotLayer",
+      "color": [
+        160,
+        120,
+        60
+      ],
+      "radius": 100000
+    },
+    "coastal_forest_region": {
+      "layer": "ScatterplotLayer",
+      "color": [
+        0,
+        180,
+        120
+      ],
+      "radius": 80000
+    },
+    "grassland_region": {
+      "layer": "ScatterplotLayer",
+      "color": [
+        180,
+        210,
+        100
+      ],
+      "radius": 90000
+    },
+    "mountain_region": {
+      "layer": "ScatterplotLayer",
+      "color": [
+        120,
+        100,
+        160
+      ],
+      "radius": 95000
+    },
+    "temperate_region": {
+      "layer": "ScatterplotLayer",
+      "color": [
+        100,
+        160,
+        200
+      ],
+      "radius": 100000
+    },
+    "carbon_flow": {
+      "layer": "ArcLayer",
+      "color_normal": [
+        180,
+        60,
+        20,
+        160
+      ],
+      "color_blocked": [
+        80,
+        80,
+        80,
+        80
+      ],
+      "width": 3
+    }
+  },
+  "scene_id": "deforestation_in_the_amazon_increases_carbon"
+}

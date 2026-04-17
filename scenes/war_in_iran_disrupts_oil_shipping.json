@@ -1,0 +1,686 @@
+{
+  "title": "Strait of Hormuz Disruption \u2013 Oil Shipping Reroute",
+  "description": "War in Iran disrupts oil tanker transit through the Strait of Hormuz. Tankers reroute around the Cape of Good Hope, adding weeks to delivery times.",
+  "tick_resolution_seconds": 3600,
+  "nodes": [
+    {
+      "id": "ras_tanura",
+      "type": "oil_terminal",
+      "position": {
+        "lat": 26.6,
+        "lon": 50.15
+      },
+      "state": {
+        "oil_stock": 1000,
+        "export_rate": 80
+      },
+      "properties": {
+        "name": "Ras Tanura Terminal, Saudi Arabia",
+        "capacity_mbd": 6
+      },
+      "active": true,
+      "agent": false,
+      "agent_tier": null
+    },
+    {
+      "id": "strait_of_hormuz",
+      "type": "chokepoint",
+      "position": {
+        "lat": 26.57,
+        "lon": 56.5
+      },
+      "state": {
+        "blocked": true,
+        "threat_level": 1.0
+      },
+      "properties": {
+        "name": "Strait of Hormuz",
+        "normal_daily_transit_mbpd": 21
+      },
+      "active": true,
+      "agent": false,
+      "agent_tier": null
+    },
+    {
+      "id": "gulf_of_oman",
+      "type": "waypoint",
+      "position": {
+        "lat": 23.5,
+        "lon": 58.5
+      },
+      "state": {
+        "congestion": 0.2
+      },
+      "properties": {
+        "name": "Gulf of Oman"
+      },
+      "active": true,
+      "agent": false,
+      "agent_tier": null
+    },
+    {
+      "id": "cape_of_good_hope",
+      "type": "waypoint",
+      "position": {
+        "lat": -34.36,
+        "lon": 18.48
+      },
+      "state": {
+        "congestion": 0.6
+      },
+      "properties": {
+        "name": "Cape of Good Hope, South Africa"
+      },
+      "active": true,
+      "agent": false,
+      "agent_tier": null
+    },
+    {
+      "id": "indian_ocean_mid",
+      "type": "waypoint",
+      "position": {
+        "lat": -10.0,
+        "lon": 65.0
+      },
+      "state": {
+        "congestion": 0.1
+      },
+      "properties": {
+        "name": "Mid Indian Ocean Waypoint"
+      },
+      "active": true,
+      "agent": false,
+      "agent_tier": null
+    },
+    {
+      "id": "suez_canal",
+      "type": "chokepoint",
+      "position": {
+        "lat": 30.5,
+        "lon": 32.35
+      },
+      "state": {
+        "blocked": false,
+        "threat_level": 0.2
+      },
+      "properties": {
+        "name": "Suez Canal, Egypt",
+        "normal_daily_transit_ships": 50
+      },
+      "active": true,
+      "agent": false,
+      "agent_tier": null
+    },
+    {
+      "id": "red_sea_north",
+      "type": "waypoint",
+      "position": {
+        "lat": 27.0,
+        "lon": 34.5
+      },
+      "state": {
+        "congestion": 0.3
+      },
+      "properties": {
+        "name": "Northern Red Sea"
+      },
+      "active": true,
+      "agent": false,
+      "agent_tier": null
+    },
+    {
+      "id": "rotterdam",
+      "type": "destination_port",
+      "position": {
+        "lat": 51.95,
+        "lon": 4.14
+      },
+      "state": {
+        "oil_stock": 200,
+        "price_index": 95
+      },
+      "properties": {
+        "name": "Port of Rotterdam, Netherlands",
+        "capacity_mbd": 3
+      },
+      "active": true,
+      "agent": false,
+      "agent_tier": null
+    },
+    {
+      "id": "houston",
+      "type": "destination_port",
+      "position": {
+        "lat": 29.75,
+        "lon": -95.1
+      },
+      "state": {
+        "oil_stock": 180,
+        "price_index": 92
+      },
+      "properties": {
+        "name": "Port of Houston, USA",
+        "capacity_mbd": 2
+      },
+      "active": true,
+      "agent": false,
+      "agent_tier": null
+    },
+    {
+      "id": "singapore",
+      "type": "destination_port",
+      "position": {
+        "lat": 1.26,
+        "lon": 103.82
+      },
+      "state": {
+        "oil_stock": 150,
+        "price_index": 88
+      },
+      "properties": {
+        "name": "Port of Singapore",
+        "capacity_mbd": 1.5
+      },
+      "active": true,
+      "agent": false,
+      "agent_tier": null
+    },
+    {
+      "id": "tanker_alpha",
+      "type": "tanker",
+      "position": {
+        "lat": 26.6,
+        "lon": 50.15
+      },
+      "state": {
+        "speed_knots": 14,
+        "cargo_mbd": 2,
+        "current_edge": null,
+        "status": "en_route",
+        "route": [],
+        "progress": 0.0,
+        "current_node": "ras_tanura"
+      },
+      "properties": {
+        "name": "VLCC Tanker Alpha",
+        "flag": "Liberia",
+        "dwt": 300000,
+        "destination": "rotterdam"
+      },
+      "active": true,
+      "agent": true,
+      "agent_tier": "llm"
+    },
+    {
+      "id": "tanker_beta",
+      "type": "tanker",
+      "position": {
+        "lat": 26.6,
+        "lon": 50.15
+      },
+      "state": {
+        "speed_knots": 13,
+        "cargo_mbd": 1.5,
+        "current_edge": null,
+        "status": "en_route",
+        "route": [],
+        "progress": 0.0,
+        "current_node": "ras_tanura"
+      },
+      "properties": {
+        "name": "VLCC Tanker Beta",
+        "flag": "Panama",
+        "dwt": 280000,
+        "destination": "houston"
+      },
+      "active": true,
+      "agent": true,
+      "agent_tier": "rule"
+    },
+    {
+      "id": "tanker_gamma",
+      "type": "tanker",
+      "position": {
+        "lat": 26.6,
+        "lon": 50.15
+      },
+      "state": {
+        "speed_knots": 15,
+        "cargo_mbd": 1,
+        "current_edge": null,
+        "status": "en_route",
+        "route": [],
+        "progress": 0.0,
+        "current_node": "ras_tanura"
+      },
+      "properties": {
+        "name": "Aframax Tanker Gamma",
+        "flag": "Marshall Islands",
+        "dwt": 120000,
+        "destination": "singapore"
+      },
+      "active": true,
+      "agent": true,
+      "agent_tier": "rule"
+    }
+  ],
+  "edges": [
+    {
+      "id": "ras_to_hormuz",
+      "from_id": "ras_tanura",
+      "to_id": "strait_of_hormuz",
+      "type": "shipping_lane",
+      "directed": true,
+      "capacity": 10,
+      "flow": 0,
+      "cost": 18,
+      "state": {
+        "blocked": false
+      },
+      "properties": {
+        "distance_km": 200,
+        "free_flow_cost": 18,
+        "route_name": "Persian Gulf Exit"
+      },
+      "active": true
+    },
+    {
+      "id": "hormuz_to_oman",
+      "from_id": "strait_of_hormuz",
+      "to_id": "gulf_of_oman",
+      "type": "shipping_lane",
+      "directed": true,
+      "capacity": 2,
+      "flow": 0,
+      "cost": 500,
+      "state": {
+        "blocked": true
+      },
+      "properties": {
+        "distance_km": 250,
+        "free_flow_cost": 24,
+        "route_name": "Hormuz Strait Transit"
+      },
+      "active": true
+    },
+    {
+      "id": "oman_to_indian",
+      "from_id": "gulf_of_oman",
+      "to_id": "indian_ocean_mid",
+      "type": "shipping_lane",
+      "directed": true,
+      "capacity": 15,
+      "flow": 0,
+      "cost": 96,
+      "state": {
+        "blocked": false
+      },
+      "properties": {
+        "distance_km": 3200,
+        "free_flow_cost": 96,
+        "route_name": "Arabian Sea Crossing"
+      },
+      "active": true
+    },
+    {
+      "id": "indian_to_cape",
+      "from_id": "indian_ocean_mid",
+      "to_id": "cape_of_good_hope",
+      "type": "shipping_lane",
+      "directed": true,
+      "capacity": 15,
+      "flow": 0,
+      "cost": 360,
+      "state": {
+        "blocked": false
+      },
+      "properties": {
+        "distance_km": 7000,
+        "free_flow_cost": 360,
+        "route_name": "South Indian Ocean to Cape"
+      },
+      "active": true
+    },
+    {
+      "id": "cape_to_rotterdam",
+      "from_id": "cape_of_good_hope",
+      "to_id": "rotterdam",
+      "type": "shipping_lane",
+      "directed": true,
+      "capacity": 12,
+      "flow": 0,
+      "cost": 480,
+      "state": {
+        "blocked": false
+      },
+      "properties": {
+        "distance_km": 9600,
+        "free_flow_cost": 480,
+        "route_name": "Cape Route to Europe"
+      },
+      "active": true
+    },
+    {
+      "id": "cape_to_houston",
+      "from_id": "cape_of_good_hope",
+      "to_id": "houston",
+      "type": "shipping_lane",
+      "directed": true,
+      "capacity": 10,
+      "flow": 0,
+      "cost": 600,
+      "state": {
+        "blocked": false
+      },
+      "properties": {
+        "distance_km": 12000,
+        "free_flow_cost": 600,
+        "route_name": "Cape Route to US Gulf"
+      },
+      "active": true
+    },
+    {
+      "id": "oman_to_singapore",
+      "from_id": "gulf_of_oman",
+      "to_id": "singapore",
+      "type": "shipping_lane",
+      "directed": true,
+      "capacity": 15,
+      "flow": 0,
+      "cost": 216,
+      "state": {
+        "blocked": false
+      },
+      "properties": {
+        "distance_km": 5400,
+        "free_flow_cost": 216,
+        "route_name": "Arabian Sea to Singapore"
+      },
+      "active": true
+    },
+    {
+      "id": "oman_to_redsea",
+      "from_id": "gulf_of_oman",
+      "to_id": "red_sea_north",
+      "type": "shipping_lane",
+      "directed": true,
+      "capacity": 8,
+      "flow": 0,
+      "cost": 120,
+      "state": {
+        "blocked": false
+      },
+      "properties": {
+        "distance_km": 2200,
+        "free_flow_cost": 120,
+        "route_name": "Gulf of Aden to Red Sea"
+      },
+      "active": true
+    },
+    {
+      "id": "redsea_to_suez",
+      "from_id": "red_sea_north",
+      "to_id": "suez_canal",
+      "type": "shipping_lane",
+      "directed": true,
+      "capacity": 6,
+      "flow": 0,
+      "cost": 48,
+      "state": {
+        "blocked": false
+      },
+      "properties": {
+        "distance_km": 900,
+        "free_flow_cost": 48,
+        "route_name": "Red Sea North Transit"
+      },
+      "active": true
+    },
+    {
+      "id": "suez_to_rotterdam",
+      "from_id": "suez_canal",
+      "to_id": "rotterdam",
+      "type": "shipping_lane",
+      "directed": true,
+      "capacity": 6,
+      "flow": 0,
+      "cost": 168,
+      "state": {
+        "blocked": false
+      },
+      "properties": {
+        "distance_km": 4500,
+        "free_flow_cost": 168,
+        "route_name": "Suez to Rotterdam"
+      },
+      "active": true
+    },
+    {
+      "id": "ras_to_oman_bypass",
+      "from_id": "ras_tanura",
+      "to_id": "gulf_of_oman",
+      "type": "shipping_lane",
+      "directed": true,
+      "capacity": 4,
+      "flow": 0,
+      "cost": 72,
+      "state": {
+        "blocked": false
+      },
+      "properties": {
+        "distance_km": 1200,
+        "free_flow_cost": 72,
+        "route_name": "Oman Pipeline Bypass (East Fujairah)"
+      },
+      "active": true
+    }
+  ],
+  "behaviors": {
+    "tanker_routing": {
+      "template": "flow_conservation",
+      "params": {
+        "agent_type": "tanker",
+        "edge_type": "shipping_lane",
+        "speed_field": "speed_knots",
+        "speed_unit": "knots",
+        "reroute_on_block": true
+      }
+    },
+    "lane_congestion": {
+      "template": "capacity_constraint",
+      "params": {
+        "edge_type": "shipping_lane",
+        "alpha": 0.15,
+        "beta": 4
+      }
+    },
+    "port_price_response": {
+      "template": "price_response",
+      "params": {
+        "node_type": "destination_port",
+        "price_field": "price_index",
+        "equilibrium": 0.7,
+        "sensitivity": 0.08,
+        "min_price": 60,
+        "max_price": 200
+      }
+    },
+    "oil_stock_decay": {
+      "template": "decay_growth",
+      "params": {
+        "node_type": "destination_port",
+        "field": "oil_stock",
+        "rate": -5,
+        "min_value": 0,
+        "max_value": 1000
+      }
+    },
+    "threat_cascade": {
+      "template": "threshold_cascade",
+      "params": {
+        "node_type": "chokepoint",
+        "watch_field": "threat_level",
+        "threshold": 0.8,
+        "direction": "above",
+        "cascade_field": "blocked",
+        "cascade_value": 1,
+        "edge_type": "shipping_lane",
+        "propagation": 0.9
+      }
+    }
+  },
+  "interventions": [
+    {
+      "id": "reopen_hormuz",
+      "label": "Ceasefire \u2013 Reopen Hormuz",
+      "description": "A ceasefire is declared. The Strait of Hormuz reopens to commercial traffic.",
+      "type": "mutate_edge",
+      "target_id": "hormuz_to_oman",
+      "changes": {
+        "state.blocked": false,
+        "cost": 24,
+        "capacity": 10
+      },
+      "also_mutate": [
+        {
+          "target_id": "strait_of_hormuz",
+          "changes": {
+            "state.blocked": false,
+            "state.threat_level": 0.1
+          }
+        }
+      ]
+    },
+    {
+      "id": "block_suez",
+      "label": "Close Suez Canal",
+      "description": "Regional conflict spreads. Egypt closes Suez Canal to tanker traffic.",
+      "type": "mutate_edge",
+      "target_id": "suez_to_rotterdam",
+      "changes": {
+        "state.blocked": true,
+        "cost": 9999
+      },
+      "also_mutate": [
+        {
+          "target_id": "redsea_to_suez",
+          "changes": {
+            "state.blocked": true,
+            "cost": 9999
+          }
+        },
+        {
+          "target_id": "suez_canal",
+          "changes": {
+            "state.threat_level": 0.9,
+            "state.blocked": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "cape_storm",
+      "label": "Cape Storm Season",
+      "description": "Severe storms at the Cape of Good Hope slow all tanker traffic around Africa.",
+      "type": "mutate_edge",
+      "target_id": "cape_to_rotterdam",
+      "changes": {
+        "cost": 720,
+        "capacity": 6
+      },
+      "also_mutate": [
+        {
+          "target_id": "cape_to_houston",
+          "changes": {
+            "cost": 900,
+            "capacity": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "strategic_reserve_release",
+      "label": "Release Strategic Oil Reserves",
+      "description": "IEA member nations release strategic petroleum reserves, boosting Rotterdam and Houston stocks.",
+      "type": "mutate_node",
+      "target_id": "rotterdam",
+      "changes": {
+        "state.oil_stock": 800,
+        "state.price_index": 70
+      },
+      "also_mutate": [
+        {
+          "target_id": "houston",
+          "changes": {
+            "state.oil_stock": 750,
+            "state.price_index": 72
+          }
+        }
+      ]
+    }
+  ],
+  "visual_config": {
+    "tanker": {
+      "layer": "IconLayer",
+      "color": [
+        255,
+        200,
+        0
+      ],
+      "radius": 60000
+    },
+    "oil_terminal": {
+      "layer": "ScatterplotLayer",
+      "color": [
+        200,
+        50,
+        50
+      ],
+      "radius": 80000
+    },
+    "chokepoint": {
+      "layer": "ScatterplotLayer",
+      "color": [
+        255,
+        60,
+        60
+      ],
+      "radius": 70000
+    },
+    "waypoint": {
+      "layer": "ScatterplotLayer",
+      "color": [
+        100,
+        160,
+        220
+      ],
+      "radius": 50000
+    },
+    "destination_port": {
+      "layer": "ScatterplotLayer",
+      "color": [
+        50,
+        200,
+        100
+      ],
+      "radius": 90000
+    },
+    "shipping_lane": {
+      "layer": "ArcLayer",
+      "color_normal": [
+        80,
+        160,
+        255,
+        180
+      ],
+      "color_blocked": [
+        255,
+        40,
+        40,
+        220
+      ],
+      "width": 3
+    }
+  },
+  "scene_id": "war_in_iran_disrupts_oil_shipping"
+}
