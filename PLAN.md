@@ -38,7 +38,7 @@ Closest prior work: Park et al. 2023 (Smallville). Key difference: we inject a r
 
 ### Step 5 — Shock Injection
 - [ ] `inject_shock(shock_description)` — adds high-importance observation to all agents at tick 0
-- [ ] Shock: *"A new highway has been proposed to run through Oak Street, displacing 12 homes and 3 businesses."*
+- [ ] Shock: *"A new highway has been proposed to run through Atlantic Avenue, displacing 12 homes and 3 businesses."*
 - [ ] Verify shock surfaces correctly in each agent's retrieval
 
 ### Step 6 — Simulation Engine

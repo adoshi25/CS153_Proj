@@ -1,19 +1,19 @@
 """
-Generate agents.json — 40 residents of Maplewood neighborhood.
-Oak Street runs north-south through the center (lon ~ -73.9950).
-The proposed highway cuts through Oak Street between lat 40.7292-40.7312.
+Generate agents.json — 40 residents of Boerum Hill neighborhood.
+Atlantic Avenue runs north-south through the center (lon ~ -73.9950).
+The proposed highway cuts through Atlantic Avenue between lat 40.7292-40.7312.
 """
 
 import json
 
 AGENTS_RAW = [
-    # ── Cluster 1: Oak Street residents (displacement zone) ──────────────
+    # ── Cluster 1: Atlantic Avenue residents (displacement zone) ──────────────
     {
         "id": "agent_001",
         "name": "Maria Santos",
         "age": 52,
         "occupation": "Bakery owner",
-        "bio": "Maria has run La Panadería on Oak Street for 22 years. Her shop is a neighborhood institution — she knows most residents by name and extends credit to families who are short. Her entire livelihood and identity is rooted in this block.",
+        "bio": "Maria has run La Panadería on Atlantic Avenue for 22 years. Her shop is a neighborhood institution — she knows most residents by name and extends credit to families who are short. Her entire livelihood and identity is rooted in this block.",
         "home": {"lat": 40.7298, "lon": -73.9952},
         "relationships": ["agent_002", "agent_003", "agent_006", "agent_019", "agent_035"],
     },
@@ -22,7 +22,7 @@ AGENTS_RAW = [
         "name": "Harold Thompson",
         "age": 68,
         "occupation": "Retired mechanic",
-        "bio": "Harold bought his Oak Street row house in 1987 and raised three kids there. He's proud, stubborn, and deeply suspicious of city government after watching redevelopment flatten a nearby block in the 1990s. He tends his garden every morning.",
+        "bio": "Harold bought his Atlantic Avenue row house in 1987 and raised three kids there. He's proud, stubborn, and deeply suspicious of city government after watching redevelopment flatten a nearby block in the 1990s. He tends his garden every morning.",
         "home": {"lat": 40.7301, "lon": -73.9949},
         "relationships": ["agent_001", "agent_003", "agent_006", "agent_016", "agent_025"],
     },
@@ -31,7 +31,7 @@ AGENTS_RAW = [
         "name": "Dorothy Williams",
         "age": 71,
         "occupation": "Retired teacher",
-        "bio": "Dorothy has lived on Oak Street for 43 years and considers herself its unofficial historian. She taught fourth grade at PS 147 for three decades and still tutors neighborhood kids on weekends. She values community above everything.",
+        "bio": "Dorothy has lived on Atlantic Avenue for 43 years and considers herself its unofficial historian. She taught fourth grade at PS 147 for three decades and still tutors neighborhood kids on weekends. She values community above everything.",
         "home": {"lat": 40.7304, "lon": -73.9951},
         "relationships": ["agent_001", "agent_002", "agent_005", "agent_012", "agent_025"],
     },
@@ -40,7 +40,7 @@ AGENTS_RAW = [
         "name": "Kevin Park",
         "age": 28,
         "occupation": "Delivery driver",
-        "bio": "Kevin rents a one-bedroom on Oak Street and works 50-hour weeks doing food delivery by bike and car. He's generally pragmatic about change — he'll go wherever the rent is cheapest. He mostly keeps to himself but chats with neighbors at the corner store.",
+        "bio": "Kevin rents a one-bedroom on Atlantic Avenue and works 50-hour weeks doing food delivery by bike and car. He's generally pragmatic about change — he'll go wherever the rent is cheapest. He mostly keeps to himself but chats with neighbors at the corner store.",
         "home": {"lat": 40.7307, "lon": -73.9953},
         "relationships": ["agent_005", "agent_007", "agent_008", "agent_020", "agent_032"],
     },
@@ -49,7 +49,7 @@ AGENTS_RAW = [
         "name": "Sofia Reyes",
         "age": 45,
         "occupation": "Nurse",
-        "bio": "Sofia is a single mother of two who rents on Oak Street. She works night shifts at the hospital and depends on her neighbors — especially Dorothy — for childcare help. She has no financial cushion and fears displacement more than anything.",
+        "bio": "Sofia is a single mother of two who rents on Atlantic Avenue. She works night shifts at the hospital and depends on her neighbors — especially Dorothy — for childcare help. She has no financial cushion and fears displacement more than anything.",
         "home": {"lat": 40.7295, "lon": -73.9950},
         "relationships": ["agent_003", "agent_004", "agent_007", "agent_023", "agent_031"],
     },
@@ -58,7 +58,7 @@ AGENTS_RAW = [
         "name": "Marcus Johnson",
         "age": 39,
         "occupation": "Electrician",
-        "bio": "Marcus owns his Oak Street home outright — inherited from his parents — and runs a small electrical contracting business out of his garage. He is pragmatic about infrastructure but fiercely protective of his property. He's skeptical of eminent domain.",
+        "bio": "Marcus owns his Atlantic Avenue home outright — inherited from his parents — and runs a small electrical contracting business out of his garage. He is pragmatic about infrastructure but fiercely protective of his property. He's skeptical of eminent domain.",
         "home": {"lat": 40.7310, "lon": -73.9948},
         "relationships": ["agent_001", "agent_002", "agent_008", "agent_022", "agent_024"],
     },
@@ -67,7 +67,7 @@ AGENTS_RAW = [
         "name": "Priya Patel",
         "age": 31,
         "occupation": "UX designer",
-        "bio": "Priya moved to Oak Street two years ago for the short commute and walkable amenities. She works remotely for a tech company and spends evenings at Maria's bakery or the local coffee shop. She is thoughtful, researches issues carefully before forming opinions.",
+        "bio": "Priya moved to Atlantic Avenue two years ago for the short commute and walkable amenities. She works remotely for a tech company and spends evenings at Maria's bakery or the local coffee shop. She is thoughtful, researches issues carefully before forming opinions.",
         "home": {"lat": 40.7302, "lon": -73.9955},
         "relationships": ["agent_004", "agent_005", "agent_008", "agent_009", "agent_029"],
     },
@@ -76,7 +76,7 @@ AGENTS_RAW = [
         "name": "James Chen",
         "age": 34,
         "occupation": "Software engineer",
-        "bio": "James rents on Oak Street and bikes to the subway every morning. He moved here for the neighborhood's character but is realistic that he'll eventually move out anyway — leases are short-term. He tends to look at data before taking positions.",
+        "bio": "James rents on Atlantic Avenue and bikes to the subway every morning. He moved here for the neighborhood's character but is realistic that he'll eventually move out anyway — leases are short-term. He tends to look at data before taking positions.",
         "home": {"lat": 40.7308, "lon": -73.9946},
         "relationships": ["agent_004", "agent_006", "agent_007", "agent_009", "agent_026"],
     },
@@ -141,7 +141,7 @@ AGENTS_RAW = [
         "name": "Nina Sharma",
         "age": 33,
         "occupation": "Yoga instructor",
-        "bio": "Nina runs a small yoga studio two blocks from Oak Street and bikes to work daily. She is calm, community-oriented, and deeply opposed to anything that degrades walkability or air quality in the neighborhood. She organized the neighborhood cleanup last spring.",
+        "bio": "Nina runs a small yoga studio two blocks from Atlantic Avenue and bikes to work daily. She is calm, community-oriented, and deeply opposed to anything that degrades walkability or air quality in the neighborhood. She organized the neighborhood cleanup last spring.",
         "home": {"lat": 40.7333, "lon": -73.9962},
         "relationships": ["agent_009", "agent_011", "agent_013", "agent_017", "agent_038"],
     },
@@ -150,7 +150,7 @@ AGENTS_RAW = [
         "name": "Bob Wilson",
         "age": 63,
         "occupation": "Retired police officer",
-        "bio": "Bob spent 30 years on the force and owns his home outright two blocks north of Oak Street. He is law-and-order minded and inclined to trust city decisions, but he also knows how eminent domain works and has seen it used poorly. He's conflicted but quiet about it.",
+        "bio": "Bob spent 30 years on the force and owns his home outright two blocks north of Atlantic Avenue. He is law-and-order minded and inclined to trust city decisions, but he also knows how eminent domain works and has seen it used poorly. He's conflicted but quiet about it.",
         "home": {"lat": 40.7326, "lon": -73.9936},
         "relationships": ["agent_002", "agent_010", "agent_012", "agent_014", "agent_022"],
     },
@@ -161,7 +161,7 @@ AGENTS_RAW = [
         "name": "Aisha Robinson",
         "age": 41,
         "occupation": "Community organizer",
-        "bio": "Aisha runs the Maplewood Neighborhood Alliance and has been fighting displacement and gentrification for 12 years. She has strong relationships across every cluster of the neighborhood. She is strategic, persuasive, and will move quickly to organize resistance if the proposal is serious.",
+        "bio": "Aisha runs the Boerum Hill Neighborhood Alliance and has been fighting displacement and gentrification for 12 years. She has strong relationships across every cluster of the neighborhood. She is strategic, persuasive, and will move quickly to organize resistance if the proposal is serious.",
         "home": {"lat": 40.7272, "lon": -73.9958},
         "relationships": ["agent_013", "agent_015", "agent_018", "agent_035", "agent_040"],
     },
@@ -179,7 +179,7 @@ AGENTS_RAW = [
         "name": "Mei Lin",
         "age": 58,
         "occupation": "Restaurant owner",
-        "bio": "Mei has run her Sichuan restaurant two blocks from Oak Street for 18 years. She survived the 2008 recession and COVID by cutting costs and building loyal regulars. She is pragmatic and worried primarily about whether the construction noise and detours will kill her lunch business.",
+        "bio": "Mei has run her Sichuan restaurant two blocks from Atlantic Avenue for 18 years. She survived the 2008 recession and COVID by cutting costs and building loyal regulars. She is pragmatic and worried primarily about whether the construction noise and detours will kill her lunch business.",
         "home": {"lat": 40.7268, "lon": -73.9962},
         "relationships": ["agent_001", "agent_017", "agent_020", "agent_037", "agent_035"],
     },
@@ -206,7 +206,7 @@ AGENTS_RAW = [
         "name": "Mike O'Brien",
         "age": 52,
         "occupation": "Truck driver",
-        "bio": "Mike drives a delivery truck 10 hours a day and loses 45 minutes daily to Oak Street congestion. He is blunt, unsentimental, and thinks the highway is long overdue. He has little patience for what he calls 'NIMBYism' but isn't cruel — he feels bad for people being displaced.",
+        "bio": "Mike drives a delivery truck 10 hours a day and loses 45 minutes daily to Atlantic Avenue congestion. He is blunt, unsentimental, and thinks the highway is long overdue. He has little patience for what he calls 'NIMBYism' but isn't cruel — he feels bad for people being displaced.",
         "home": {"lat": 40.7270, "lon": -73.9938},
         "relationships": ["agent_006", "agent_014", "agent_016", "agent_024", "agent_028"],
     },
@@ -215,7 +215,7 @@ AGENTS_RAW = [
         "name": "Sandra Lee",
         "age": 38,
         "occupation": "Elementary school teacher",
-        "bio": "Sandra teaches second grade at the school three blocks from Oak Street. She is warm, community-first, and primarily worried about how the construction will affect her students' home lives. Several of her kids live on Oak Street and she knows their families personally.",
+        "bio": "Sandra teaches second grade at the school three blocks from Atlantic Avenue. She is warm, community-first, and primarily worried about how the construction will affect her students' home lives. Several of her kids live on Atlantic Avenue and she knows their families personally.",
         "home": {"lat": 40.7276, "lon": -73.9970},
         "relationships": ["agent_005", "agent_011", "agent_017", "agent_025", "agent_035"],
     },
@@ -327,7 +327,7 @@ AGENTS_RAW = [
         "name": "Omar Williams",
         "age": 46,
         "occupation": "Pastor",
-        "bio": "Omar leads the neighborhood's largest congregation and is trusted across racial and economic lines. He chooses his public statements carefully and sees his role as bridge-builder. He was raised two blocks from Oak Street and is personally moved by what this proposal could mean for his community.",
+        "bio": "Omar leads the neighborhood's largest congregation and is trusted across racial and economic lines. He chooses his public statements carefully and sees his role as bridge-builder. He was raised two blocks from Atlantic Avenue and is personally moved by what this proposal could mean for his community.",
         "home": {"lat": 40.7310, "lon": -73.9918},
         "relationships": ["agent_001", "agent_012", "agent_017", "agent_019", "agent_023", "agent_031"],
     },
@@ -345,7 +345,7 @@ AGENTS_RAW = [
         "name": "Frank Romano",
         "age": 57,
         "occupation": "Pizza shop owner",
-        "bio": "Frank's pizza place is on the east end, far from Oak Street. He thinks more traffic in the area might actually bring him more business. He's not heartless — he knows people are being displaced — but he is small-minded about his own bottom line and probably won't oppose the project publicly.",
+        "bio": "Frank's pizza place is on the east end, far from Atlantic Avenue. He thinks more traffic in the area might actually bring him more business. He's not heartless — he knows people are being displaced — but he is small-minded about his own bottom line and probably won't oppose the project publicly.",
         "home": {"lat": 40.7285, "lon": -73.9915},
         "relationships": ["agent_019", "agent_028", "agent_033", "agent_036", "agent_038"],
     },
@@ -354,7 +354,7 @@ AGENTS_RAW = [
         "name": "Sarah Mitchell",
         "age": 40,
         "occupation": "Pediatrician",
-        "bio": "Sarah runs a pediatric practice two blocks east of Oak Street. She is concerned about air quality impacts from increased traffic and has published research on childhood asthma rates near highways. She will likely oppose the project on public health grounds and can speak credibly in that register.",
+        "bio": "Sarah runs a pediatric practice two blocks east of Atlantic Avenue. She is concerned about air quality impacts from increased traffic and has published research on childhood asthma rates near highways. She will likely oppose the project on public health grounds and can speak credibly in that register.",
         "home": {"lat": 40.7318, "lon": -73.9924},
         "relationships": ["agent_015", "agent_026", "agent_027", "agent_036", "agent_037"],
     },
@@ -392,13 +392,13 @@ def build_agents_json():
         })
 
     output = {
-        "neighborhood": "Maplewood",
+        "neighborhood": "Boerum Hill",
         "center": {"lat": 40.7300, "lon": -73.9950},
         "oak_street_zone": {
             "lat_min": 40.7292,
             "lat_max": 40.7312,
             "lon": -73.9950,
-            "description": "The proposed highway corridor along Oak Street"
+            "description": "The proposed highway corridor along Atlantic Avenue"
         },
         "agents": agents,
     }
