@@ -1,15 +1,5 @@
-  .env            
-  __pycache__/
-  *.pyc
-  .DS_Store
-  venv/
-  .venv/                                                                                                 
-  EOF
-                                                                                                         
-  git add .       
-
-  git commit -m "Initial Idea: generalist world simulation”
-
-  git branch -M main
-  git push -u origin main
+venv/
+__pycache__/
+*.pyc
 .env
+.DS_Store
