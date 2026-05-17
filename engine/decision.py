@@ -1,8 +1,10 @@
 from __future__ import annotations
 import json
+import random
 import anthropic
 from engine.agent import Agent, Memory
 from engine.memory import retrieve_memories, build_memory_context
+from engine.pois import POI_NAMES
 
 _client = None
 
@@ -17,7 +19,9 @@ def get_client() -> anthropic.Anthropic:
 def _build_static_block(agent: Agent) -> str:
     return f"""You are {agent.name}, {agent.age} years old, living in Boerum Hill, Brooklyn.
 Occupation: {agent.occupation}
-About you: {agent.bio}"""
+About you: {agent.bio}
+
+IMPORTANT: You must respond ONLY as {agent.name} would — not as a generic concerned resident. Your age, occupation, history, and relationships are not flavor text; they are hard constraints on every word you say. A {agent.age}-year-old {agent.occupation} thinks, speaks, and acts differently from everyone else in this neighborhood. Show that difference."""
 
 
 # Dynamic per-tick content — changes every step
@@ -27,6 +31,7 @@ def _build_dynamic_block(
     world_event: str,
     neighbor_actions: list[dict],
     query_keywords: list[str],
+    public_actions: list[dict] | None = None,
 ) -> str:
     memories = retrieve_memories(
         agent.memory_stream,
@@ -40,25 +45,35 @@ def _build_dynamic_block(
         f"- {a['name']}: {a['last_action']}" for a in neighbor_actions
     )
 
-    return f"""
-Current situation:
-{world_event}
+    shuffled_pois = random.sample(POI_NAMES, len(POI_NAMES))
+    location_options = "home, work, " + ", ".join(shuffled_pois)
 
-What people you know are saying/doing:
+    public_text = ""
+    if public_actions:
+        lines = "\n".join(f"- {a['name']}: {a['action']}" for a in public_actions[:3])
+        public_text = f"\nPublic actions happening in the neighborhood right now:\n{lines}\n"
+
+    return f"""
+SITUATION JUST HAPPENED:
+{world_event}
+{public_text}
+What people you know are saying/doing right now:
 {neighbor_text}
 
 Your relevant memories:
 {memory_text}
 
-Based on who you are and what you know, respond to this situation.
-Think and act as this specific person would — shaped by your history, relationships, and values.
-Your reaction should feel genuine, not generic.
+Respond as {agent.name} specifically. Ask yourself: how does this situation affect MY livelihood, MY daily life, MY relationships, MY history in this neighborhood? Your response must reflect your particular stake — not a generic resident's reaction.
+
+Avoid phrases any neighbor could say. Ground your thought in a specific detail only YOU would notice given your occupation and history.
 
 Respond with only valid JSON:
 {{
-  "thought": "<your internal reaction in first person, 1-3 sentences>",
-  "action": "<what you do or say out loud, 1-2 sentences>",
-  "sentiment": <float from -1.0 (strongly oppose/negative) to 1.0 (strongly support/positive)>,
+  "thought": "<your internal reaction in first person, 1-3 sentences — must be specific to who YOU are>",
+  "action": "<what you concretely do or say right now, 1-2 sentences>",
+  "sentiment": <float from -1.0 (strongly negative/oppose) to 1.0 (strongly positive/support)>,
+  "move_to": "<one of: {location_options}>",
+  "is_public": <true if your action is visible to everyone (attending a meeting, posting a sign, calling media, organizing publicly) — false if private>,
   "keywords": ["keyword1", "keyword2", "keyword3"]
 }}"""
 
@@ -69,6 +84,7 @@ def agent_tick(
     world_event: str,
     neighbor_actions: list[dict],
     query_keywords: list[str],
+    public_actions: list[dict] | None = None,
 ) -> dict:
     """
     Run one decision tick for a single agent.
@@ -76,7 +92,7 @@ def agent_tick(
     """
     static_block = _build_static_block(agent)
     dynamic_block = _build_dynamic_block(
-        agent, current_tick, world_event, neighbor_actions, query_keywords
+        agent, current_tick, world_event, neighbor_actions, query_keywords, public_actions
     )
 
     response = get_client().messages.create(
@@ -96,7 +112,6 @@ def agent_tick(
     try:
         result = json.loads(raw)
     except json.JSONDecodeError:
-        # Fallback: extract JSON from response if wrapped in markdown
         import re
         match = re.search(r'\{.*\}', raw, re.DOTALL)
         result = json.loads(match.group()) if match else {
@@ -106,17 +121,17 @@ def agent_tick(
             "keywords": [],
         }
 
-    # Update agent state in place
     agent.current_thought = result.get("thought", "")
     agent.last_action = result.get("action", "")
     agent.sentiment = float(result.get("sentiment", 0.0))
+    agent.move_to = result.get("move_to", "home")
+    agent.is_public_action = bool(result.get("is_public", False))
 
-    # Store this tick's reaction as a new memory
     memory_content = f"{agent.last_action}" if agent.last_action else agent.current_thought
     agent.memory_stream.append(Memory(
         content=memory_content,
         timestamp=current_tick,
-        importance=5.0,  # will be re-scored async in reflection step
+        importance=5.0,
         keywords=result.get("keywords", []),
     ))
 
