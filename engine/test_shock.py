@@ -1,11 +1,13 @@
 """
-Smoke test: inject a shock from CLI across all 40 agents, verify it lands.
+Smoke test: plan a cascade for a shock and show the tier assignments.
 Usage: python3 -m engine.test_shock "your shock here"
 """
 import sys
 import json
 from engine.agent import Agent
-from engine.shock import inject_shock
+from engine.orchestrator import plan_cascade
+from engine.shock import CascadeState, seed_tier1, seed_tier2, seed_tier3, _extract_keywords
+
 
 def run():
     if len(sys.argv) < 2:
@@ -18,14 +20,46 @@ def run():
         data = json.load(f)
 
     agents = [Agent.from_dict(a) for a in data["agents"]]
-    inject_shock(agents, shock)
 
-    print(f"Shock injected: \"{shock}\"\n")
-    for agent in agents[:5]:  # show first 5 as sample
-        m = agent.memory_stream[0]
-        print(f"{agent.name:20s} | importance={m.importance} | keywords={m.keywords}")
+    print(f"Planning cascade for: \"{shock}\"\n")
+    result = plan_cascade(agents, shock)
 
-    print(f"\n✓ All {len(agents)} agents received the shock.")
+    keywords = _extract_keywords(shock)
+    tier1_ids = [entry["id"] for entry in result["tier1"]]
+    tier1_briefs = {entry["id"]: entry["brief"] for entry in result["tier1"]}
+
+    cascade = CascadeState(
+        shock_text=shock,
+        keywords=keywords,
+        start_tick=0,
+        tier1_ids=tier1_ids,
+        tier1_briefs=tier1_briefs,
+        tier2_rumor=result["tier2_rumor"],
+        tier3_news=result["tier3_news"],
+    )
+
+    seed_tier1(agents, cascade, tick=0)
+    seed_tier2(agents, cascade, tick=1)
+    seed_tier3(agents, cascade, tick=3)
+
+    print("=== TIER 1 (directly affected) ===")
+    for a in agents:
+        if a.cascade_tier == 1:
+            print(f"  {a.name:20s} ({a.occupation})")
+            print(f"    Brief: {a.impact_brief[:120]}")
+    print()
+
+    print(f"=== TIER 2 rumor (social graph, tick 1) ===")
+    print(f"  {cascade.tier2_rumor}")
+    t2 = [a.name for a in agents if a.cascade_tier == 2]
+    print(f"  → {len(t2)} agents: {', '.join(t2[:5])}{'...' if len(t2) > 5 else ''}")
+    print()
+
+    print(f"=== TIER 3 news (everyone else, tick 3) ===")
+    print(f"  {cascade.tier3_news}")
+    t3 = [a.name for a in agents if a.cascade_tier == 3]
+    print(f"  → {len(t3)} agents")
+
 
 if __name__ == "__main__":
     run()

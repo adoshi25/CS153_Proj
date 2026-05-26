@@ -4,7 +4,7 @@ import random
 import anthropic
 from engine.agent import Agent, Memory
 from engine.memory import retrieve_memories, build_memory_context
-from engine.pois import POI_NAMES
+from engine.pois import POI_NAMES, NEIGHBORHOOD_DESCRIPTION
 
 _client = None
 
@@ -17,11 +17,13 @@ def get_client() -> anthropic.Anthropic:
 
 # Static per-agent content — eligible for prompt caching
 def _build_static_block(agent: Agent) -> str:
-    return f"""You are {agent.name}, {agent.age} years old, living in Boerum Hill, Brooklyn.
+    return f"""You are {agent.name}, {agent.age} years old.
 Occupation: {agent.occupation}
 About you: {agent.bio}
 
-IMPORTANT: You must respond ONLY as {agent.name} would — not as a generic concerned resident. Your age, occupation, history, and relationships are not flavor text; they are hard constraints on every word you say. A {agent.age}-year-old {agent.occupation} thinks, speaks, and acts differently from everyone else in this neighborhood. Show that difference."""
+{NEIGHBORHOOD_DESCRIPTION}
+
+IMPORTANT: You must respond ONLY as {agent.name} would. Your age, occupation, history, and daily routines are hard constraints on every word you say. Reference specific streets, buildings, and places from your neighborhood — never use generic or made-up location names."""
 
 
 # Dynamic per-tick content — changes every step
@@ -53,28 +55,39 @@ def _build_dynamic_block(
         lines = "\n".join(f"- {a['name']}: {a['action']}" for a in public_actions[:3])
         public_text = f"\nPublic actions happening in the neighborhood right now:\n{lines}\n"
 
+    if world_event.strip():
+        event_block = f"Something just happened in your neighborhood: {world_event}"
+        # Belief schema appended after keywords — only when the agent actually knows something
+        belief_schema = (
+            ',\n  "belief": {\n'
+            '    "summary": "<1 sentence: what YOU believe actually happened — you may interpret, doubt, or reframe what you were told>",\n'
+            '    "certainty": <float 0.0-1.0, how confident you are>,\n'
+            '    "source": "<how you learned: direct | social | news | conversation>"\n'
+            '  }'
+        )
+    else:
+        event_block = "It's an ordinary day. Go about your normal life."
+        belief_schema = ""
+
     return f"""
-SITUATION JUST HAPPENED:
-{world_event}
+{event_block}
 {public_text}
-What people you know are saying/doing right now:
+What people you know are doing right now:
 {neighbor_text}
 
 Your relevant memories:
 {memory_text}
 
-Respond as {agent.name} specifically. Ask yourself: how does this situation affect MY livelihood, MY daily life, MY relationships, MY history in this neighborhood? Your response must reflect your particular stake — not a generic resident's reaction.
-
-Avoid phrases any neighbor could say. Ground your thought in a specific detail only YOU would notice given your occupation and history.
+How does this affect YOUR daily life specifically — your job, your routines, the people you know? React as {agent.name}, not as a generic resident.
 
 Respond with only valid JSON:
 {{
-  "thought": "<your internal reaction in first person, 1-3 sentences — must be specific to who YOU are>",
+  "thought": "<your internal reaction in first person, 1-3 sentences>",
   "action": "<what you concretely do or say right now, 1-2 sentences>",
-  "sentiment": <float from -1.0 (strongly negative/oppose) to 1.0 (strongly positive/support)>,
+  "sentiment": <float from -1.0 to 1.0>,
   "move_to": "<one of: {location_options}>",
-  "is_public": <true if your action is visible to everyone (attending a meeting, posting a sign, calling media, organizing publicly) — false if private>,
-  "keywords": ["keyword1", "keyword2", "keyword3"]
+  "is_public": <true if your action is visible to everyone, false if private>,
+  "keywords": ["keyword1", "keyword2", "keyword3"]{belief_schema}
 }}"""
 
 
@@ -85,10 +98,12 @@ def agent_tick(
     neighbor_actions: list[dict],
     query_keywords: list[str],
     public_actions: list[dict] | None = None,
+    model: str = "claude-sonnet-4-6",
 ) -> dict:
     """
     Run one decision tick for a single agent.
     Returns the structured output dict and updates agent state in place.
+    Pass model="claude-haiku-4-5-20251001" for cheap forked/counterfactual runs.
     """
     static_block = _build_static_block(agent)
     dynamic_block = _build_dynamic_block(
@@ -96,7 +111,7 @@ def agent_tick(
     )
 
     response = get_client().messages.create(
-        model="claude-haiku-4-5-20251001",
+        model=model,
         max_tokens=300,
         system=[
             {
@@ -126,6 +141,14 @@ def agent_tick(
     agent.sentiment = float(result.get("sentiment", 0.0))
     agent.move_to = result.get("move_to", "home")
     agent.is_public_action = bool(result.get("is_public", False))
+
+    agent.current_keywords = result.get("keywords", [])
+
+    belief = result.get("belief") or {}
+    if isinstance(belief, dict) and belief.get("summary"):
+        agent.belief_about_event = belief["summary"]
+        agent.belief_certainty = float(belief.get("certainty", 0.0))
+        agent.belief_source = belief.get("source", "")
 
     memory_content = f"{agent.last_action}" if agent.last_action else agent.current_thought
     agent.memory_stream.append(Memory(

@@ -25,6 +25,16 @@ class Agent:
     current_plan: str = ""
     sentiment: float = 0.0            # -1.0 (oppose) to 1.0 (support), 0 = neutral
     last_action: str = ""
+    # Information cascade tracking
+    knowledge_tick: int | None = None  # tick when agent first heard the shock; None = uninformed
+    cascade_tier: int | None = None    # 1=directly affected, 2=social graph, 3=general news
+    impact_brief: str = ""             # personalized brief written by orchestrator
+    # Belief state (may diverge from what the agent was told)
+    belief_about_event: str = ""       # agent's own interpretation of what happened
+    belief_certainty: float = 0.0      # 0-1: how confident they are in their belief
+    belief_source: str = ""            # "direct", "social", "news", "conversation", or ""
+    # Keywords from the most recent decision tick — used for coalition detection
+    current_keywords: list[str] = field(default_factory=list)
 
     def to_dict(self) -> dict:
         return {
@@ -48,6 +58,12 @@ class Agent:
             "current_plan": self.current_plan,
             "sentiment": self.sentiment,
             "last_action": self.last_action,
+            "knowledge_tick": self.knowledge_tick,
+            "cascade_tier": self.cascade_tier,
+            "impact_brief": self.impact_brief,
+            "belief_about_event": self.belief_about_event,
+            "belief_certainty": self.belief_certainty,
+            "belief_source": self.belief_source,
         }
 
     @classmethod
@@ -74,4 +90,10 @@ class Agent:
             current_plan=d.get("current_plan", ""),
             sentiment=d.get("sentiment", 0.0),
             last_action=d.get("last_action", ""),
+            knowledge_tick=d.get("knowledge_tick"),
+            cascade_tier=d.get("cascade_tier"),
+            impact_brief=d.get("impact_brief", ""),
+            belief_about_event=d.get("belief_about_event", ""),
+            belief_certainty=float(d.get("belief_certainty", 0.0)),
+            belief_source=d.get("belief_source", ""),
         )

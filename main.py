@@ -17,6 +17,9 @@ from engine.agent import Agent
 from engine.simulation import SimulationEngine
 from engine.decision import _build_static_block, _build_dynamic_block
 from engine.memory import retrieve_memories
+from engine.query import query_neighborhood, _occupation_group
+from engine.generate import generate_agents
+from engine.counterfactual import run_counterfactual
 
 logging.basicConfig(level=logging.INFO)
 log = logging.getLogger(__name__)
@@ -45,6 +48,11 @@ def _ensure_started() -> None:
         engine.running = True
 
 
+@app.on_event("startup")
+async def _startup():
+    _ensure_started()
+
+
 # ── Models ────────────────────────────────────────────────────────────────
 
 class ShockBody(BaseModel):
@@ -52,6 +60,16 @@ class ShockBody(BaseModel):
 
 class ControlBody(BaseModel):
     action: str  # start | pause | resume | stop
+
+class QueryBody(BaseModel):
+    question: str
+
+class ScenarioBody(BaseModel):
+    description: str
+
+class CounterfactualBody(BaseModel):
+    policy: str
+    n_ticks: int = 5
 
 
 # ── Routes ────────────────────────────────────────────────────────────────
@@ -74,11 +92,105 @@ async def status():
     }
 
 
+@app.post("/query")
+async def query(body: QueryBody):
+    """Fan out a policy question to all 40 agents and return grouped results."""
+    loop = asyncio.get_event_loop()
+    result = await loop.run_in_executor(None, query_neighborhood, engine.agents, body.question)
+    return result
+
+
 @app.post("/shock")
 async def shock(body: ShockBody):
     engine.inject(body.text)
     _ensure_started()
     return {"ok": True}
+
+
+@app.post("/generate-scenario")
+async def generate_scenario(body: ScenarioBody):
+    """
+    Generate 40 new agents from a plain-English description and restart the simulation.
+    Persists the new cast to agents.json. Transfers live WebSocket clients to the new engine.
+    """
+    global engine, _sim_task, agents
+
+    loop = asyncio.get_event_loop()
+
+    try:
+        data = await loop.run_in_executor(None, generate_agents, body.description)
+    except Exception as exc:
+        log.error("generate_scenario failed: %s", exc)
+        return {"ok": False, "error": str(exc)}
+
+    # Persist to agents.json so the new community survives a server restart
+    Path("agents.json").write_text(json.dumps(data, indent=2))
+
+    # Stop the current simulation gracefully
+    engine.running = False
+    if _sim_task and not _sim_task.done():
+        _sim_task.cancel()
+        try:
+            await asyncio.wait_for(asyncio.shield(_sim_task), timeout=2.0)
+        except (asyncio.CancelledError, asyncio.TimeoutError):
+            pass
+
+    # Build new Agent objects and a fresh engine
+    agents = [Agent.from_dict(d) for d in data["agents"]]
+    old_clients = set(engine.clients)
+    engine = SimulationEngine(agents, tick_interval=3.0, max_ticks=50)
+    engine.neighborhood_name = data.get("neighborhood", "City Center")
+    engine.clients = old_clients  # keep existing browser connections live
+
+    # Push the blank initial snapshot so connected clients clear their state
+    await engine._broadcast(engine.current_snapshot())
+
+    # Start the new run loop
+    _sim_task = asyncio.create_task(engine.run())
+    engine.running = True
+
+    return {
+        "ok": True,
+        "neighborhood": engine.neighborhood_name,
+        "agent_count": len(agents),
+        "city_layout": data.get("city_layout"),
+    }
+
+
+@app.post("/counterfactual")
+async def counterfactual(body: CounterfactualBody):
+    """
+    Fork the current agent state and run N simplified Haiku ticks on two branches:
+    baseline (current shock only) vs. with_policy (shock + policy intervention).
+    Returns chart-ready sentiment trajectories and per-group deltas.
+    """
+    loop = asyncio.get_event_loop()
+    result = await loop.run_in_executor(
+        None,
+        run_counterfactual,
+        engine.agents,
+        getattr(engine, "_shock_text", ""),
+        body.policy,
+        body.n_ticks,
+    )
+    return result
+
+
+@app.get("/history")
+async def get_history():
+    """Tick-by-tick average sentiment per occupation group, for the timeline chart."""
+    occ_map = {a.id: _occupation_group(a.occupation) for a in agents}
+    points = []
+    for snap in engine.history:
+        groups: dict[str, list[float]] = {}
+        for a_snap in snap["agents"]:
+            grp = occ_map.get(a_snap["id"], "Residents")
+            groups.setdefault(grp, []).append(a_snap["sentiment"])
+        points.append({
+            "tick": snap["tick"],
+            "groups": {g: round(sum(v) / len(v), 3) for g, v in groups.items()},
+        })
+    return points
 
 
 @app.get("/agents")
@@ -127,19 +239,20 @@ async def stream_agent_thinking(ws: WebSocket, agent_id: str):
         await ws.close()
         return
 
-    shock_text = getattr(engine, "_shock_text", "Observe your neighborhood and reflect on your day.")
+    # Use the agent's personal impact brief (what they actually know), not the raw shock
+    agent_event = agent.impact_brief if agent.knowledge_tick is not None else ""
     keywords = getattr(engine, "_shock_keywords", [])
     tick = engine.current_tick
 
     static_block = _build_static_block(agent)
-    dynamic_block = _build_dynamic_block(agent, tick, shock_text, [], keywords)
+    dynamic_block = _build_dynamic_block(agent, tick, agent_event, [], keywords)
 
     client = anthropic.Anthropic()
     loop = asyncio.get_event_loop()
 
     def stream_sync():
         with client.messages.stream(
-            model="claude-haiku-4-5-20251001",
+            model="claude-sonnet-4-6",
             max_tokens=400,
             system=[{"type": "text", "text": static_block, "cache_control": {"type": "ephemeral"}}],
             messages=[{"role": "user", "content": dynamic_block}],

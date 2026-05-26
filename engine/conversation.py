@@ -37,7 +37,7 @@ Respond with only valid JSON:
 }}"""
 
     resp = get_client().messages.create(
-        model="claude-haiku-4-5-20251001",
+        model="claude-sonnet-4-6",
         max_tokens=250,
         system="You are a novelist writing brief realistic dialogue exchanges between neighborhood residents. Return only valid JSON.",
         messages=[{"role": "user", "content": prompt}],

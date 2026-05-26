@@ -29,7 +29,7 @@ Respond with only valid JSON:
 {{"importance": <float 1-10>, "keywords": ["keyword1", "keyword2", ...]}}"""
 
     resp = get_client().messages.create(
-        model="claude-haiku-4-5-20251001",
+        model="claude-sonnet-4-6",
         max_tokens=100,
         system=IMPORTANCE_SYSTEM,
         messages=[{"role": "user", "content": prompt}],
@@ -67,7 +67,7 @@ Respond with only valid JSON:
 {{"insight": "<insight in first person>", "keywords": ["keyword1", "keyword2", ...]}}"""
 
     resp = get_client().messages.create(
-        model="claude-haiku-4-5-20251001",
+        model="claude-sonnet-4-6",
         max_tokens=150,
         system=REFLECTION_SYSTEM,
         messages=[{"role": "user", "content": prompt}],
