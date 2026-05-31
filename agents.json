@@ -1,1079 +1,880 @@
 {
-  "neighborhood": "Hollow Creek Village",
+  "neighborhood": "L Ward, Mahim-Worli Corridor",
+  "real_world_location": "Mahim, Mumbai, India",
   "center": {
-    "lat": 40.73,
-    "lon": -73.995
+    "lat": 19.08064,
+    "lon": 72.883761
   },
+  "neighborhood_description": "L Ward stretches along the Mahim-Worli corridor, anchored by Lal Bahadur Shastri Marg on the west and a dense grid of lanes including Mathuradas Vasanji Road, Father Peter Periera Road, and Pipeline Road. The area mixes mid-rise housing societies, street-level shops, and pockets of older chawl-style tenements rapidly being replaced by glass towers. Village Park and Villagers Garden offer rare green relief amid the congestion, while landmarks like Holy Cross Church, Ganesh Mandir, and the cluster of masjids signal the ward's genuine plurality. Daily life revolves around grinding commutes on Lal Bahadur Shastri Marg, neighborhood haunts like Zam Zam bakery, and the aspirational pull of Palladium mall a short Ola ride away.",
+  "pois": [
+    {
+      "name": "Micromax Service Center",
+      "lat": 19.076787,
+      "lon": 72.8834956,
+      "type": "business"
+    },
+    {
+      "name": "Lucky Travels",
+      "lat": 19.0773799,
+      "lon": 72.8841053,
+      "type": "business"
+    },
+    {
+      "name": "Sahara",
+      "lat": 19.0796355,
+      "lon": 72.8799871,
+      "type": "business"
+    },
+    {
+      "name": "Skyway",
+      "lat": 19.0805957,
+      "lon": 72.8812014,
+      "type": "business"
+    },
+    {
+      "name": "Zam Zam",
+      "lat": 19.0797988,
+      "lon": 72.8802023,
+      "type": "business"
+    },
+    {
+      "name": "kothari jewellers",
+      "lat": 19.0809785,
+      "lon": 72.8840441,
+      "type": "business"
+    },
+    {
+      "name": "Decathlon",
+      "lat": 19.0852214,
+      "lon": 72.8864014,
+      "type": "business"
+    },
+    {
+      "name": "State Bank of India",
+      "lat": 19.0821332,
+      "lon": 72.8856732,
+      "type": "business"
+    },
+    {
+      "name": "Shanti Ceramic and Sanitary",
+      "lat": 19.085356,
+      "lon": 72.883374,
+      "type": "business"
+    },
+    {
+      "name": "RS Hair cutting salon",
+      "lat": 19.0853897,
+      "lon": 72.8831502,
+      "type": "business"
+    },
+    {
+      "name": "Hotel Sitaram",
+      "lat": 19.0831187,
+      "lon": 72.8851007,
+      "type": "business"
+    },
+    {
+      "name": "Istanbul Darbar",
+      "lat": 19.0790685,
+      "lon": 72.8799913,
+      "type": "business"
+    },
+    {
+      "name": "Rehmaniya Masjid",
+      "lat": 19.0788975,
+      "lon": 72.8830198,
+      "type": "community"
+    },
+    {
+      "name": "Ganesh Mandir",
+      "lat": 19.082021,
+      "lon": 72.882892,
+      "type": "community"
+    },
+    {
+      "name": "Mustafa Masjid",
+      "lat": 19.0794829,
+      "lon": 72.8830635,
+      "type": "community"
+    },
+    {
+      "name": "Christa Kanti Church",
+      "lat": 19.0806615,
+      "lon": 72.8830699,
+      "type": "community"
+    },
+    {
+      "name": "Suleman Masjid",
+      "lat": 19.0773053,
+      "lon": 72.8806799,
+      "type": "community"
+    },
+    {
+      "name": "Holy Cross Church",
+      "lat": 19.0833469,
+      "lon": 72.8871617,
+      "type": "community"
+    },
+    {
+      "name": "Villagers gardern",
+      "lat": 19.0813894,
+      "lon": 72.8830881,
+      "type": "park"
+    },
+    {
+      "name": "Village Park",
+      "lat": 19.0810543,
+      "lon": 72.88277,
+      "type": "park"
+    }
+  ],
   "city_layout": {
     "districts": [
       {
-        "name": "Ridgeline Hollow",
+        "name": "Pipeline Road Residential Belt",
         "type": "residential"
       },
       {
-        "name": "Creek Bottom Commercial Strip",
+        "name": "Lal Bahadur Shastri Marg Commercial Spine",
         "type": "commercial"
       },
       {
-        "name": "Sawmill Flats",
-        "type": "industrial"
-      },
-      {
-        "name": "Churchyard Hill",
+        "name": "Father Peter Periera Road Mixed-Use",
         "type": "mixed"
       },
       {
-        "name": "Upper Holler Homesteads",
-        "type": "residential"
+        "name": "Mathuradas Vasanji Industrial Fringe",
+        "type": "industrial"
+      },
+      {
+        "name": "Village Park Neighbourhood",
+        "type": "park"
       }
     ],
     "landmarks": [
       {
-        "name": "Hollow Creek Elementary & Community School",
-        "type": "school"
-      },
-      {
-        "name": "Appalachian Ridge Volunteer Fire Station",
+        "name": "Holy Cross Church",
         "type": "community"
       },
       {
-        "name": "Harlan County Rural Health Clinic",
-        "type": "hospital"
+        "name": "Ganesh Mandir",
+        "type": "community"
       },
       {
-        "name": "Township Hall & Post Office",
+        "name": "Village Park",
+        "type": "park"
+      },
+      {
+        "name": "State Bank of India",
         "type": "government"
       },
       {
-        "name": "Piney Fork Baptist Church",
-        "type": "community"
+        "name": "Decathlon",
+        "type": "business"
       },
       {
-        "name": "Cripple Creek Sawmill & Lumber Yard",
-        "type": "industry"
+        "name": "Zam Zam Bakery",
+        "type": "business"
       }
     ],
     "roads": [
-      "Ridgeline Road",
-      "Hollow Creek Pike",
-      "Sawmill Hollow Lane",
-      "Churchyard Branch Road"
+      "Lal Bahadur Shastri Marg",
+      "Pipeline Road",
+      "Father Peter Periera Road",
+      "Mathuradas Vasanji Road"
     ]
   },
   "agents": [
     {
       "id": "agent_001",
-      "name": "Earl Combs",
-      "age": 68,
-      "occupation": "Retired Coal Miner",
-      "bio": "Earl spent 35 years in the mines before his lungs forced him out. He sits on the porch most mornings and walks to the feed store every afternoon, telling anyone who'll listen about the old days. He's a pillar of the community, respected for his hard work and his memory of how the village used to run.",
+      "name": "Rajesh Nair",
+      "age": 38,
+      "occupation": "Senior Relationship Manager, HDFC Bank \u2013 Home Loans Division",
+      "bio": "Rajesh lives off Pipeline Road, walks to State Bank of India branch for weekend errands and grabs chai at Zam Zam most mornings. He commutes to Lower Parel by Ola, logging 10-hour days and measuring his life by which housing society he's about to upgrade to.",
       "home": {
-        "lat": 40.7252,
-        "lon": -74.0005
+        "lat": 19.0826,
+        "lon": 72.8853
       },
       "relationships": [
         "agent_002",
-        "agent_010",
-        "agent_019",
-        "agent_035"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": "",
-      "knowledge_tick": null,
-      "cascade_tier": null,
-      "impact_brief": ""
+        "agent_007",
+        "agent_015",
+        "agent_023"
+      ]
     },
     {
       "id": "agent_002",
-      "name": "Mabel Tackett",
-      "age": 72,
-      "occupation": "Retired Schoolteacher",
-      "bio": "Mabel taught third grade at Hollow Creek Elementary for 30 years and still volunteers as a reading tutor twice a week. She bakes cornbread for church potlucks and keeps a sharp eye on the school board's decisions. Her deep roots in the community make her an informal advisor to anyone who needs honest counsel.",
+      "name": "Priya Menon",
+      "age": 34,
+      "occupation": "Equity Research Analyst, Motilal Oswal Financial Services",
+      "bio": "Priya rents a 1BHK off Father Peter Periera Road and relies on Ola cabs to reach Fort each morning before the Sensex opens. She passes State Bank of India on her evening walk, considers Starbucks Palladium her second office, and tracks Mumbai property indices the way others track cricket scores.",
       "home": {
-        "lat": 40.7258,
-        "lon": -73.9935
+        "lat": 19.0831,
+        "lon": 72.8858
       },
       "relationships": [
         "agent_001",
-        "agent_011",
-        "agent_021",
-        "agent_036"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": "",
-      "knowledge_tick": null,
-      "cascade_tier": null,
-      "impact_brief": ""
+        "agent_008",
+        "agent_019",
+        "agent_030"
+      ]
     },
     {
       "id": "agent_003",
-      "name": "Cleo Branham",
-      "age": 70,
-      "occupation": "Retired Timber Worker",
-      "bio": "Cleo ran a chain saw at the sawmill for decades and now tends a large vegetable garden behind his house on Ridgeline Road. He trades produce with neighbors and is a fixture at the hardware store on Saturday mornings. He worries about young people leaving the mountains and often mentors teenagers interested in the trades.",
+      "name": "Faisal Shaikh",
+      "age": 29,
+      "occupation": "Junior Architect, Kalpataru Real Estate Development",
+      "bio": "Faisal stays near Rehmaniya Masjid on Kale Marg and stops at Zam Zam for breakfast before commuting by local train from Mahim to Parel. He's saving aggressively toward a studio flat, comparing per-square-foot rates across every new Worli launch.",
       "home": {
-        "lat": 40.7348,
-        "lon": -73.9915
+        "lat": 19.0802,
+        "lon": 72.8818
       },
       "relationships": [
         "agent_004",
-        "agent_028",
-        "agent_033",
-        "agent_039"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": "",
-      "knowledge_tick": null,
-      "cascade_tier": null,
-      "impact_brief": ""
+        "agent_010",
+        "agent_020",
+        "agent_035"
+      ]
     },
     {
       "id": "agent_004",
-      "name": "Dorothy Slone",
-      "age": 66,
-      "occupation": "Retired Rural Mail Carrier",
-      "bio": "Dorothy knows every road and hollow in the township from 28 years of delivering mail through snow and mud. She now volunteers at the food pantry and drives elderly neighbors to their medical appointments. Her encyclopedic knowledge of who lives where makes her an invaluable community connector.",
+      "name": "Sneha Patil",
+      "age": 31,
+      "occupation": "Interior Design Consultant, freelance (real estate developers, L Ward clientele)",
+      "bio": "Sneha works from her flat on Masrani Lane, sourcing bathroom fittings from Shanti Ceramic and Sanitary for her developer clients and photographing completed units for Instagram. Her aspirational aesthetic defines the 'new Mumbai flat' look flooding L Ward's gentrifying towers.",
       "home": {
-        "lat": 40.7341,
-        "lon": -73.9978
+        "lat": 19.0809,
+        "lon": 72.8826
       },
       "relationships": [
         "agent_003",
-        "agent_015",
+        "agent_011",
         "agent_022",
-        "agent_031"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": "",
-      "knowledge_tick": null,
-      "cascade_tier": null,
-      "impact_brief": ""
+        "agent_036"
+      ]
     },
     {
       "id": "agent_005",
-      "name": "Harlan Profitt",
-      "age": 65,
-      "occupation": "Retired Forest Ranger",
-      "bio": "Harlan patrolled the national forest for 32 years and now leads weekend hiking groups for school kids and tourists. He consults informally with local government on land use and flood risk. His cabin sits at the highest elevation in the village, and he monitors the weather like a hawk.",
+      "name": "Anil Desai",
+      "age": 52,
+      "occupation": "Deputy Manager, Property Loans, State Bank of India (L Ward Branch)",
+      "bio": "Anil has worked at the State Bank of India branch on Pipeline Road for 18 years and lives two streets away on Sheetal Talao Road. He's watched the ward gentrify from mill-worker housing to luxury towers and resents the rising rents eating into his government salary.",
       "home": {
-        "lat": 40.7352,
-        "lon": -73.9895
+        "lat": 19.0822,
+        "lon": 72.8849
       },
       "relationships": [
-        "agent_003",
+        "agent_001",
+        "agent_006",
         "agent_016",
-        "agent_023",
-        "agent_038"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": "",
-      "knowledge_tick": null,
-      "cascade_tier": null,
-      "impact_brief": ""
+        "agent_028"
+      ]
     },
     {
       "id": "agent_006",
-      "name": "Wayne Feltner",
-      "age": 54,
-      "occupation": "Township Supervisor",
-      "bio": "Wayne runs the day-to-day administration of Hollow Creek Township from a cluttered office in the Township Hall. He juggles road maintenance budgets, zoning complaints, and grant applications for rural infrastructure funding. He's pragmatic and fair, though often frustrated by how little state money trickles down to small mountain communities.",
+      "name": "Kavitha Subramaniam",
+      "age": 46,
+      "occupation": "Primary School Teacher, Municipal School No. 47, Mahim",
+      "bio": "Kavitha lives on New Hall Road and walks her students to Village Park for Friday nature classes; she grabs lunch at Hotel Sitaram on school days. She's one of the few long-term residents not yet displaced, fighting a rent-hike notice from her chawl's new landlord.",
       "home": {
-        "lat": 40.7295,
-        "lon": -73.9965
+        "lat": 19.0829,
+        "lon": 72.8812
       },
       "relationships": [
+        "agent_005",
         "agent_007",
-        "agent_008",
-        "agent_009",
         "agent_017",
-        "agent_030"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": "",
-      "knowledge_tick": null,
-      "cascade_tier": null,
-      "impact_brief": ""
+        "agent_033"
+      ]
     },
     {
       "id": "agent_007",
-      "name": "Loretta Adkins",
-      "age": 46,
-      "occupation": "County Land Use Planner",
-      "bio": "Loretta drives in from the county seat three days a week to consult on zoning, flood plain mapping, and economic development for the hollow. She is passionate about protecting mountain heritage while attracting modest investment. She attends every township meeting and has become a trusted voice for sustainable growth.",
+      "name": "Deepak Sharma",
+      "age": 41,
+      "occupation": "Credit Risk Officer, Axis Bank, Bandra-Kurla Complex",
+      "bio": "Deepak drives a Maruti Baleno down Lal Bahadur Shastri Marg each morning, timing traffic on Google Maps from his flat near Villagers Garden. His Sunday ritual is a long walk through Village Park before brunch at Skyway with colleagues from BKC.",
       "home": {
-        "lat": 40.7302,
-        "lon": -73.9912
+        "lat": 19.0818,
+        "lon": 72.8805
       },
       "relationships": [
+        "agent_001",
         "agent_006",
-        "agent_008",
-        "agent_023",
-        "agent_034"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": "",
-      "knowledge_tick": null,
-      "cascade_tier": null,
-      "impact_brief": ""
+        "agent_018",
+        "agent_025"
+      ]
     },
     {
       "id": "agent_008",
-      "name": "Marcus Hayden",
-      "age": 39,
-      "occupation": "Township Clerk & Records Administrator",
-      "bio": "Marcus maintains official records, processes permits, and manages the township's modest website. He is meticulous, digitizing decades of paper records in his spare time. He is one of the few residents under 40 who chose to stay in the hollow after college, and younger residents look to him as proof that a professional life is possible here.",
+      "name": "Nadia Rodrigues",
+      "age": 27,
+      "occupation": "Copywriter, Ogilvy Mumbai (Worli office)",
+      "bio": "Nadia rents with two flatmates near Holy Cross Road and attends Holy Cross Church on Christmas and Easter \u2014 lifestyle Catholicism, she jokes. She cycles to the Worli office when the air quality app doesn't flash red, posting street-art finds from Culbaver Road to her design blog.",
       "home": {
-        "lat": 40.7288,
-        "lon": -73.9942
+        "lat": 19.0843,
+        "lon": 72.8825
       },
       "relationships": [
-        "agent_006",
-        "agent_007",
+        "agent_002",
         "agent_009",
-        "agent_025"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": "",
-      "knowledge_tick": null,
-      "cascade_tier": null,
-      "impact_brief": ""
+        "agent_021",
+        "agent_037"
+      ]
     },
     {
       "id": "agent_009",
-      "name": "Rhonda Justice",
-      "age": 51,
-      "occupation": "Rural Development Grant Coordinator",
-      "bio": "Rhonda works under the county's community development office and spends most of her time writing federal grant applications for broadband, road repair, and housing rehabilitation in rural townships. She commutes along Hollow Creek Pike every weekday and has a detailed knowledge of which residents need the most help. She is relentlessly optimistic about the hollow's future.",
+      "name": "Sameer Qureshi",
+      "age": 35,
+      "occupation": "Account Director, Leo Burnett Mumbai",
+      "bio": "Sameer lives near Mustafa Masjid off Mathuradas Vasanji Road and catches a Friday juma before client calls. He books Ola Intercity for Pune weekend offsite trips and is currently negotiating a 2BHK upgrade \u2014 the question is always 'which building' in this ward.",
       "home": {
-        "lat": 40.7275,
-        "lon": -73.998
+        "lat": 19.0795,
+        "lon": 72.8858
       },
       "relationships": [
-        "agent_006",
-        "agent_007",
         "agent_008",
-        "agent_037"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": "",
-      "knowledge_tick": null,
-      "cascade_tier": null,
-      "impact_brief": ""
+        "agent_010",
+        "agent_024",
+        "agent_038"
+      ]
     },
     {
       "id": "agent_010",
-      "name": "Patsy Mullins",
-      "age": 44,
-      "occupation": "Elementary School Principal",
-      "bio": "Patsy runs Hollow Creek Elementary with warmth and firm discipline, managing a staff of six for grades K\u20138. She stays late most evenings planning curriculum and calling parents about attendance issues. She grew up in the hollow and returned after getting her education degree, driven by a fierce desire to keep local kids learning close to home.",
+      "name": "Riya Joshi",
+      "age": 26,
+      "occupation": "Junior Fund Analyst, ICICI Prudential AMC",
+      "bio": "Riya stays in a PG near Rehmaniya Masjid on Kale Marg and eats dinner at Sahara restaurant most evenings because it's cheap and close. She's obsessed with personal finance podcasts and tracks her ELSS investments on Zerodha between calls at the Bandra-Kurla Complex office.",
       "home": {
-        "lat": 40.7265,
-        "lon": -73.992
+        "lat": 19.0797,
+        "lon": 72.8823
       },
       "relationships": [
-        "agent_001",
-        "agent_002",
+        "agent_003",
+        "agent_009",
         "agent_011",
-        "agent_012",
-        "agent_021"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": "",
-      "knowledge_tick": null,
-      "cascade_tier": null,
-      "impact_brief": ""
+        "agent_029"
+      ]
     },
     {
       "id": "agent_011",
-      "name": "Darnell Owens",
-      "age": 33,
-      "occupation": "Fifth & Sixth Grade Teacher",
-      "bio": "Darnell moved to Hollow Creek from Knoxville two years ago, attracted by a rural teaching incentive program. He teaches math and science with a hands-on approach, taking students out to the creek to study water quality. He is still finding his footing socially but has earned the trust of parents through his dedication and transparency.",
+      "name": "Mohammad Irfan",
+      "age": 44,
+      "occupation": "Owner, Zam Zam Bakery",
+      "bio": "Irfan has run Zam Zam on Pipeline Road for 15 years, opening at 6 AM for the morning rush of finance workers grabbing bun-maska before their Ola rides. He prays at Suleman Masjid and watches the neighbourhood's changing demographics with a mix of pride and unease.",
       "home": {
-        "lat": 40.7272,
-        "lon": -73.9902
+        "lat": 19.0804,
+        "lon": 72.8829
       },
       "relationships": [
+        "agent_004",
         "agent_010",
         "agent_012",
-        "agent_002",
-        "agent_025",
-        "agent_036"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": "",
-      "knowledge_tick": null,
-      "cascade_tier": null,
-      "impact_brief": ""
+        "agent_031"
+      ]
     },
     {
       "id": "agent_012",
-      "name": "Connie Sergent",
-      "age": 49,
-      "occupation": "School Librarian & Counselor",
-      "bio": "Connie runs the school's small library and provides informal counseling to students dealing with poverty, family instability, and substance abuse in the home. She coordinates with the health clinic to get kids mental health resources. She is the emotional anchor of the school staff and stays in close touch with the community's social worker.",
+      "name": "Sunita Varma",
+      "age": 58,
+      "occupation": "Retired, former Head Cashier, Canara Bank",
+      "bio": "Sunita has lived on Magan Nathuram Road for 30 years, now retired and managing the building committee for her cooperative housing society. She visits Ganesh Mandir every Tuesday and argues with the new developer-backed society secretary over car parking allocation.",
       "home": {
-        "lat": 40.7281,
-        "lon": -73.993
+        "lat": 19.0835,
+        "lon": 72.884
       },
       "relationships": [
-        "agent_010",
+        "agent_006",
         "agent_011",
         "agent_013",
-        "agent_037"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": "",
-      "knowledge_tick": null,
-      "cascade_tier": null,
-      "impact_brief": ""
+        "agent_032"
+      ]
     },
     {
       "id": "agent_013",
-      "name": "Nora Caudill",
-      "age": 41,
-      "occupation": "Rural Health Clinic Nurse Practitioner",
-      "bio": "Nora is the primary healthcare provider for most of Hollow Creek's residents, handling everything from pediatric checkups to managing chronic conditions. She drives a four-wheel-drive truck for house calls on muddy days and keeps a stock of free samples for uninsured patients. She is plainspoken, tireless, and deeply trusted.",
+      "name": "Vikram Hegde",
+      "age": 63,
+      "occupation": "Retired, former Deputy Director, Maharashtra Housing Authority",
+      "bio": "Vikram retired to his owned flat near Ganesh Mandir on A H Wadia Marg, spending mornings in Village Park and afternoons consulting informally for housing NGOs. He is the institutional memory of every rezoning battle L Ward has seen in the past two decades.",
       "home": {
-        "lat": 40.7315,
-        "lon": -73.996
+        "lat": 19.0832,
+        "lon": 72.8842
       },
       "relationships": [
         "agent_012",
         "agent_014",
-        "agent_015",
-        "agent_010",
-        "agent_037"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": "",
-      "knowledge_tick": null,
-      "cascade_tier": null,
-      "impact_brief": ""
+        "agent_016",
+        "agent_027"
+      ]
     },
     {
       "id": "agent_014",
-      "name": "Samuel Yoder",
-      "age": 58,
-      "occupation": "Volunteer Clinic Physician",
-      "bio": "Dr. Yoder retired from a larger hospital practice and now volunteers two days a week at the Harlan County Rural Health Clinic. He handles complex diagnoses and specialist referrals that are otherwise inaccessible to hollow residents. He lives modestly in a converted farmhouse and raises chickens, content to serve where he's needed most.",
+      "name": "Father Jerome D'Souza",
+      "age": 55,
+      "occupation": "Parish Priest, Holy Cross Church",
+      "bio": "Father Jerome lives in the parish house on Holy Cross Road, administers community meals every Sunday after mass, and co-ordinates the ward's inter-faith dialogue with imams from Rehmaniya Masjid. He's a fixture at every local civic meeting on slum redevelopment.",
       "home": {
-        "lat": 40.7322,
-        "lon": -73.9948
+        "lat": 19.0841,
+        "lon": 72.883
       },
       "relationships": [
         "agent_013",
         "agent_015",
-        "agent_006",
-        "agent_002"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": "",
-      "knowledge_tick": null,
-      "cascade_tier": null,
-      "impact_brief": ""
+        "agent_033",
+        "agent_040"
+      ]
     },
     {
       "id": "agent_015",
-      "name": "Imani Lawson",
-      "age": 30,
-      "occupation": "Traveling Pharmacist",
-      "bio": "Imani drives a mobile pharmacy van that serves Hollow Creek and three neighboring hollows twice a week. She counsels patients on medications, flags dangerous drug interactions, and runs a naloxone distribution program. She is one of only a handful of Black residents in the area and has worked hard to build trust through consistency and care.",
+      "name": "Pooja Agarwal",
+      "age": 32,
+      "occupation": "Mortgage Underwriter, HDFC Bank, Lower Parel",
+      "bio": "Pooja shares a flat on Premier Road with a college friend and commutes by Ola to Lower Parel, clocking 60-hour weeks. She unwinds on weekends at Decathlon buying running gear and at Skyway restaurant for Sunday dinner \u2014 social life is deeply tied to work colleagues.",
       "home": {
-        "lat": 40.7309,
-        "lon": -73.9895
+        "lat": 19.081,
+        "lon": 72.8848
       },
       "relationships": [
-        "agent_013",
+        "agent_001",
         "agent_014",
-        "agent_004",
-        "agent_037"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": "",
-      "knowledge_tick": null,
-      "cascade_tier": null,
-      "impact_brief": ""
+        "agent_016",
+        "agent_026"
+      ]
     },
     {
       "id": "agent_016",
-      "name": "Travis Blevins",
-      "age": 43,
-      "occupation": "Civil & Structural Engineer (Remote)",
-      "bio": "Travis works remotely for a Roanoke engineering firm, reviewing bridge and infrastructure designs. He moved back to the hollow when broadband finally reached his family's land. He advises the township informally on road and drainage engineering and coaches Little League on weekends.",
+      "name": "Ganesh Pawar",
+      "age": 48,
+      "occupation": "Ward Officer (Junior), Brihanmumbai Municipal Corporation, L Ward",
+      "bio": "Ganesh oversees drainage and road-repair complaints for L Ward from his BMC sub-office off Lal Bahadur Shastri Marg, commuting by BEST bus from his flat on Kohinoor-Vidyavihar Road. He visits Ganesh Mandir every Ganesh Chaturthi and is perpetually navigating builder lobbying.",
       "home": {
-        "lat": 40.7345,
-        "lon": -73.9955
+        "lat": 19.0838,
+        "lon": 72.8846
       },
       "relationships": [
         "agent_005",
-        "agent_017",
-        "agent_006",
-        "agent_028"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": "",
-      "knowledge_tick": null,
-      "cascade_tier": null,
-      "impact_brief": ""
+        "agent_013",
+        "agent_015",
+        "agent_017"
+      ]
     },
     {
       "id": "agent_017",
-      "name": "Cassandra Whitt",
-      "age": 37,
-      "occupation": "Financial Analyst (Remote)",
-      "bio": "Cassandra analyzes investment portfolios for a Pittsburgh asset management firm from her home office, a rarity in the hollow. She is active in the local credit union and helps neighbors file taxes free of charge in February. She is quiet and private but shows up loudly when community finances are mismanaged.",
+      "name": "Laxmi Sawant",
+      "age": 39,
+      "occupation": "Staff Nurse, KEM Hospital (Parel)",
+      "bio": "Laxmi lives in a chawl tenement on Father Peter Periera Road and takes the local train from Mahim station to Parel at 6 AM for morning shifts. Her children go to the municipal school where Kavitha teaches, and she does monthly grocery runs to the market off Lal Bahadur Shastri Marg.",
       "home": {
-        "lat": 40.7338,
-        "lon": -73.992
+        "lat": 19.082,
+        "lon": 72.8818
       },
       "relationships": [
+        "agent_006",
         "agent_016",
         "agent_018",
-        "agent_008",
-        "agent_006"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": "",
-      "knowledge_tick": null,
-      "cascade_tier": null,
-      "impact_brief": ""
+        "agent_034"
+      ]
     },
     {
       "id": "agent_018",
-      "name": "Pete Napier",
-      "age": 47,
-      "occupation": "Rural Bank Branch Manager",
-      "bio": "Pete manages the small community bank branch on the commercial strip, the only physical bank within 20 miles. He knows every customer by name and is quietly instrumental in getting small business loans to hollow residents that larger banks wouldn't touch. He fishes the creek every Friday morning before work.",
+      "name": "Rahul Tiwari",
+      "age": 33,
+      "occupation": "Real Estate Sales Executive, Lodha Group",
+      "bio": "Rahul lives off Mathuradas Vasanji Road and earns on commission, spending weekends showing 2BHK inventory across Worli to NRI buyers on video calls. He lunch-breaks at Sahara restaurant between site visits and tracks per-square-foot prices the way others track cricket scores.",
       "home": {
-        "lat": 40.733,
-        "lon": -73.9935
+        "lat": 19.0793,
+        "lon": 72.884
       },
       "relationships": [
+        "agent_007",
         "agent_017",
         "agent_019",
-        "agent_020",
-        "agent_006",
-        "agent_024"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": "",
-      "knowledge_tick": null,
-      "cascade_tier": null,
-      "impact_brief": ""
+        "agent_036"
+      ]
     },
     {
       "id": "agent_019",
-      "name": "June Bentley",
-      "age": 55,
-      "occupation": "IT Systems Architect (Remote)",
-      "bio": "June designs cloud infrastructure for a healthcare company out of Columbus, entirely from her mountain home. She was instrumental in bringing fiber-optic broadband to the hollow and runs free digital-literacy workshops at the library. She sees fast internet as the single most transformative resource for rural communities.",
+      "name": "Ananya Krishnan",
+      "age": 28,
+      "occupation": "Digital Marketing Manager, Reliance Industries (corporate comms team)",
+      "bio": "Ananya works from Reliance's BKC office and lives near Villagers Garden on Khimji Punja Road, treating the park as her evening decompression zone. She books Blue Tokai orders on Swiggy because no outlet is close enough, and her Instagram is a curated log of L Ward's emerging caf\u00e9 scene.",
       "home": {
-        "lat": 40.726,
-        "lon": -73.996
+        "lat": 19.0815,
+        "lon": 72.8807
       },
       "relationships": [
-        "agent_001",
+        "agent_002",
         "agent_018",
-        "agent_008",
-        "agent_022"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": "",
-      "knowledge_tick": null,
-      "cascade_tier": null,
-      "impact_brief": ""
+        "agent_020",
+        "agent_030"
+      ]
     },
     {
       "id": "agent_020",
-      "name": "Randall Cose",
-      "age": 52,
-      "occupation": "General Store Owner",
-      "bio": "Randall runs the only general store in the hollow, selling groceries, hardware, and hunting supplies. He extends informal credit to families between paychecks and serves as an unofficial community hub where news travels fast. He opens at 6 a.m. and rarely closes before 8 p.m., living in the apartment above the store.",
+      "name": "Salim Merchant",
+      "age": 36,
+      "occupation": "Structural Engineer, Shapoorji Pallonji Construction",
+      "bio": "Salim rents off Culbaver Road and drives a Honda City down Lal Bahadur Shastri Marg to site inspections across Mumbai's western suburbs. He prays at Mustafa Masjid on Fridays and sources bathroom tiles from Shanti Ceramic and Sanitary for clients on a budget.",
       "home": {
-        "lat": 40.7294,
-        "lon": -73.997
+        "lat": 19.0796,
+        "lon": 72.8862
       },
       "relationships": [
-        "agent_018",
+        "agent_003",
+        "agent_019",
         "agent_021",
-        "agent_022",
-        "agent_001",
-        "agent_040"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": "",
-      "knowledge_tick": null,
-      "cascade_tier": null,
-      "impact_brief": ""
+        "agent_039"
+      ]
     },
     {
       "id": "agent_021",
-      "name": "Willa Mae Stacy",
-      "age": 60,
-      "occupation": "Diner Owner & Cook",
-      "bio": "Willa Mae runs the Hollow Creek Diner, famous for her biscuits and sausage gravy. The diner opens at 5:30 a.m. and closes after lunch, when Willa Mae cleans and preps for the next day. She is the social glue of the commercial strip, hosting birthday parties, grief meals, and informal town meetings over coffee.",
+      "name": "Tanya Fernandes",
+      "age": 24,
+      "occupation": "Front Desk Executive, ITC Grand Central Hotel, Parel",
+      "bio": "Tanya commutes from her flat on Holy Cross Road to the ITC hotel by BEST bus, working split shifts in hospitality and dreaming of a hotel management transfer to Goa. She attends Holy Cross Church most Sundays and splits weekend brunches between Skyway and wherever her colleagues suggest.",
       "home": {
-        "lat": 40.7285,
-        "lon": -73.995
+        "lat": 19.0845,
+        "lon": 72.8822
       },
       "relationships": [
+        "agent_008",
         "agent_020",
-        "agent_002",
-        "agent_010",
-        "agent_024",
-        "agent_032"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": "",
-      "knowledge_tick": null,
-      "cascade_tier": null,
-      "impact_brief": ""
+        "agent_022",
+        "agent_040"
+      ]
     },
     {
       "id": "agent_022",
-      "name": "Buck Ratliff",
-      "age": 48,
-      "occupation": "Auto Repair Shop Owner",
-      "bio": "Buck's garage is the only auto repair shop within 15 miles and he keeps half the vehicles in the hollow running on baling wire and ingenuity. He opens at 7 a.m. and plays country radio loud enough to hear from the road. He is generous with payment plans and turns no one away in an emergency.",
+      "name": "Harish Kulkarni",
+      "age": 43,
+      "occupation": "Accounts Manager, Taj Hotels Central Procurement",
+      "bio": "Harish owns a 2BHK in a mid-rise on New Hall Road \u2014 the only owned property in his family \u2014 and drives to Lower Parel via Lal Bahadur Shastri Marg. He stops at RS Hair cutting salon every fortnight and considers Village Park his Saturday morning ritual.",
       "home": {
-        "lat": 40.7303,
-        "lon": -73.9905
+        "lat": 19.0828,
+        "lon": 72.881
       },
       "relationships": [
         "agent_004",
-        "agent_019",
-        "agent_020",
-        "agent_028",
-        "agent_029"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": "",
-      "knowledge_tick": null,
-      "cascade_tier": null,
-      "impact_brief": ""
+        "agent_021",
+        "agent_023",
+        "agent_032"
+      ]
     },
     {
       "id": "agent_023",
-      "name": "Roy Stamper",
-      "age": 38,
-      "occupation": "County Sheriff's Deputy",
-      "bio": "Roy is the sole law enforcement officer assigned to Hollow Creek Township, a one-man show covering a vast rural territory. He patrols Ridgeline Road and the hollows daily, responds to domestic calls, and coordinates drug enforcement with the county. He grew up here and carries the tension of enforcing laws on people he's known since childhood.",
-      "home": {
-        "lat": 40.7248,
-        "lon": -73.994
-      },
-      "relationships": [
-        "agent_005",
-        "agent_007",
-        "agent_024",
-        "agent_020",
-        "agent_030"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": "",
-      "knowledge_tick": null,
-      "cascade_tier": null,
-      "impact_brief": ""
-    },
-    {
-      "id": "agent_024",
-      "name": "Lacey Damron",
-      "age": 29,
-      "occupation": "Volunteer Fire Chief",
-      "bio": "Lacey leads the all-volunteer fire department out of the station on Hollow Creek Pike. She trains the crew every Tuesday evening, coordinates with the county for wildland fire support, and runs the annual fundraiser fish fry. She is the youngest fire chief in the county's history and takes pride in that, working twice as hard to earn respect.",
-      "home": {
-        "lat": 40.7255,
-        "lon": -73.9958
-      },
-      "relationships": [
-        "agent_023",
-        "agent_021",
-        "agent_025",
-        "agent_018",
-        "agent_033"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": "",
-      "knowledge_tick": null,
-      "cascade_tier": null,
-      "impact_brief": ""
-    },
-    {
-      "id": "agent_025",
-      "name": "Gary Fugate",
-      "age": 45,
-      "occupation": "Emergency Medical Technician",
-      "bio": "Gary is a paid part-time EMT covering Hollow Creek and two neighboring townships. He responds to medical emergencies, assists at accident scenes on the mountain roads, and does community CPR training at the firehouse. Between calls he works part-time at the lumber yard, one of several jobs that keep him afloat in a poor county.",
-      "home": {
-        "lat": 40.7268,
-        "lon": -73.9918
-      },
-      "relationships": [
-        "agent_024",
-        "agent_008",
-        "agent_013",
-        "agent_011"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": "",
-      "knowledge_tick": null,
-      "cascade_tier": null,
-      "impact_brief": ""
-    },
-    {
-      "id": "agent_026",
-      "name": "Hector Vargas",
-      "age": 42,
-      "occupation": "Electrician & Solar Installer",
-      "bio": "Hector moved from West Virginia coal country a decade ago and built a thriving one-man electrical business. He recently added solar panel installation to his services, helping several farms cut their energy bills dramatically. He is Catholic, speaks to the local Latino seasonal-worker community in Spanish, and coaches youth soccer on weekends.",
-      "home": {
-        "lat": 40.7325,
-        "lon": -73.997
-      },
-      "relationships": [
-        "agent_027",
-        "agent_028",
-        "agent_016",
-        "agent_032"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": "",
-      "knowledge_tick": null,
-      "cascade_tier": null,
-      "impact_brief": ""
-    },
-    {
-      "id": "agent_027",
-      "name": "Dora Maynard",
+      "name": "Rekha Bhosale",
       "age": 50,
-      "occupation": "Plumber & Septic Contractor",
-      "bio": "Dora is one of the few licensed plumbers in the county and is in constant demand, often booked three weeks out. She specializes in the old galvanized pipes and aging septic systems common in rural mountain homes. She is matter-of-fact and efficient, and her rates are fair enough that residents call her instead of letting problems fester.",
+      "occupation": "Senior Supervisor, Domestic Services, Lodha Palava Facility Management",
+      "bio": "Rekha manages a team of domestic staff placed in L Ward's newer housing societies, living off Magan Nathuram Road in a rented ground-floor flat. She tracks her clients on WhatsApp and shops for her family at the market near Hotel Sitaram each morning before 8 AM.",
       "home": {
-        "lat": 40.7316,
-        "lon": -73.9925
-      },
-      "relationships": [
-        "agent_026",
-        "agent_028",
-        "agent_006",
-        "agent_022"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": "",
-      "knowledge_tick": null,
-      "cascade_tier": null,
-      "impact_brief": ""
-    },
-    {
-      "id": "agent_028",
-      "name": "Dale Hensley",
-      "age": 36,
-      "occupation": "Log Truck Driver",
-      "bio": "Dale hauls timber from the sawmill to lumber yards in the valley, leaving before dawn six days a week. He knows every curve and pothole on the mountain roads and is the informal union between loggers and mill workers. He unwinds at Buck's garage on Saturday afternoons and hunts deer every November.",
-      "home": {
-        "lat": 40.7346,
-        "lon": -73.9942
-      },
-      "relationships": [
-        "agent_003",
-        "agent_022",
-        "agent_026",
-        "agent_016",
-        "agent_027"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": "",
-      "knowledge_tick": null,
-      "cascade_tier": null,
-      "impact_brief": ""
-    },
-    {
-      "id": "agent_029",
-      "name": "Cal Compton",
-      "age": 57,
-      "occupation": "General Contractor & Carpenter",
-      "bio": "Cal builds and repairs everything from porches to whole houses in the hollow. He is the person people call when a flood damages a foundation or a tree falls through a roof. He is slow, careful, and proud of work built to outlast him. He serves as a deacon at Piney Fork Baptist and is known for volunteering his labor for elderly residents.",
-      "home": {
-        "lat": 40.7297,
-        "lon": -73.9982
-      },
-      "relationships": [
-        "agent_022",
-        "agent_027",
-        "agent_032",
-        "agent_035"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": "",
-      "knowledge_tick": null,
-      "cascade_tier": null,
-      "impact_brief": ""
-    },
-    {
-      "id": "agent_030",
-      "name": "Sherry Blanton",
-      "age": 34,
-      "occupation": "Recreation Center Director",
-      "bio": "Sherry runs the township's small recreation center, which houses a basketball court, a weight room, and an outdoor trail network. She organizes youth leagues, adult fitness classes, and after-school programs. She fights constantly for budget allocations at township meetings and considers every kid who walks through the door a personal victory.",
-      "home": {
-        "lat": 40.7278,
-        "lon": -73.9907
-      },
-      "relationships": [
-        "agent_006",
-        "agent_023",
-        "agent_031",
-        "agent_039"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": "",
-      "knowledge_tick": null,
-      "cascade_tier": null,
-      "impact_brief": ""
-    },
-    {
-      "id": "agent_031",
-      "name": "Tom\u00e1s Rivera",
-      "age": 26,
-      "occupation": "Youth Sports Coach & Fitness Trainer",
-      "bio": "Tom\u00e1s was a cross-country runner in college and returned to the area to work at the rec center, coaching track and running a small personal-training business. He is energetic and motivating, beloved by the teenagers he coaches. He and Sherry are close collaborators and occasional rivals for the same thin budget.",
-      "home": {
-        "lat": 40.7271,
-        "lon": -73.9893
-      },
-      "relationships": [
-        "agent_030",
-        "agent_004",
-        "agent_026",
-        "agent_038"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": "",
-      "knowledge_tick": null,
-      "cascade_tier": null,
-      "impact_brief": ""
-    },
-    {
-      "id": "agent_032",
-      "name": "Pastor Ezekiel Moore",
-      "age": 62,
-      "occupation": "Baptist Minister",
-      "bio": "Pastor Moore has led Piney Fork Baptist Church for 22 years, presiding over weddings, funerals, and every community crisis in between. He runs a food pantry out of the fellowship hall and keeps an informal network of support for families in need. He is a soft-spoken mediator who is called on whenever community tensions rise.",
-      "home": {
-        "lat": 40.7291,
-        "lon": -73.9895
-      },
-      "relationships": [
-        "agent_021",
-        "agent_029",
-        "agent_026",
-        "agent_033",
-        "agent_037"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": "",
-      "knowledge_tick": null,
-      "cascade_tier": null,
-      "impact_brief": ""
-    },
-    {
-      "id": "agent_033",
-      "name": "Annette Prater",
-      "age": 39,
-      "occupation": "Community Social Worker",
-      "bio": "Annette works for the county department of social services, case-managing families dealing with poverty, substance abuse, and domestic violence in Hollow Creek and surrounding areas. She knows which doors to knock on and which agencies to call. She is fiercely protective of her clients' dignity and burns out quietly, then refuels herself with long trail runs.",
-      "home": {
-        "lat": 40.7305,
-        "lon": -73.9893
-      },
-      "relationships": [
-        "agent_032",
-        "agent_012",
-        "agent_013",
-        "agent_003",
-        "agent_024"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": "",
-      "knowledge_tick": null,
-      "cascade_tier": null,
-      "impact_brief": ""
-    },
-    {
-      "id": "agent_034",
-      "name": "Birdie Rowe",
-      "age": 28,
-      "occupation": "Community Radio Journalist",
-      "bio": "Birdie hosts a weekly community news program on the regional public radio station and maintains a hyperlocal blog covering township government, flooding events, and mountain culture. She attends every public meeting with a recorder and has broken several small but significant stories about mismanaged county funds. She is relentless, earnest, and a little lonely in a small town that sometimes resents scrutiny.",
-      "home": {
-        "lat": 40.7287,
-        "lon": -73.9963
-      },
-      "relationships": [
-        "agent_007",
-        "agent_006",
-        "agent_009",
-        "agent_036"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": "",
-      "knowledge_tick": null,
-      "cascade_tier": null,
-      "impact_brief": ""
-    },
-    {
-      "id": "agent_035",
-      "name": "Calvin Sergent",
-      "age": 74,
-      "occupation": "Retired Circuit Court Clerk",
-      "bio": "Calvin served as county circuit court clerk for 28 years and knows the legal and political landscape of the mountains as well as anyone alive. He attends township meetings and occasionally advises on proper procedures, politely but firmly. He is Earl Combs's oldest friend and they share a standing dominoes game every Thursday evening.",
-      "home": {
-        "lat": 40.7249,
-        "lon": -73.9975
+        "lat": 19.0806,
+        "lon": 72.8835
       },
       "relationships": [
         "agent_001",
-        "agent_029",
-        "agent_002",
-        "agent_040"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": "",
-      "knowledge_tick": null,
-      "cascade_tier": null,
-      "impact_brief": ""
+        "agent_022",
+        "agent_024",
+        "agent_031"
+      ]
     },
     {
-      "id": "agent_036",
-      "name": "Kayla Frazier",
-      "age": 22,
-      "occupation": "College Student & Part-Time Tutor",
-      "bio": "Kayla commutes to the regional community college two days a week and tutors younger kids at the elementary school the rest of the time. She is the first in her family to pursue higher education and carries that weight with both pride and anxiety. She helps Darnell with after-school STEM club and is seriously considering a teaching degree.",
+      "id": "agent_024",
+      "name": "Zuber Kadri",
+      "age": 37,
+      "occupation": "Owner, Istanbul Darbar Restaurant",
+      "bio": "Zuber opened Istanbul Darbar five years ago, betting on L Ward's appetite for grilled meats beyond the usual Mughlai staples. He lives above the restaurant off Pipeline Road, prays at Suleman Masjid, and sources premium ingredients through a network built over years of catering finance-office parties.",
       "home": {
-        "lat": 40.7261,
-        "lon": -73.9898
+        "lat": 19.0807,
+        "lon": 72.8852
       },
       "relationships": [
-        "agent_002",
-        "agent_011",
-        "agent_034",
+        "agent_009",
+        "agent_023",
+        "agent_025",
         "agent_038"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": "",
-      "knowledge_tick": null,
-      "cascade_tier": null,
-      "impact_brief": ""
+      ]
     },
     {
-      "id": "agent_037",
-      "name": "Lena Cornett",
-      "age": 44,
-      "occupation": "Substance Use Recovery Counselor",
-      "bio": "Lena works out of the health clinic part-time and runs a support group on Wednesday evenings at the church. She is herself a person in long-term recovery from opioid addiction and uses her story openly to reduce stigma. She coordinates closely with the clinic's NP, the pharmacist, and the social worker to wrap services around struggling families.",
+      "id": "agent_025",
+      "name": "Meenakshi Iyer",
+      "age": 45,
+      "occupation": "Senior Medical Officer, Mahim Government Dispensary",
+      "bio": "Meenakshi runs the Mahim dispensary and lives near Ganesh Mandir on A H Wadia Marg, walking to work on most days. She treats domestic workers and construction migrants who cannot afford private clinics, and spends lunch breaks discussing ward health data with the BMC ward officer.",
       "home": {
-        "lat": 40.7318,
-        "lon": -73.9905
+        "lat": 19.0834,
+        "lon": 72.8839
+      },
+      "relationships": [
+        "agent_007",
+        "agent_024",
+        "agent_026",
+        "agent_016"
+      ]
+    },
+    {
+      "id": "agent_026",
+      "name": "Rohit Chhabra",
+      "age": 30,
+      "occupation": "Associate, Private Wealth Management, Kotak Mahindra Bank",
+      "bio": "Rohit shares a flat on Premier Road with two other bankers and Ubers to Nariman Point for client meetings, timing his journey to avoid the worst of Lal Bahadur Shastri Marg traffic. He's saving for a Decathlon tri-bike and trains for the Mumbai Marathon each year.",
+      "home": {
+        "lat": 19.0812,
+        "lon": 72.8855
+      },
+      "relationships": [
+        "agent_015",
+        "agent_025",
+        "agent_027",
+        "agent_037"
+      ]
+    },
+    {
+      "id": "agent_027",
+      "name": "Bhaskar Deshmukh",
+      "age": 54,
+      "occupation": "Licensed Electrical Contractor (independent), L Ward and Mahim",
+      "bio": "Bhaskar has rewired half the old buildings on Masrani Lane and Pipe Line Road over 25 years and lives in one of them with his wife. He keeps a running list of which developer is demolishing which chawl and bids on wiring contracts for the new towers that replace them.",
+      "home": {
+        "lat": 19.0808,
+        "lon": 72.8832
       },
       "relationships": [
         "agent_013",
-        "agent_015",
-        "agent_032",
-        "agent_033",
-        "agent_009"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": "",
-      "knowledge_tick": null,
-      "cascade_tier": null,
-      "impact_brief": ""
+        "agent_026",
+        "agent_028",
+        "agent_035"
+      ]
     },
     {
-      "id": "agent_038",
-      "name": "Milo Sawyer",
-      "age": 24,
-      "occupation": "Folk Musician & Instrument Repairman",
-      "bio": "Milo repairs banjos, dulcimers, and fiddles from a small workshop in his family's barn and plays at the diner and church events on weekends. He is studying old-time Appalachian musical traditions and is documenting the community's musical elders before their knowledge is lost. He and Harlan Profitt trade mushroom foraging tips.",
+      "id": "agent_028",
+      "name": "Sultana Begum",
+      "age": 48,
+      "occupation": "Domestic Worker (three households, Worli and Mahim high-rises)",
+      "bio": "Sultana lives in a rental room off Father Peter Periera Road, commuting by BEST bus between three employer households before noon. She shops at the vegetable stalls near Zam Zam and sends 60% of earnings back to her family in Aurangabad.",
       "home": {
-        "lat": 40.735,
-        "lon": -73.993
+        "lat": 19.0799,
+        "lon": 72.8828
       },
       "relationships": [
         "agent_005",
-        "agent_031",
-        "agent_036",
-        "agent_032"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": "",
-      "knowledge_tick": null,
-      "cascade_tier": null,
-      "impact_brief": ""
+        "agent_027",
+        "agent_029",
+        "agent_031"
+      ]
     },
     {
-      "id": "agent_039",
-      "name": "Rosa Fugate",
-      "age": 19,
-      "occupation": "High School Senior & Farm Hand",
-      "bio": "Rosa is in her final year at the county high school and works afternoons on her family's small cattle farm. She is thinking about applying to an agricultural sciences program but worries about leaving her aging grandmother behind. She volunteers at the rec center on Saturdays and is one of the strongest young voices for keeping farming viable in the hollow.",
+      "id": "agent_029",
+      "name": "Akash Rao",
+      "age": 23,
+      "occupation": "Financial Data Analyst (contract), Bloomberg LP Mumbai",
+      "bio": "Akash is fresh out of NMIMS and rents a tiny flat near Mustafa Masjid on Culbaver Road, working odd hours synced to US market data feeds. He buys late-night meals from Skyway and justifies the rent by calculating his 'proximity premium' to BKC.",
       "home": {
-        "lat": 40.7335,
-        "lon": -73.9985
+        "lat": 19.0791,
+        "lon": 72.8865
+      },
+      "relationships": [
+        "agent_010",
+        "agent_028",
+        "agent_030",
+        "agent_039"
+      ]
+    },
+    {
+      "id": "agent_030",
+      "name": "Pallavi Ghosh",
+      "age": 36,
+      "occupation": "Senior Brand Strategist, DDB Mudra Group, Worli",
+      "bio": "Pallavi cycles to the DDB Mudra office from her flat near Villagers Garden off Khimji Punja Road when rain allows, otherwise Ola. She is the rare L Ward resident who knows the park by name and shows up there every Sunday with a book.",
+      "home": {
+        "lat": 19.0816,
+        "lon": 72.8802
+      },
+      "relationships": [
+        "agent_002",
+        "agent_019",
+        "agent_037"
+      ]
+    },
+    {
+      "id": "agent_031",
+      "name": "Imran Shaikh",
+      "age": 32,
+      "occupation": "Security Guard, Lodha Altamount Premium Residences",
+      "bio": "Imran works 12-hour night shifts and lives with four cousins in a room-rental off Father Peter Periera Road, eating at Sahara restaurant when the budget allows. He prays at Rehmaniya Masjid on Fridays and sends money home to Nagpur every month.",
+      "home": {
+        "lat": 19.0801,
+        "lon": 72.8821
+      },
+      "relationships": [
+        "agent_011",
+        "agent_023",
+        "agent_028",
+        "agent_032"
+      ]
+    },
+    {
+      "id": "agent_032",
+      "name": "Madhuri Naik",
+      "age": 57,
+      "occupation": "Retired, former Secondary School Principal, Mahim Municipal School",
+      "bio": "Madhuri owns her flat on New Hall Road and spends mornings at Village Park before visiting kothari jewellers on RS Hair cutting salon lane when grandchildren need gold gifts. She mentors young women in the building on career options, unsolicited but appreciated.",
+      "home": {
+        "lat": 19.0827,
+        "lon": 72.8816
+      },
+      "relationships": [
+        "agent_012",
+        "agent_022",
+        "agent_031",
+        "agent_033"
+      ]
+    },
+    {
+      "id": "agent_033",
+      "name": "Cynthia Baptista",
+      "age": 42,
+      "occupation": "English Teacher and Vice-Principal, St. Anne's High School, Mahim",
+      "bio": "Cynthia walks to St. Anne's from her flat on Holy Cross Road, attending Holy Cross Church Sunday mass and organising the school's annual inter-ward cultural fest. She moonlights tutoring children of finance professionals who can pay \u20b91,500 per session.",
+      "home": {
+        "lat": 19.0846,
+        "lon": 72.8833
+      },
+      "relationships": [
+        "agent_006",
+        "agent_014",
+        "agent_032",
+        "agent_034"
+      ]
+    },
+    {
+      "id": "agent_034",
+      "name": "Ajay Kamble",
+      "age": 29,
+      "occupation": "Plumber and Pipe-fitting Technician (self-employed, L Ward housing societies)",
+      "bio": "Ajay covers emergency calls across L Ward's housing societies at all hours, keeping Shanti Ceramic and Sanitary's number saved for same-day fittings. He lives on Pipe Line Road and travels by bicycle between job sites, earning more per hour than many office workers but without the social status.",
+      "home": {
+        "lat": 19.0803,
+        "lon": 72.8842
+      },
+      "relationships": [
+        "agent_017",
+        "agent_033",
+        "agent_035",
+        "agent_027"
+      ]
+    },
+    {
+      "id": "agent_035",
+      "name": "Farida Ansari",
+      "age": 38,
+      "occupation": "Travel Consultant, Lucky Travels",
+      "bio": "Farida works at Lucky Travels booking packages for L Ward's aspirational middle class \u2014 Bali, Dubai, Goa, Lonavala \u2014 and lives a short walk away off Masrani Lane. She commutes in by BEST bus and prays at Suleman Masjid, her customer base largely fellow residents upgrading from domestic to international travel.",
+      "home": {
+        "lat": 19.0811,
+        "lon": 72.8824
       },
       "relationships": [
         "agent_003",
+        "agent_027",
+        "agent_034",
+        "agent_036"
+      ]
+    },
+    {
+      "id": "agent_036",
+      "name": "Nitin Gawde",
+      "age": 45,
+      "occupation": "Construction Site Supervisor, Godrej Properties, Mahim project",
+      "bio": "Nitin oversees a 30-storey tower demolition-and-rebuild on the Mathuradas Vasanji Road corridor and lives nearby in Godrej-subsidised temporary housing. He eats at Hotel Sitaram daily and watches with complicated feelings as the buildings he erects displace the people he grew up with.",
+      "home": {
+        "lat": 19.0792,
+        "lon": 72.8847
+      },
+      "relationships": [
+        "agent_004",
+        "agent_018",
+        "agent_035",
+        "agent_039"
+      ]
+    },
+    {
+      "id": "agent_037",
+      "name": "Kezia Thomas",
+      "age": 26,
+      "occupation": "Graphic Designer, Dentsu Webchutney (Worli office)",
+      "bio": "Kezia lives with her parents near Holy Cross Church on Holy Cross Road, attending church most Sundays and cycling to Worli when her scooter needs repair at the nearby Micromax Service Center (she drops her phone for screen repairs too). Her design portfolio is entirely Mumbai street typography.",
+      "home": {
+        "lat": 19.0844,
+        "lon": 72.8819
+      },
+      "relationships": [
+        "agent_008",
+        "agent_026",
         "agent_030",
-        "agent_025",
-        "agent_040"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": "",
-      "knowledge_tick": null,
-      "cascade_tier": null,
-      "impact_brief": ""
+        "agent_038"
+      ]
+    },
+    {
+      "id": "agent_038",
+      "name": "Arif Momin",
+      "age": 40,
+      "occupation": "Film Post-Production Colorist, Prime Focus Technologies, Goregaon",
+      "bio": "Arif drives his Hyundai i20 from his flat on Culbaver Road to Goregaon each morning, catching Istanbul Darbar for late-night dinners after long grading sessions. He prays at Mustafa Masjid and is saving enough to buy a flat before his daughter starts school.",
+      "home": {
+        "lat": 19.0797,
+        "lon": 72.887
+      },
+      "relationships": [
+        "agent_009",
+        "agent_024",
+        "agent_037",
+        "agent_039"
+      ]
+    },
+    {
+      "id": "agent_039",
+      "name": "Suresh Parab",
+      "age": 35,
+      "occupation": "Uber/Ola Driver (owner-operator, Mahim base)",
+      "bio": "Suresh runs his Maruti Ertiga out of Mahim, living with his family off Mathuradas Vasanji Road and starting his first rides at 6 AM on Lal Bahadur Shastri Marg. He eats breakfast near Skyway and has memorised every traffic pattern and shortcut in L Ward from five years on the road.",
+      "home": {
+        "lat": 19.079,
+        "lon": 72.885
+      },
+      "relationships": [
+        "agent_020",
+        "agent_029",
+        "agent_036",
+        "agent_038"
+      ]
     },
     {
       "id": "agent_040",
-      "name": "Wilbur Hatfield",
-      "age": 67,
-      "occupation": "Retired Ginseng Farmer & Herbalist",
-      "bio": "Wilbur has spent his life wildcrafting ginseng, ramps, and medicinal herbs from the ridge forests and selling them through a small mail-order business. He mentors anyone curious about Appalachian herbal medicine and consults quietly with the health clinic on traditional plant remedies. He is cantankerous about newcomers but soft-hearted about children, always handing out sassafras root candy.",
+      "name": "Philomena D'Costa",
+      "age": 61,
+      "occupation": "Retired, former Accounts Clerk, Mumbai Port Trust",
+      "bio": "Philomena lives in the same flat on Father Peter Periera Road she moved into in 1988, now a widow and active in the Holy Cross Church parish committee. She buys jewellery for grandchildren's christenings at kothari jewellers and is the unofficial oral historian of every family that's been pushed out of the ward.",
       "home": {
-        "lat": 40.7253,
-        "lon": -73.992
+        "lat": 19.084,
+        "lon": 72.8836
       },
       "relationships": [
-        "agent_035",
-        "agent_020",
-        "agent_039",
-        "agent_005"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": "",
-      "knowledge_tick": null,
-      "cascade_tier": null,
-      "impact_brief": ""
+        "agent_014",
+        "agent_021",
+        "agent_033",
+        "agent_032"
+      ]
     }
-  ]
+  ],
+  "map_center": {
+    "lat": 19.080639618837523,
+    "lon": 72.8837613004478
+  },
+  "map_bounds": {
+    "lat_min": 19.075728,
+    "lat_max": 19.085551,
+    "lon_min": 72.879505,
+    "lon_max": 72.888017,
+    "center_lat": 19.08064,
+    "center_lon": 72.883761
+  }
 }

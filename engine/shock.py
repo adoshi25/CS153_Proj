@@ -1,104 +1,69 @@
 from __future__ import annotations
-from dataclasses import dataclass, field
-from engine.agent import Agent, Memory
+import logging
+from concurrent.futures import ThreadPoolExecutor
+
+import anthropic
+from engine.agent import Agent
+
+log = logging.getLogger(__name__)
 
 
-@dataclass
-class CascadeState:
-    """Tracks the information cascade lifecycle for a single shock event."""
-    shock_text: str
-    keywords: list[str]
-    start_tick: int
-    tier1_ids: list[str]            # directly affected agents seeded at tick 0
-    tier1_briefs: dict[str, str]    # agent_id → personalized impact brief
-    tier2_rumor: str                # slightly distorted version for social graph spread
-    tier3_news: str                 # generic news version for everyone else
-    tier2_seeded: bool = False
-    tier3_seeded: bool = False
-
-
-def seed_tier1(agents: list[Agent], cascade: CascadeState, tick: int) -> None:
-    """Inject personalized impact briefs into the 3-4 directly affected agents."""
-    agent_map = {a.id: a for a in agents}
-    for aid in cascade.tier1_ids:
-        agent = agent_map.get(aid)
-        if agent and agent.knowledge_tick is None:
-            brief = cascade.tier1_briefs.get(aid, cascade.shock_text)
-            agent.knowledge_tick = tick
-            agent.cascade_tier = 1
-            agent.impact_brief = brief
-            agent.memory_stream.append(Memory(
-                content=brief,
-                timestamp=tick,
-                importance=9.5,
-                keywords=cascade.keywords,
-            ))
-
-
-def seed_tier2(agents: list[Agent], cascade: CascadeState, tick: int) -> None:
-    """
-    Propagate the distorted rumor to social-graph neighbors of Tier 1 agents.
-    Called at cascade start_tick + 1. Skips agents who already know.
-    """
-    if cascade.tier2_seeded:
-        return
-    tier1_set = set(cascade.tier1_ids)
-    agent_map = {a.id: a for a in agents}
-
-    to_inform: set[str] = set()
+def reset_all(agents: list[Agent]) -> None:
     for agent in agents:
-        if agent.cascade_tier == 1:
-            for rel_id in agent.relationships:
-                if rel_id not in tier1_set:
-                    rel_agent = agent_map.get(rel_id)
-                    if rel_agent and rel_agent.knowledge_tick is None:
-                        to_inform.add(rel_id)
-
-    for aid in to_inform:
-        agent = agent_map.get(aid)
-        if agent:
-            agent.knowledge_tick = tick
-            agent.cascade_tier = 2
-            agent.impact_brief = cascade.tier2_rumor
-            agent.memory_stream.append(Memory(
-                content=cascade.tier2_rumor,
-                timestamp=tick,
-                importance=7.5,
-                keywords=cascade.keywords,
-            ))
-
-    cascade.tier2_seeded = True
+        agent.shock_stance = None
+        agent.shock_rationale = None
 
 
-def seed_tier3(agents: list[Agent], cascade: CascadeState, tick: int) -> None:
-    """
-    Broadcast generic news to all agents who still haven't heard.
-    Called at cascade start_tick + 3 or later.
-    """
-    if cascade.tier3_seeded:
-        return
-    for agent in agents:
-        if agent.knowledge_tick is None:
-            agent.knowledge_tick = tick
-            agent.cascade_tier = 3
-            agent.impact_brief = cascade.tier3_news
-            agent.memory_stream.append(Memory(
-                content=cascade.tier3_news,
-                timestamp=tick,
-                importance=5.0,
-                keywords=cascade.keywords,
-            ))
-    cascade.tier3_seeded = True
+def _classify_agent(agent: Agent, shock_text: str) -> tuple[str, str]:
+    client = anthropic.Anthropic()
+    prompt = (
+        f"You are {agent.name}, {agent.age} years old, {agent.occupation}.\n"
+        f"Background: {agent.bio}\n\n"
+        f"Policy announced in your neighborhood: {shock_text}\n\n"
+        f"Respond with exactly:\n"
+        f"Line 1: stance: agree|disagree|neutral\n"
+        f"Line 2+: Your personal reaction in 5-7 sentences. You MUST cover all of the following:\n"
+        f"  - How this directly affects your specific job, income, or daily commute\n"
+        f"  - A named person in your life (neighbor, coworker, family) and how it affects them\n"
+        f"  - Your emotional or gut reaction — are you angry, relieved, anxious, hopeful?\n"
+        f"  - One concrete thing you plan to do or say in response\n"
+        f"  - If neutral: the specific competing interests you are weighing and exactly what would tip you either way\n"
+        f"No generic phrases. Speak as {agent.name} in this specific neighborhood, not as a policy analyst."
+    )
+    resp = client.messages.create(
+        model="claude-haiku-4-5-20251001",
+        max_tokens=600,
+        messages=[{"role": "user", "content": prompt}],
+    )
+    import re as _re
+    text = resp.content[0].text.strip()
+    lines = [ln.strip() for ln in text.split("\n") if ln.strip()]
+    stance = "neutral"
+    rationale_lines: list[str] = []
+    for line in lines:
+        if line.lower().startswith("stance:"):
+            val = line.split(":", 1)[1].strip().lower()
+            if val in ("agree", "disagree", "neutral"):
+                stance = val
+        else:
+            # Strip any stray stance word the model prepended to the rationale
+            cleaned = _re.sub(r"^(agree|disagree|neutral)[:\s]+", "", line, flags=_re.IGNORECASE).strip()
+            if cleaned:
+                rationale_lines.append(cleaned)
+    rationale = " ".join(rationale_lines)
+    return stance, rationale
 
 
-def _extract_keywords(text: str) -> list[str]:
-    stopwords = {
-        "a", "an", "the", "is", "are", "was", "were", "be", "been",
-        "has", "have", "had", "do", "does", "did", "will", "would",
-        "could", "should", "may", "might", "shall", "can", "to", "of",
-        "in", "on", "at", "by", "for", "with", "about", "from", "into",
-        "and", "or", "but", "if", "that", "this", "it", "its", "their",
-        "there", "been", "being", "new", "all", "more", "also", "than",
-    }
-    words = text.lower().replace(",", "").replace(".", "").split()
-    return list(dict.fromkeys(w for w in words if w not in stopwords))[:8]
+def fan_out(agents: list[Agent], shock_text: str) -> None:
+    def process(agent: Agent) -> None:
+        try:
+            stance, rationale = _classify_agent(agent, shock_text)
+            agent.shock_stance = stance
+            agent.shock_rationale = rationale
+        except Exception as exc:
+            log.error("fan_out failed for %s: %s", agent.name, exc)
+            agent.shock_stance = "neutral"
+            agent.shock_rationale = ""
+
+    with ThreadPoolExecutor(max_workers=10) as executor:
+        list(executor.map(process, agents))

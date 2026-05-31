@@ -2,8 +2,11 @@ from __future__ import annotations
 import asyncio
 import json
 import logging
+import math
 import os
+import re
 from pathlib import Path
+from json_repair import repair_json
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -15,11 +18,9 @@ from pydantic import BaseModel
 import anthropic
 from engine.agent import Agent
 from engine.simulation import SimulationEngine
-from engine.decision import _build_static_block, _build_dynamic_block
-from engine.memory import retrieve_memories
-from engine.query import query_neighborhood, _occupation_group
+from engine.shock import reset_all, fan_out
 from engine.generate import generate_agents
-from engine.counterfactual import run_counterfactual
+import engine.simulation as _sim_module
 
 logging.basicConfig(level=logging.INFO)
 log = logging.getLogger(__name__)
@@ -36,21 +37,13 @@ app.add_middleware(
 _agents_data = json.loads(Path("agents.json").read_text())
 agents = [Agent.from_dict(d) for d in _agents_data["agents"]]
 
-engine = SimulationEngine(agents, tick_interval=3.0, max_ticks=50)
+engine = SimulationEngine(agents)
+engine.neighborhood_name = _agents_data.get("neighborhood", "City Center")
+engine._neighborhood_description = _agents_data.get("neighborhood_description", "")
+_sim_module.current_pois = _agents_data.get("pois", [])
 
-_sim_task: asyncio.Task | None = None
-
-
-def _ensure_started() -> None:
-    global _sim_task
-    if _sim_task is None or _sim_task.done():
-        _sim_task = asyncio.create_task(engine.run())
-        engine.running = True
-
-
-@app.on_event("startup")
-async def _startup():
-    _ensure_started()
+# Cached shock options — invalidated when /generate-scenario runs
+_shock_options_cache: list[dict] | None = None
 
 
 # ── Models ────────────────────────────────────────────────────────────────
@@ -58,18 +51,28 @@ async def _startup():
 class ShockBody(BaseModel):
     text: str
 
-class ControlBody(BaseModel):
-    action: str  # start | pause | resume | stop
-
-class QueryBody(BaseModel):
-    question: str
-
 class ScenarioBody(BaseModel):
     description: str
+    center_lat: float | None = None
+    center_lon: float | None = None
+    polygon: list[list[float]] | None = None  # [[lon, lat], ...] GeoJSON ring
 
-class CounterfactualBody(BaseModel):
-    policy: str
-    n_ticks: int = 5
+
+# ── Helpers ───────────────────────────────────────────────────────────────
+
+def _haversine_km(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
+    R = 6371.0
+    dlat = math.radians(lat2 - lat1)
+    dlon = math.radians(lon2 - lon1)
+    a = (math.sin(dlat / 2) ** 2
+         + math.cos(math.radians(lat1)) * math.cos(math.radians(lat2)) * math.sin(dlon / 2) ** 2)
+    return R * 2 * math.asin(math.sqrt(a))
+
+
+def _nearest_pois(agent: Agent, pois: list[dict], n: int = 5) -> list[dict]:
+    lat, lon = agent.home["lat"], agent.home["lon"]
+    ranked = sorted(pois, key=lambda p: _haversine_km(lat, lon, p["lat"], p["lon"]))
+    return ranked[:n]
 
 
 # ── Routes ────────────────────────────────────────────────────────────────
@@ -82,115 +85,116 @@ async def health():
 @app.get("/status")
 async def status():
     return {
-        "running": engine.running,
-        "paused": engine.paused,
         "tick": engine.current_tick,
-        "history_len": len(engine.history),
         "clients": len(engine.clients),
         "api_key_set": bool(os.environ.get("ANTHROPIC_API_KEY")),
-        "sim_task_done": _sim_task.done() if _sim_task else None,
     }
-
-
-@app.post("/query")
-async def query(body: QueryBody):
-    """Fan out a policy question to all 40 agents and return grouped results."""
-    loop = asyncio.get_event_loop()
-    result = await loop.run_in_executor(None, query_neighborhood, engine.agents, body.question)
-    return result
 
 
 @app.post("/shock")
 async def shock(body: ShockBody):
-    engine.inject(body.text)
-    _ensure_started()
+    global _shock_options_cache
+
+    # Phase 1: reset all stances and broadcast pending state
+    reset_all(engine.agents)
+    engine.current_tick += 1
+    await engine._broadcast(engine._snapshot())
+
+    # Phase 2: fan out in background, then broadcast final snapshot
+    async def _background():
+        loop = asyncio.get_event_loop()
+        await loop.run_in_executor(None, fan_out, engine.agents, body.text)
+        await engine._broadcast(engine._snapshot())
+
+    asyncio.create_task(_background())
     return {"ok": True}
+
+
+@app.get("/shock-options")
+async def shock_options():
+    global _shock_options_cache
+    if _shock_options_cache is not None:
+        return _shock_options_cache
+
+    pois = _sim_module.current_pois
+    poi_names = [p["name"] for p in pois[:20]]
+    occupations = list({a.occupation for a in engine.agents})[:15]
+
+    prompt = (
+        f"Neighborhood: {engine.neighborhood_name}\n"
+        f"Key locations (exact names): {', '.join(poi_names)}\n"
+        f"Occupations: {', '.join(occupations[:12])}\n\n"
+        "Generate 12 shock scenarios for this specific neighborhood.\n"
+        "Rules for each:\n"
+        "- title: 4-6 words, must name THIS neighborhood, street, or venue — no generic titles\n"
+        "- description: exactly 1 sentence, max 15 words, must name a specific local place or demographic group\n"
+        "- poi_keywords: list of 1-3 EXACT names from 'Key locations' most affected (empty list if none match)\n"
+        "- scenarios must be realistic policy decisions (zoning, taxation, infrastructure, social services, housing, transit) — no abstract or unlikely events\n\n"
+        'Return ONLY valid JSON: [{"id": "1", "title": "...", "description": "...", "poi_keywords": ["name"]}, ...]'
+    )
+
+    client = anthropic.Anthropic()
+    loop = asyncio.get_event_loop()
+
+    def _call() -> str:
+        resp = client.messages.create(
+            model="claude-sonnet-4-6",
+            max_tokens=2000,
+            messages=[{"role": "user", "content": prompt}],
+        )
+        return resp.content[0].text.strip()
+
+    raw = await loop.run_in_executor(None, _call)
+    if raw.startswith("```"):
+        raw = re.sub(r"^```[a-z]*\n?", "", raw)
+        raw = re.sub(r"\n?```$", "", raw.rstrip())
+
+    options: list[dict] = json.loads(repair_json(raw))
+    _shock_options_cache = options
+    return options
 
 
 @app.post("/generate-scenario")
 async def generate_scenario(body: ScenarioBody):
-    """
-    Generate 40 new agents from a plain-English description and restart the simulation.
-    Persists the new cast to agents.json. Transfers live WebSocket clients to the new engine.
-    """
-    global engine, _sim_task, agents
+    global engine, agents, _shock_options_cache
 
     loop = asyncio.get_event_loop()
 
     try:
-        data = await loop.run_in_executor(None, generate_agents, body.description)
+        data = await loop.run_in_executor(
+            None, generate_agents,
+            body.description, body.center_lat, body.center_lon, body.polygon,
+        )
     except Exception as exc:
         log.error("generate_scenario failed: %s", exc)
         return {"ok": False, "error": str(exc)}
 
-    # Persist to agents.json so the new community survives a server restart
     Path("agents.json").write_text(json.dumps(data, indent=2))
 
-    # Stop the current simulation gracefully
-    engine.running = False
-    if _sim_task and not _sim_task.done():
-        _sim_task.cancel()
-        try:
-            await asyncio.wait_for(asyncio.shield(_sim_task), timeout=2.0)
-        except (asyncio.CancelledError, asyncio.TimeoutError):
-            pass
-
-    # Build new Agent objects and a fresh engine
-    agents = [Agent.from_dict(d) for d in data["agents"]]
     old_clients = set(engine.clients)
-    engine = SimulationEngine(agents, tick_interval=3.0, max_ticks=50)
+    agents = [Agent.from_dict(d) for d in data["agents"]]
+    engine = SimulationEngine(agents)
+    engine.clients = old_clients
     engine.neighborhood_name = data.get("neighborhood", "City Center")
-    engine.clients = old_clients  # keep existing browser connections live
+    engine._neighborhood_description = data.get("neighborhood_description", "")
 
-    # Push the blank initial snapshot so connected clients clear their state
+    # Update module-level POI store and invalidate shock options cache
+    _sim_module.current_pois = data.get("pois", [])
+    _shock_options_cache = None
+
     await engine._broadcast(engine.current_snapshot())
-
-    # Start the new run loop
-    _sim_task = asyncio.create_task(engine.run())
-    engine.running = True
 
     return {
         "ok": True,
         "neighborhood": engine.neighborhood_name,
         "agent_count": len(agents),
         "city_layout": data.get("city_layout"),
+        "map_center": data.get("map_center"),
+        "real_world_location": data.get("real_world_location", ""),
+        "pois": data.get("pois", []),
+        "neighborhood_description": data.get("neighborhood_description", ""),
+        "agents": [a.to_dict() for a in agents],
     }
-
-
-@app.post("/counterfactual")
-async def counterfactual(body: CounterfactualBody):
-    """
-    Fork the current agent state and run N simplified Haiku ticks on two branches:
-    baseline (current shock only) vs. with_policy (shock + policy intervention).
-    Returns chart-ready sentiment trajectories and per-group deltas.
-    """
-    loop = asyncio.get_event_loop()
-    result = await loop.run_in_executor(
-        None,
-        run_counterfactual,
-        engine.agents,
-        getattr(engine, "_shock_text", ""),
-        body.policy,
-        body.n_ticks,
-    )
-    return result
-
-
-@app.get("/history")
-async def get_history():
-    """Tick-by-tick average sentiment per occupation group, for the timeline chart."""
-    occ_map = {a.id: _occupation_group(a.occupation) for a in agents}
-    points = []
-    for snap in engine.history:
-        groups: dict[str, list[float]] = {}
-        for a_snap in snap["agents"]:
-            grp = occ_map.get(a_snap["id"], "Residents")
-            groups.setdefault(grp, []).append(a_snap["sentiment"])
-        points.append({
-            "tick": snap["tick"],
-            "groups": {g: round(sum(v) / len(v), 3) for g, v in groups.items()},
-        })
-    return points
 
 
 @app.get("/agents")
@@ -199,21 +203,7 @@ async def get_agents():
 
 
 @app.post("/control")
-async def control(body: ControlBody):
-    global _sim_task
-    if body.action == "start":
-        engine.paused = False
-        _ensure_started()
-    elif body.action == "pause":
-        engine.paused = True
-    elif body.action == "resume":
-        engine.paused = False
-        _ensure_started()
-    elif body.action == "stop":
-        engine.running = False
-        if _sim_task and not _sim_task.done():
-            _sim_task.cancel()
-        _sim_task = None
+async def control(body: dict):
     return {"ok": True}
 
 
@@ -229,7 +219,7 @@ async def websocket_endpoint(ws: WebSocket):
 
 @app.websocket("/ws/think/{agent_id}")
 async def stream_agent_thinking(ws: WebSocket, agent_id: str):
-    """Stream live token-by-token thinking for a single agent."""
+    """Stream a first-person 'day in my life' narrative for a single agent."""
     await ws.accept()
 
     agent_map = {a.id: a for a in engine.agents}
@@ -239,23 +229,32 @@ async def stream_agent_thinking(ws: WebSocket, agent_id: str):
         await ws.close()
         return
 
-    # Use the agent's personal impact brief (what they actually know), not the raw shock
-    agent_event = agent.impact_brief if agent.knowledge_tick is not None else ""
-    keywords = getattr(engine, "_shock_keywords", [])
-    tick = engine.current_tick
+    pois = _sim_module.current_pois
+    nearest = _nearest_pois(agent, pois, n=5) if pois else []
+    poi_descriptions = ", ".join(
+        f"{p['name']} ({p['type']})" for p in nearest
+    ) or "the local area"
 
-    static_block = _build_static_block(agent)
-    dynamic_block = _build_dynamic_block(agent, tick, agent_event, [], keywords)
+    neighborhood_desc = engine._neighborhood_description or engine.neighborhood_name
+
+    prompt = (
+        f"You are {agent.name}, {agent.age} years old, {agent.occupation}.\n"
+        f"Bio: {agent.bio}\n\n"
+        f"Neighborhood context: {neighborhood_desc}\n\n"
+        f"The places nearest to your home are: {poi_descriptions}.\n\n"
+        "Write a 3-4 sentence first-person, present-tense narrative of a typical day in your life. "
+        "Name the actual streets, parks, shops, and transit stops nearest to where you live. "
+        "Be specific and grounded — this is your identity narrative, not a reaction to any news event."
+    )
 
     client = anthropic.Anthropic()
     loop = asyncio.get_event_loop()
 
-    def stream_sync():
+    def stream_sync() -> None:
         with client.messages.stream(
             model="claude-sonnet-4-6",
-            max_tokens=400,
-            system=[{"type": "text", "text": static_block, "cache_control": {"type": "ephemeral"}}],
-            messages=[{"role": "user", "content": dynamic_block}],
+            max_tokens=300,
+            messages=[{"role": "user", "content": prompt}],
         ) as stream:
             for text in stream.text_stream:
                 asyncio.run_coroutine_threadsafe(
@@ -269,8 +268,8 @@ async def stream_agent_thinking(ws: WebSocket, agent_id: str):
 
     try:
         await loop.run_in_executor(None, stream_sync)
-    except Exception as e:
-        log.error("stream_agent_thinking error: %s", e)
+    except Exception as exc:
+        log.error("stream_agent_thinking error: %s", exc)
     finally:
         try:
             await ws.close()

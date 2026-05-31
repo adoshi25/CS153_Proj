@@ -7,7 +7,7 @@ from threading import Semaphore
 
 import anthropic
 from engine.agent import Agent
-from engine.pois import NEIGHBORHOOD_DESCRIPTION
+from engine.pois import NEIGHBORHOOD_DESCRIPTION  # default for static Brooklyn scenario
 
 log = logging.getLogger(__name__)
 _client = None
@@ -37,12 +37,12 @@ def _occupation_group(occupation: str) -> str:
     return 'Residents'
 
 
-def _query_one(agent: Agent, question: str) -> dict:
+def _query_one(agent: Agent, question: str, neighborhood_description: str = NEIGHBORHOOD_DESCRIPTION) -> dict:
     system = (
         f"You are {agent.name}, {agent.age} years old. {agent.bio}\n\n"
-        f"{NEIGHBORHOOD_DESCRIPTION}\n\n"
+        f"{neighborhood_description}\n\n"
         f"Respond only as this person — your opinions come from your daily life, occupation, "
-        f"and what you personally care about in this city. "
+        f"and what you personally care about in this community. "
         f"Reference specific streets and places by name. Never break character or ask for clarification."
     )
     user = (
@@ -87,7 +87,7 @@ def _query_one(agent: Agent, question: str) -> dict:
         }
 
 
-def query_neighborhood(agents: list[Agent], question: str) -> dict:
+def query_neighborhood(agents: list[Agent], question: str, neighborhood_description: str = NEIGHBORHOOD_DESCRIPTION) -> dict:
     """
     Fan out the question to all agents concurrently (max 5 at a time).
     Returns individual responses and grouped summaries.
@@ -97,7 +97,7 @@ def query_neighborhood(agents: list[Agent], question: str) -> dict:
 
     def _rate_limited(agent):
         with sem:
-            return _query_one(agent, question)
+            return _query_one(agent, question, neighborhood_description)
 
     with ThreadPoolExecutor(max_workers=5) as pool:
         futures = {pool.submit(_rate_limited, a): a for a in agents}

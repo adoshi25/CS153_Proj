@@ -4,7 +4,7 @@ import random
 import anthropic
 from engine.agent import Agent, Memory
 from engine.memory import retrieve_memories, build_memory_context
-from engine.pois import POI_NAMES, NEIGHBORHOOD_DESCRIPTION
+from engine.pois import POI_NAMES, NEIGHBORHOOD_DESCRIPTION  # defaults for the static Brooklyn scenario
 
 _client = None
 
@@ -16,12 +16,12 @@ def get_client() -> anthropic.Anthropic:
 
 
 # Static per-agent content — eligible for prompt caching
-def _build_static_block(agent: Agent) -> str:
+def _build_static_block(agent: Agent, neighborhood_description: str = NEIGHBORHOOD_DESCRIPTION) -> str:
     return f"""You are {agent.name}, {agent.age} years old.
 Occupation: {agent.occupation}
 About you: {agent.bio}
 
-{NEIGHBORHOOD_DESCRIPTION}
+{neighborhood_description}
 
 IMPORTANT: You must respond ONLY as {agent.name} would. Your age, occupation, history, and daily routines are hard constraints on every word you say. Reference specific streets, buildings, and places from your neighborhood — never use generic or made-up location names."""
 
@@ -34,6 +34,7 @@ def _build_dynamic_block(
     neighbor_actions: list[dict],
     query_keywords: list[str],
     public_actions: list[dict] | None = None,
+    poi_names: list[str] = POI_NAMES,
 ) -> str:
     memories = retrieve_memories(
         agent.memory_stream,
@@ -47,7 +48,7 @@ def _build_dynamic_block(
         f"- {a['name']}: {a['last_action']}" for a in neighbor_actions
     )
 
-    shuffled_pois = random.sample(POI_NAMES, len(POI_NAMES))
+    shuffled_pois = random.sample(poi_names, len(poi_names))
     location_options = "home, work, " + ", ".join(shuffled_pois)
 
     public_text = ""
@@ -99,15 +100,17 @@ def agent_tick(
     query_keywords: list[str],
     public_actions: list[dict] | None = None,
     model: str = "claude-sonnet-4-6",
+    neighborhood_description: str = NEIGHBORHOOD_DESCRIPTION,
+    poi_names: list[str] = POI_NAMES,
 ) -> dict:
     """
     Run one decision tick for a single agent.
     Returns the structured output dict and updates agent state in place.
     Pass model="claude-haiku-4-5-20251001" for cheap forked/counterfactual runs.
     """
-    static_block = _build_static_block(agent)
+    static_block = _build_static_block(agent, neighborhood_description)
     dynamic_block = _build_dynamic_block(
-        agent, current_tick, world_event, neighbor_actions, query_keywords, public_actions
+        agent, current_tick, world_event, neighbor_actions, query_keywords, public_actions, poi_names
     )
 
     response = get_client().messages.create(
