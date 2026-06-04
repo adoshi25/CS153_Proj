@@ -1,6 +1,6 @@
 # Society Simulation — CS153 Final Project
 
-A Smallville-style multi-agent society simulator. 40 LLM-backed agents live in a fictional urban neighborhood. When a policy shock is injected (rezoning, infrastructure change, eviction policy), every agent reacts based on their individual biography, memory stream, social relationships, and past experience — then an orchestrator synthesizes collective behavior into a stakeholder brief.
+A multi-agent society simulator. 40 LLM-backed agents live in a fictional urban neighborhood. When a policy shock is injected (rezoning, infrastructure change, eviction policy), every agent reacts based on their individual biography, memory stream, social relationships, and past experience — then an orchestrator synthesizes collective behavior into a stakeholder brief.
 
 **The core insight:** policymakers don't know which demographic groups resist a proposal, why, or what would shift their position. This system produces that answer automatically, grounded in realistic agent behavior rather than aggregate statistics.
 
