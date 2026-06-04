@@ -131,8 +131,6 @@ frontend/src/App.tsx     WebSocket connection, state, query handler
 ## Known Limitations
 
 - **Simultaneous shock broadcast** — All 40 agents receive the shock at tick 0. Real information cascades through a social graph with latency and distortion; tiered activation would be more realistic.
-- **Orchestrator runs post-hoc** — It currently summarizes rather than decomposes the shock and assigns personalized impact briefs before agents respond.
-- **Static relationships** — Social edge weights don't evolve based on conversation frequency or sentiment alignment.
 - **Unbounded memory** — Memory stream grows without consolidation; needs pruning at scale.
 
 ---
