@@ -1,36 +1,87 @@
 from __future__ import annotations
-from engine.agent import Agent, Memory
+import logging
+from concurrent.futures import ThreadPoolExecutor
+
+import anthropic
+from engine.agent import Agent
+
+log = logging.getLogger(__name__)
 
 
-def inject_shock(agents: list[Agent], shock_text: str, tick: int = 0) -> None:
-    """
-    Inject a shock event into every agent's memory stream simultaneously.
-    High importance so it surfaces in every agent's retrieval from tick 1 onward.
-    The shock_text is whatever the user typed — no scenario assumptions.
-    """
-    keywords = _extract_keywords(shock_text)
-    memory = Memory(
-        content=shock_text,
-        timestamp=tick,
-        importance=9.5,
-        keywords=keywords,
-    )
+def reset_all(agents: list[Agent]) -> None:
     for agent in agents:
-        agent.memory_stream.append(memory)
+        agent.shock_stance = None
+        agent.shock_rationale = None
 
 
 def _extract_keywords(text: str) -> list[str]:
-    """
-    Simple keyword extraction without an LLM call — just strip stopwords.
-    Good enough for seeding retrieval; reflection will re-score later.
-    """
-    stopwords = {
-        "a", "an", "the", "is", "are", "was", "were", "be", "been",
-        "has", "have", "had", "do", "does", "did", "will", "would",
-        "could", "should", "may", "might", "shall", "can", "to", "of",
-        "in", "on", "at", "by", "for", "with", "about", "from", "into",
-        "and", "or", "but", "if", "that", "this", "it", "its", "their",
-        "there", "been", "being", "new", "all", "more", "also", "than",
-    }
-    words = text.lower().replace(",", "").replace(".", "").split()
-    return list(dict.fromkeys(w for w in words if w not in stopwords))[:8]
+    import re
+    stopwords = {"the","a","an","is","are","will","to","of","and","in","for","on","that","this","with","from","at","be","has","have","been","by","it","its","as"}
+    words = re.findall(r'\b[a-z]{4,}\b', text.lower())
+    return list(dict.fromkeys(w for w in words if w not in stopwords))[:10]
+
+
+def _classify_agent(agent: Agent, shock_text: str) -> tuple[str, str]:
+    client = anthropic.Anthropic()
+
+    experience_block = ""
+    if agent.experience_log:
+        recent = agent.experience_log[-3:]
+        experience_block = (
+            "\nYour past experiences in this neighborhood:\n"
+            + "\n".join(f"- {e}" for e in recent)
+            + "\n"
+        )
+
+    prompt = (
+        f"You are {agent.name}, {agent.age} years old, {agent.occupation}.\n"
+        f"Background: {agent.bio}\n"
+        f"{experience_block}\n"
+        f"Policy announced in your neighborhood: {shock_text}\n\n"
+        f"Respond with exactly:\n"
+        f"Line 1: stance: agree|disagree|neutral\n"
+        f"Line 2+: Your personal reaction in 5-7 sentences. You MUST cover all of the following:\n"
+        f"  - How this directly affects your specific job, income, or daily commute\n"
+        f"  - A named person in your life (neighbor, coworker, family) and how it affects them\n"
+        f"  - Your emotional or gut reaction — are you angry, relieved, anxious, hopeful?\n"
+        f"  - One concrete thing you plan to do or say in response\n"
+        f"  - If neutral: the specific competing interests you are weighing and exactly what would tip you either way\n"
+        f"No generic phrases. Speak as {agent.name} in this specific neighborhood, not as a policy analyst."
+    )
+    resp = client.messages.create(
+        model="claude-haiku-4-5-20251001",
+        max_tokens=600,
+        messages=[{"role": "user", "content": prompt}],
+    )
+    import re as _re
+    text = resp.content[0].text.strip()
+    lines = [ln.strip() for ln in text.split("\n") if ln.strip()]
+    stance = "neutral"
+    rationale_lines: list[str] = []
+    for line in lines:
+        if line.lower().startswith("stance:"):
+            val = line.split(":", 1)[1].strip().lower()
+            if val in ("agree", "disagree", "neutral"):
+                stance = val
+        else:
+            # Strip any stray stance word the model prepended to the rationale
+            cleaned = _re.sub(r"^(agree|disagree|neutral)[:\s]+", "", line, flags=_re.IGNORECASE).strip()
+            if cleaned:
+                rationale_lines.append(cleaned)
+    rationale = " ".join(rationale_lines)
+    return stance, rationale
+
+
+def fan_out(agents: list[Agent], shock_text: str) -> None:
+    def process(agent: Agent) -> None:
+        try:
+            stance, rationale = _classify_agent(agent, shock_text)
+            agent.shock_stance = stance
+            agent.shock_rationale = rationale
+        except Exception as exc:
+            log.error("fan_out failed for %s: %s", agent.name, exc)
+            agent.shock_stance = "neutral"
+            agent.shock_rationale = ""
+
+    with ThreadPoolExecutor(max_workers=10) as executor:
+        list(executor.map(process, agents))

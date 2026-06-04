@@ -1,936 +1,881 @@
 {
-  "neighborhood": "Boerum Hill",
+  "neighborhood": "\u6b4c\u821e\u4f0e\u753a\u4e00\u4e01\u76ee",
+  "real_world_location": "Shinjuku, Tokyo, Japan",
   "center": {
-    "lat": 40.73,
-    "lon": -73.995
+    "lat": 35.693985,
+    "lon": 139.703169
   },
-  "oak_street_zone": {
-    "lat_min": 40.7292,
-    "lat_max": 40.7312,
-    "lon": -73.995,
-    "description": "The proposed highway corridor along Atlantic Avenue"
+  "neighborhood_description": "\u6b4c\u821e\u4f0e\u753a\u4e00\u4e01\u76eeis Tokyo's most notorious entertainment district, radiating outward from JR\u65b0\u5bbf\u99c5's east exit along 2\u756a\u901a\u308a and 3\u756a\u901a\u308a into a labyrinth of host clubs, izakayas, pachinko parlors, and love hotels. The area operates almost entirely at night\u2014neon-lit storefronts in Japanese, Chinese, and Thai crowd every block, while \u30ed\u30fc\u30bd\u30f3 and \u30bb\u30d6\u30f3-\u30a4\u30ec\u30d6\u30f3 serve as the only real community anchors. Newcomers should orient by TOHO\u30b7\u30cd\u30de\u30ba to the north and \u30bf\u30a4\u30c8\u30fc\u30b9\u30c6\u30fc\u30b7\u30e7\u30f3 near the main drag; \u67cf\u6728\u516c\u5712 offers the sole green respite to the west. Anonymity is a civic virtue here\u2014nobody asks why you moved, and nobody expects you to stay.",
+  "pois": [
+    {
+      "name": "\u30e8\u30c9\u30d0\u30b7\u30ab\u30e1\u30e9",
+      "lat": 35.6916415,
+      "lon": 139.7018895,
+      "type": "business"
+    },
+    {
+      "name": "Isetan Men's",
+      "lat": 35.692411,
+      "lon": 139.70467,
+      "type": "business"
+    },
+    {
+      "name": "Barney's New York",
+      "lat": 35.692472,
+      "lon": 139.702481,
+      "type": "business"
+    },
+    {
+      "name": "\u30bb\u30d6\u30f3-\u30a4\u30ec\u30d6\u30f3",
+      "lat": 35.6962236,
+      "lon": 139.6979734,
+      "type": "business"
+    },
+    {
+      "name": "\u30b1\u30f3\u30bf\u30c3\u30ad\u30fc\u30d5\u30e9\u30a4\u30c9\u30c1\u30ad\u30f3",
+      "lat": 35.6929525,
+      "lon": 139.6993908,
+      "type": "business"
+    },
+    {
+      "name": "\u304b\u3064\u3084",
+      "lat": 35.6932398,
+      "lon": 139.6993534,
+      "type": "business"
+    },
+    {
+      "name": "CoCo\u58f1\u756a\u5c4b",
+      "lat": 35.6932017,
+      "lon": 139.6993618,
+      "type": "business"
+    },
+    {
+      "name": "\u30de\u30af\u30c9\u30ca\u30eb\u30c9",
+      "lat": 35.6941656,
+      "lon": 139.7006248,
+      "type": "business"
+    },
+    {
+      "name": "\u30c9\u30c8\u30fc\u30eb\u30b3\u30fc\u30d2\u30fc\u30b7\u30e7\u30c3\u30d7",
+      "lat": 35.6939279,
+      "lon": 139.7009038,
+      "type": "business"
+    },
+    {
+      "name": "\u30d3\u30c3\u30af\u30ab\u30e1\u30e9",
+      "lat": 35.692029,
+      "lon": 139.7018499,
+      "type": "business"
+    },
+    {
+      "name": "\u30c7\u30a4\u30ea\u30fc\u30e4\u30de\u30b6\u30ad",
+      "lat": 35.6937937,
+      "lon": 139.6983647,
+      "type": "business"
+    },
+    {
+      "name": "\u30ed\u30fc\u30bd\u30f3",
+      "lat": 35.6921563,
+      "lon": 139.7058304,
+      "type": "business"
+    },
+    {
+      "name": "\u65b0\u5bbf\u533a\u5f79\u6240\u5728\u5b85\u4ecb\u8b77\u652f\u63f4\u30bb\u30f3\u30bf\u30fc",
+      "lat": 35.693544,
+      "lon": 139.704535,
+      "type": "community"
+    },
+    {
+      "name": "\u30bf\u30a4\u30c8\u30fc\u30b9\u30c6\u30fc\u30b7\u30e7\u30f3",
+      "lat": 35.6932616,
+      "lon": 139.7014957,
+      "type": "community"
+    },
+    {
+      "name": "Studio Beans 717",
+      "lat": 35.6945262,
+      "lon": 139.6979159,
+      "type": "community"
+    },
+    {
+      "name": "\u65b0\u5bbf\u30b7\u30e3\u30ed\u30fc\u30e0\u6559\u4f1a",
+      "lat": 35.694909,
+      "lon": 139.6983295,
+      "type": "community"
+    },
+    {
+      "name": "NOA\u30c0\u30f3\u30b9\u6559\u5ba4",
+      "lat": 35.6932896,
+      "lon": 139.6982864,
+      "type": "community"
+    },
+    {
+      "name": "TOHO\u30b7\u30cd\u30de\u30ba",
+      "lat": 35.6951537,
+      "lon": 139.7019637,
+      "type": "community"
+    },
+    {
+      "name": "\u67cf\u6728\u516c\u5712",
+      "lat": 35.6948272,
+      "lon": 139.6975796,
+      "type": "park"
+    },
+    {
+      "name": "\u65b0\u5bbf\u533a \u6771\u5927\u4e45\u4fdd\u516c\u5712",
+      "lat": 35.6949614,
+      "lon": 139.7091995,
+      "type": "park"
+    }
+  ],
+  "city_layout": {
+    "districts": [
+      {
+        "name": "\u6b4c\u821e\u4f0e\u753a\u30b3\u30a2\u6b53\u697d\u8857",
+        "type": "commercial"
+      },
+      {
+        "name": "\u65b0\u5bbf\u99c5\u6771\u53e3\u5468\u8fba",
+        "type": "mixed"
+      },
+      {
+        "name": "\u5927\u4e45\u4fdd\u901a\u308a\u6cbf\u3044\u5c45\u4f4f\u533a",
+        "type": "residential"
+      },
+      {
+        "name": "2\u756a\u901a\u308a\u30fb3\u756a\u901a\u308a\u98a8\u4fd7\u8857",
+        "type": "commercial"
+      },
+      {
+        "name": "\u67cf\u6728\u516c\u5712\u5468\u8fba\u4f4f\u5b85\u5730",
+        "type": "residential"
+      }
+    ],
+    "landmarks": [
+      {
+        "name": "TOHO\u30b7\u30cd\u30de\u30ba",
+        "type": "other"
+      },
+      {
+        "name": "\u30bf\u30a4\u30c8\u30fc\u30b9\u30c6\u30fc\u30b7\u30e7\u30f3",
+        "type": "other"
+      },
+      {
+        "name": "JR\u65b0\u5bbf\u99c5",
+        "type": "transit"
+      },
+      {
+        "name": "\u67cf\u6728\u516c\u5712",
+        "type": "park"
+      },
+      {
+        "name": "\u65b0\u5bbf\u30b7\u30e3\u30ed\u30fc\u30e0\u6559\u4f1a",
+        "type": "community"
+      },
+      {
+        "name": "\u65b0\u5bbf\u533a\u5f79\u6240\u5728\u5b85\u4ecb\u8b77\u652f\u63f4\u30bb\u30f3\u30bf\u30fc",
+        "type": "government"
+      }
+    ],
+    "roads": [
+      "2\u756a\u901a\u308a",
+      "3\u756a\u901a\u308a",
+      "\u5927\u4e45\u4fdd\u901a\u308a",
+      "\u8077\u5b89\u901a\u308a"
+    ]
   },
   "agents": [
     {
       "id": "agent_001",
-      "name": "Maria Santos",
-      "age": 52,
-      "occupation": "Bakery owner",
-      "bio": "Maria has run La Panader\u00eda on Atlantic Avenue for 22 years. Her shop is a neighborhood institution \u2014 she knows most residents by name and extends credit to families who are short. Her entire livelihood and identity is rooted in this block.",
+      "name": "\u5c71\u7530 \u84ee",
+      "age": 27,
+      "occupation": "\u30db\u30b9\u30c8\u30af\u30e9\u30d6 No.1\u30db\u30b9\u30c8 (\u6b4c\u821e\u4f0e\u753a\u30db\u30b9\u30c8\u30af\u30e9\u30d6\u300c\u9ed2\u8594\u8587\u300d)",
+      "bio": "3\u756a\u901a\u308a\u6cbf\u3044\u306e\u30ef\u30f3\u30eb\u30fc\u30e0\u3092\u62e0\u70b9\u306b\u3001\u6bce\u6669\u30bb\u30d6\u30f3-\u30a4\u30ec\u30d6\u30f3\u3067\u30a8\u30ca\u30b8\u30fc\u30c9\u30ea\u30f3\u30af\u3092\u88dc\u7d66\u3057\u3066\u304b\u3089\u51fa\u52e4\u3059\u308b\u3002\u6307\u540d\u58f2\u4e0a\u6708300\u4e07\u5186\u3092\u8a87\u308b\u304c\u5bb6\u8cc3\u3068\u8863\u88c5\u4ee3\u3067\u624b\u5143\u306f\u307b\u307c\u30bc\u30ed\u3002",
       "home": {
-        "lat": 40.7298,
-        "lon": -73.9952
+        "lat": 35.6931,
+        "lon": 139.7002
       },
       "relationships": [
         "agent_002",
-        "agent_003",
-        "agent_006",
-        "agent_019",
-        "agent_035"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": ""
+        "agent_008",
+        "agent_015",
+        "agent_023"
+      ]
     },
     {
       "id": "agent_002",
-      "name": "Harold Thompson",
-      "age": 68,
-      "occupation": "Retired mechanic",
-      "bio": "Harold bought his Atlantic Avenue row house in 1987 and raised three kids there. He's proud, stubborn, and deeply suspicious of city government after watching redevelopment flatten a nearby block in the 1990s. He tends his garden every morning.",
+      "name": "\u9673 \u7f8e\u73b2 (Ch\u00e9n M\u011bil\u00edng)",
+      "age": 24,
+      "occupation": "\u30ad\u30e3\u30d0\u30af\u30e9\u30db\u30b9\u30c6\u30b9 (Club Amour, \u6b4c\u821e\u4f0e\u753a)",
+      "bio": "\u53f0\u6e7e\u51fa\u8eab\u3001\u5728\u65e53\u5e74\u76ee\u3002\u30c9\u30c8\u30fc\u30eb\u30b3\u30fc\u30d2\u30fc\u30b7\u30e7\u30c3\u30d7\u3067\u663c\u904e\u304e\u306b\u76ee\u3092\u899a\u307e\u3057\u30e2\u30fc\u30cb\u30f3\u30b0\u3092\u53d6\u308b\u306e\u304c\u65e5\u8ab2\u3067\u3001JR\u65b0\u5bbf\u99c5\u8fd1\u304f\u306e\u6d3e\u9063\u4f1a\u793e\u7d4c\u7531\u3067\u96c7\u7528\u3055\u308c\u3066\u3044\u308b\u3002",
       "home": {
-        "lat": 40.7301,
-        "lon": -73.9949
+        "lat": 35.6924,
+        "lon": 139.701
       },
       "relationships": [
         "agent_001",
-        "agent_003",
-        "agent_006",
-        "agent_016",
-        "agent_025"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": ""
+        "agent_009",
+        "agent_017",
+        "agent_031"
+      ]
     },
     {
       "id": "agent_003",
-      "name": "Dorothy Williams",
-      "age": 71,
-      "occupation": "Retired teacher",
-      "bio": "Dorothy has lived on Atlantic Avenue for 43 years and considers herself its unofficial historian. She taught fourth grade at PS 147 for three decades and still tutors neighborhood kids on weekends. She values community above everything.",
+      "name": "\u9234\u6728 \u62d3\u6d77",
+      "age": 34,
+      "occupation": "\u30d1\u30c1\u30f3\u30b3\u5e97\u30d5\u30ed\u30a2\u30de\u30cd\u30fc\u30b8\u30e3\u30fc (\u30de\u30eb\u30cf\u30f3\u65b0\u5bbf\u5e97)",
+      "bio": "2\u756a\u901a\u308a\u306e\u53e4\u3044\u30a2\u30d1\u30fc\u30c8\u306b\u4f4f\u307f\u3001\u304b\u3064\u3084\u3067\u591c\u98df\u3092\u6e08\u307e\u305b\u3066\u304b\u3089\u6df1\u591c\u30b7\u30d5\u30c8\u3078\u5411\u304b\u3046\u3002\u73fe\u91d1\u6255\u3044\u30fb\u7121\u7533\u544a\u306e\u526f\u696d\u3067\u30b9\u30ed\u30c3\u30c8\u53f0\u306e\u4fee\u7406\u3082\u8acb\u3051\u8ca0\u3063\u3066\u3044\u308b\u3002",
       "home": {
-        "lat": 40.7304,
-        "lon": -73.9951
+        "lat": 35.6927,
+        "lon": 139.7022
       },
       "relationships": [
         "agent_001",
-        "agent_002",
-        "agent_005",
-        "agent_012",
-        "agent_025"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": ""
+        "agent_010",
+        "agent_018",
+        "agent_034"
+      ]
     },
     {
       "id": "agent_004",
-      "name": "Kevin Park",
-      "age": 28,
-      "occupation": "Delivery driver",
-      "bio": "Kevin rents a one-bedroom on Atlantic Avenue and works 50-hour weeks doing food delivery by bike and car. He's generally pragmatic about change \u2014 he'll go wherever the rent is cheapest. He mostly keeps to himself but chats with neighbors at the corner store.",
+      "name": "Park Jiyeon (\u6734 \u667a\u598d)",
+      "age": 29,
+      "occupation": "\u97d3\u56fd\u7cfb\u5c45\u9152\u5c4b\u30aa\u30fc\u30ca\u30fc (\u5927\u4e45\u4fdd\u901a\u308a\u300c\u30bd\u30a6\u30eb\u306e\u591c\u300d)",
+      "bio": "\u5927\u4e45\u4fdd\u901a\u308a\u6cbf\u3044\u306e\u5e97\u8217\u517c\u4f4f\u5c45\u304b\u3089\u5f92\u6b69\u3067\u901a\u52e4\u3002\u30ed\u30fc\u30bd\u30f3\u3067\u4ed5\u5165\u308c\u304c\u8db3\u308a\u306a\u3044\u6642\u306e\u88dc\u5145\u3092\u884c\u3044\u3001JR\u65b0\u5bbf\u99c5\u3067\u97d3\u56fd\u4eba\u7559\u5b66\u751f\u30a2\u30eb\u30d0\u30a4\u30c8\u3092\u5b9a\u671f\u7684\u306b\u30b9\u30ab\u30a6\u30c8\u3059\u308b\u3002",
       "home": {
-        "lat": 40.7307,
-        "lon": -73.9953
+        "lat": 35.6952,
+        "lon": 139.7042
       },
       "relationships": [
-        "agent_005",
         "agent_007",
-        "agent_008",
-        "agent_020",
-        "agent_032"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": ""
+        "agent_013",
+        "agent_022",
+        "agent_036"
+      ]
     },
     {
       "id": "agent_005",
-      "name": "Sofia Reyes",
-      "age": 45,
-      "occupation": "Nurse",
-      "bio": "Sofia is a single mother of two who rents on Atlantic Avenue. She works night shifts at the hospital and depends on her neighbors \u2014 especially Dorothy \u2014 for childcare help. She has no financial cushion and fears displacement more than anything.",
+      "name": "\u6e21\u8fba \u3055\u304f\u3089",
+      "age": 22,
+      "occupation": "\u30e1\u30a4\u30c9\u30ab\u30d5\u30a7\u5e97\u54e1 (\u6b4c\u821e\u4f0e\u753a\u300cCastle Maid\u300d)",
+      "bio": "NOA\u30c0\u30f3\u30b9\u6559\u5ba4\u3067\u9031\u672b\u306b\u30c0\u30f3\u30b9\u3092\u7fd2\u3044\u3001Studio Beans 717\u3067\u30d1\u30d5\u30a9\u30fc\u30de\u30f3\u30b9\u7df4\u7fd2\u3082\u3053\u306a\u3059\u3002\u5730\u65b9\u304b\u3089\u4e0a\u4eac\u3057\u30662\u5e74\u3001\u307e\u3060\u4f4f\u6c11\u7968\u306f\u5b9f\u5bb6\u306e\u307e\u307e\u3002",
       "home": {
-        "lat": 40.7295,
-        "lon": -73.995
+        "lat": 35.692,
+        "lon": 139.7065
       },
       "relationships": [
-        "agent_003",
-        "agent_004",
-        "agent_007",
-        "agent_023",
-        "agent_031"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": ""
+        "agent_002",
+        "agent_011",
+        "agent_019",
+        "agent_028"
+      ]
     },
     {
       "id": "agent_006",
-      "name": "Marcus Johnson",
-      "age": 39,
-      "occupation": "Electrician",
-      "bio": "Marcus owns his Atlantic Avenue home outright \u2014 inherited from his parents \u2014 and runs a small electrical contracting business out of his garage. He is pragmatic about infrastructure but fiercely protective of his property. He's skeptical of eminent domain.",
+      "name": "\u7530\u4e2d \u7fa9\u96c4",
+      "age": 63,
+      "occupation": "\u5143\u30af\u30e9\u30d6\u30aa\u30fc\u30ca\u30fc\u30fb\u73fe\u5728\u9000\u8077\u8005",
+      "bio": "30\u5e74\u4ee5\u4e0a\u6b4c\u821e\u4f0e\u753a\u3067\u751f\u304d\u629c\u304d\u3001\u4eca\u306f\u67cf\u6728\u516c\u5712\u8fd1\u304f\u306e\u53e4\u3044\u8cc3\u8cb8\u3067\u5e74\u91d1\u3068\u84c4\u3048\u3067\u66ae\u3089\u3059\u3002CoCo\u58f1\u756a\u5c4b\u3067\u30ab\u30ec\u30fc\u3092\u98df\u3079\u306a\u304c\u3089\u6614\u306e\u5e38\u9023\u5ba2\u3068\u518d\u4f1a\u3059\u308b\u306e\u304c\u9031\u306e\u697d\u3057\u307f\u3002",
       "home": {
-        "lat": 40.731,
-        "lon": -73.9948
+        "lat": 35.6948,
+        "lon": 139.6988
       },
       "relationships": [
-        "agent_001",
-        "agent_002",
-        "agent_008",
-        "agent_022",
-        "agent_024"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": ""
+        "agent_012",
+        "agent_020",
+        "agent_033",
+        "agent_038"
+      ]
     },
     {
       "id": "agent_007",
-      "name": "Priya Patel",
-      "age": 31,
-      "occupation": "UX designer",
-      "bio": "Priya moved to Atlantic Avenue two years ago for the short commute and walkable amenities. She works remotely for a tech company and spends evenings at Maria's bakery or the local coffee shop. She is thoughtful, researches issues carefully before forming opinions.",
+      "name": "Nguyen Thi Hoa (\u30b0\u30a8\u30f3\u30fb\u30c6\u30a3\u30fb\u30db\u30a2)",
+      "age": 26,
+      "occupation": "\u30d9\u30c8\u30ca\u30e0\u6599\u7406\u5e97\u30a6\u30a7\u30a4\u30c8\u30ec\u30b9\u517c\u8abf\u7406\u88dc\u52a9 (3\u756a\u901a\u308a\u300c\u30d5\u30a9\u30fc\u30b5\u30a4\u30b4\u30f3\u300d)",
+      "bio": "\u30d9\u30c8\u30ca\u30e0\u304b\u3089\u6280\u80fd\u5b9f\u7fd2\u3067\u6765\u65e5\u3001\u4eca\u306f\u7279\u5b9a\u6280\u80fd\u306b\u5207\u308a\u66ff\u3048\u30663\u756a\u901a\u308a\u3067\u50cd\u304f\u3002\u30ed\u30fc\u30bd\u30f3\u3067\u7956\u56fd\u3078\u306e\u9001\u91d1\u624b\u7d9a\u304d\u3092\u884c\u3044\u3001\u6708\u306b\u4e00\u5ea6\u3060\u3051\u30bf\u30a4\u30c8\u30fc\u30b9\u30c6\u30fc\u30b7\u30e7\u30f3\u3067\u606f\u629c\u304d\u3002",
       "home": {
-        "lat": 40.7302,
-        "lon": -73.9955
+        "lat": 35.6955,
+        "lon": 139.7052
       },
       "relationships": [
         "agent_004",
-        "agent_005",
-        "agent_008",
-        "agent_009",
-        "agent_029"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": ""
+        "agent_014",
+        "agent_021",
+        "agent_030"
+      ]
     },
     {
       "id": "agent_008",
-      "name": "James Chen",
-      "age": 34,
-      "occupation": "Software engineer",
-      "bio": "James rents on Atlantic Avenue and bikes to the subway every morning. He moved here for the neighborhood's character but is realistic that he'll eventually move out anyway \u2014 leases are short-term. He tends to look at data before taking positions.",
+      "name": "\u4f50\u85e4 \u7f8e\u54b2",
+      "age": 31,
+      "occupation": "\u98a8\u4fd7\u5e97\u30ad\u30e3\u30b9\u30c8\u9001\u8fce\u30c9\u30e9\u30a4\u30d0\u30fc (\u591c\u9593\u5c02\u5c5e)",
+      "bio": "\u8efd\u30d0\u30f3\u3067\u6df1\u591c\u306e\u6b4c\u821e\u4f0e\u753a\u3092\u5468\u56de\u3057\u3001JR\u65b0\u5bbf\u99c5\u6771\u53e3\u3067\u30ad\u30e3\u30b9\u30c8\u3092\u62fe\u3046\u4ed5\u4e8b\u30925\u5e74\u7d9a\u3051\u3066\u3044\u308b\u3002\u304b\u3064\u3084\u306e\u6df1\u591c\u5272\u5f15\u5b9a\u98df\u304c\u552f\u4e00\u306e\u8d05\u6ca2\u3002",
       "home": {
-        "lat": 40.7308,
-        "lon": -73.9946
+        "lat": 35.6933,
+        "lon": 139.7048
       },
       "relationships": [
-        "agent_004",
-        "agent_006",
-        "agent_007",
-        "agent_009",
-        "agent_026"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": ""
+        "agent_001",
+        "agent_016",
+        "agent_024",
+        "agent_039"
+      ]
     },
     {
       "id": "agent_009",
-      "name": "Emma Rodriguez",
-      "age": 26,
-      "occupation": "Graduate student",
-      "bio": "Emma is finishing her urban planning PhD and bikes everywhere, rain or shine. She has strong opinions about car dependency and writes a popular local newsletter about transit and housing. She sees the highway proposal as a textbook case of 20th-century urban planning failure.",
+      "name": "\u91d1 \u4fca\u6d69 (Kim Junho)",
+      "age": 28,
+      "occupation": "K\u30db\u30b9\u30c8\u30af\u30e9\u30d6\u30db\u30b9\u30c8 (\u65b0\u5bbf\u300cClub Shinwa\u300d)",
+      "bio": "\u97d3\u56fd\u51fa\u8eab\u3001\u65e5\u672c\u8a9e\u582a\u80fd\u3002\u30b1\u30f3\u30bf\u30c3\u30ad\u30fc\u30d5\u30e9\u30a4\u30c9\u30c1\u30ad\u30f3\u3067\u671d\u98df\u3092\u53d6\u308a\u3001Studio Beans 717\u3067\u30c0\u30f3\u30b9\u306e\u81ea\u4e3b\u7df4\u3092\u3057\u3066\u304b\u3089\u591c\u306e\u4ed5\u4e8b\u306b\u5165\u308b\u3002",
       "home": {
-        "lat": 40.7328,
-        "lon": -73.996
+        "lat": 35.694,
+        "lon": 139.706
       },
       "relationships": [
-        "agent_007",
-        "agent_008",
-        "agent_013",
-        "agent_015",
-        "agent_010"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": ""
+        "agent_002",
+        "agent_005",
+        "agent_017",
+        "agent_025"
+      ]
     },
     {
       "id": "agent_010",
-      "name": "Tom Bradley",
-      "age": 44,
-      "occupation": "Sales manager",
-      "bio": "Tom drives 35 miles each way to his job in the suburbs and has done so for 15 years. He sees the neighborhood's traffic as a daily obstacle and privately thinks a highway would be an improvement. He doesn't voice this loudly because he knows it's unpopular.",
+      "name": "\u9ad8\u6a4b \u8aa0",
+      "age": 45,
+      "occupation": "\u30e9\u30d6\u30db\u30c6\u30eb\u591c\u9593\u30d5\u30ed\u30f3\u30c8\u30de\u30cd\u30fc\u30b8\u30e3\u30fc (\u6b4c\u821e\u4f0e\u753a\u300cHotel Soleil\u300d)",
+      "bio": "2\u756a\u901a\u308a\u6cbf\u3044\u306e\u30de\u30f3\u30b7\u30e7\u30f3\u304b\u3089\u5f92\u6b693\u5206\u306e\u8077\u5834\u306b20\u5e74\u52e4\u52d9\u3002\u30c7\u30a4\u30ea\u30fc\u30e4\u30de\u30b6\u30ad\u3067\u8cb7\u3063\u305f\u5f01\u5f53\u3092\u98df\u3079\u306a\u304c\u3089\u4e00\u4eba\u30d5\u30ed\u30f3\u30c8\u3092\u5b88\u308b\u3001\u3053\u306e\u8857\u306e\u751f\u304d\u8a3c\u4eba\u3002",
       "home": {
-        "lat": 40.7332,
-        "lon": -73.9944
+        "lat": 35.6929,
+        "lon": 139.703
       },
       "relationships": [
-        "agent_009",
-        "agent_011",
-        "agent_014",
-        "agent_016",
-        "agent_030"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": ""
+        "agent_003",
+        "agent_018",
+        "agent_026",
+        "agent_035"
+      ]
     },
     {
       "id": "agent_011",
-      "name": "Lisa Kim",
-      "age": 37,
-      "occupation": "Stay-at-home parent",
-      "bio": "Lisa stays home with her two young children while her husband commutes downtown. She is active in the school PTA and the neighborhood Facebook group. Her primary concerns are school quality, safety, and noise \u2014 she worries about what construction would mean for her kids.",
+      "name": "\u5c0f\u6797 \u3086\u3044",
+      "age": 20,
+      "occupation": "\u30ac\u30fc\u30eb\u30ba\u30d0\u30fc\u30b9\u30bf\u30c3\u30d5 (\u6b4c\u821e\u4f0e\u753a\u300cBar Sakura\u300d)",
+      "bio": "NOA\u30c0\u30f3\u30b9\u6559\u5ba4\u306b\u90312\u56de\u901a\u3044\u5c06\u6765\u306e\u30a2\u30a4\u30c9\u30eb\u6d3b\u52d5\u3092\u5922\u898b\u308b\u3002\u30de\u30af\u30c9\u30ca\u30eb\u30c9\u3067\u6df1\u591c\u306b\u53cb\u4eba\u3068\u53cd\u7701\u4f1a\u3092\u3059\u308b\u306e\u304c\u9031\u306e\u6052\u4f8b\u884c\u4e8b\u3002",
       "home": {
-        "lat": 40.7335,
-        "lon": -73.9968
+        "lat": 35.6922,
+        "lon": 139.7058
       },
       "relationships": [
-        "agent_010",
-        "agent_012",
-        "agent_015",
-        "agent_023",
-        "agent_027"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": ""
+        "agent_005",
+        "agent_009",
+        "agent_019",
+        "agent_029"
+      ]
     },
     {
       "id": "agent_012",
-      "name": "David Okafor",
-      "age": 55,
-      "occupation": "High school teacher",
-      "bio": "David has taught history at the neighborhood high school for 25 years. He is measured, evidence-driven, and deeply civic-minded. He shows up to every community board meeting and believes in good-faith dialogue even with people he disagrees with.",
+      "name": "\u6728\u6751 \u5149\u5b50",
+      "age": 71,
+      "occupation": "\u9000\u8077\u8005\u30fb\u5143\u30db\u30b9\u30c6\u30b9\u30af\u30e9\u30d6\u8863\u88c5\u5e2b",
+      "bio": "\u67cf\u6728\u516c\u5712\u306e\u30d9\u30f3\u30c1\u304c\u671d\u306e\u5b9a\u4f4d\u7f6e\u3067\u3001CoCo\u58f1\u756a\u5c4b\u306e\u30e9\u30f3\u30c1\u3067\u4e00\u65e5\u3092\u7d42\u3048\u308b\u3002\u82e5\u3044\u5b50\u305f\u3061\u306b\u91dd\u4ed5\u4e8b\u3092\u6559\u3048\u306a\u304c\u308940\u5e74\u4ee5\u4e0a\u3053\u306e\u8857\u306b\u6839\u3092\u5f35\u3063\u3066\u3044\u308b\u3002",
       "home": {
-        "lat": 40.7325,
-        "lon": -73.9972
+        "lat": 35.6944,
+        "lon": 139.699
       },
       "relationships": [
-        "agent_003",
-        "agent_011",
-        "agent_013",
-        "agent_016",
-        "agent_035"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": ""
+        "agent_006",
+        "agent_020",
+        "agent_033",
+        "agent_037"
+      ]
     },
     {
       "id": "agent_013",
-      "name": "Rachel Greene",
-      "age": 29,
-      "occupation": "Barista and environmental activist",
-      "bio": "Rachel works mornings at the local caf\u00e9 and spends her afternoons organizing for climate and housing justice. She has been arrested twice at protests and wears it as a badge of honor. She's passionate, sometimes abrasive, but genuinely effective at mobilizing people.",
+      "name": "\u674e \u660e (L\u01d0 M\u00edng)",
+      "age": 38,
+      "occupation": "\u4e2d\u83ef\u6599\u7406\u5e97\u30aa\u30fc\u30ca\u30fc\u30b7\u30a7\u30d5 (2\u756a\u901a\u308a\u300c\u4e0a\u6d77\u98ef\u5e97\u300d)",
+      "bio": "\u4e0a\u6d77\u51fa\u8eab\u3001\u5728\u65e515\u5e74\u3067\u81ea\u5206\u306e\u5e97\u3092\u6301\u3063\u305f\u3002\u30d3\u30c3\u30af\u30ab\u30e1\u30e9\u3067\u696d\u52d9\u7528\u30bf\u30d6\u30ec\u30c3\u30c8\u3092\u8cfc\u5165\u7ba1\u7406\u3057\u3001JR\u65b0\u5bbf\u99c5\u7d4c\u7531\u3067\u4ed5\u5165\u308c\u5148\u306e\u7bc9\u5730\u307e\u3067\u6bce\u671d\u901a\u3046\u3002",
       "home": {
-        "lat": 40.733,
-        "lon": -73.9958
+        "lat": 35.6935,
+        "lon": 139.7038
       },
       "relationships": [
-        "agent_009",
-        "agent_012",
-        "agent_015",
-        "agent_017",
-        "agent_034"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": ""
+        "agent_004",
+        "agent_021",
+        "agent_027",
+        "agent_036"
+      ]
     },
     {
       "id": "agent_014",
-      "name": "Steve Martinez",
-      "age": 48,
-      "occupation": "Plumber",
-      "bio": "Steve runs his own plumbing business and drives a truck full of equipment every day. He sees traffic and parking as legitimate infrastructure problems. He's not ideological \u2014 he just wants to get to jobs on time. He's sympathetic to business owners affected but pragmatic about progress.",
+      "name": "\u7530\u6751 \u6075\u5b50",
+      "age": 42,
+      "occupation": "\u8a2a\u554f\u4ecb\u8b77\u58eb (\u65b0\u5bbf\u533a\u5f79\u6240\u5728\u5b85\u4ecb\u8b77\u652f\u63f4\u30bb\u30f3\u30bf\u30fc\u767b\u9332)",
+      "bio": "\u65b0\u5bbf\u533a\u5f79\u6240\u5728\u5b85\u4ecb\u8b77\u652f\u63f4\u30bb\u30f3\u30bf\u30fc\u306b\u767b\u9332\u3057\u3001\u6b4c\u821e\u4f0e\u753a\u5468\u8fba\u306e\u9ad8\u9f62\u5358\u8eab\u8005\u5b85\u3092\u65e5\u4e2d\u5de1\u56de\u3059\u308b\u3002JR\u65b0\u5bbf\u99c5\u3067\u4e57\u308a\u63db\u3048\u306a\u304c\u3089\u4e00\u65e55\u301c6\u4ef6\u3092\u56de\u308b\u3002",
       "home": {
-        "lat": 40.7327,
-        "lon": -73.994
-      },
-      "relationships": [
-        "agent_010",
-        "agent_016",
-        "agent_022",
-        "agent_028",
-        "agent_024"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": ""
-    },
-    {
-      "id": "agent_015",
-      "name": "Nina Sharma",
-      "age": 33,
-      "occupation": "Yoga instructor",
-      "bio": "Nina runs a small yoga studio two blocks from Atlantic Avenue and bikes to work daily. She is calm, community-oriented, and deeply opposed to anything that degrades walkability or air quality in the neighborhood. She organized the neighborhood cleanup last spring.",
-      "home": {
-        "lat": 40.7333,
-        "lon": -73.9962
-      },
-      "relationships": [
-        "agent_009",
-        "agent_011",
-        "agent_013",
-        "agent_017",
-        "agent_038"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": ""
-    },
-    {
-      "id": "agent_016",
-      "name": "Bob Wilson",
-      "age": 63,
-      "occupation": "Retired police officer",
-      "bio": "Bob spent 30 years on the force and owns his home outright two blocks north of Atlantic Avenue. He is law-and-order minded and inclined to trust city decisions, but he also knows how eminent domain works and has seen it used poorly. He's conflicted but quiet about it.",
-      "home": {
-        "lat": 40.7326,
-        "lon": -73.9936
-      },
-      "relationships": [
-        "agent_002",
-        "agent_010",
-        "agent_012",
-        "agent_014",
-        "agent_022"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": ""
-    },
-    {
-      "id": "agent_017",
-      "name": "Aisha Robinson",
-      "age": 41,
-      "occupation": "Community organizer",
-      "bio": "Aisha runs the Boerum Hill Neighborhood Alliance and has been fighting displacement and gentrification for 12 years. She has strong relationships across every cluster of the neighborhood. She is strategic, persuasive, and will move quickly to organize resistance if the proposal is serious.",
-      "home": {
-        "lat": 40.7272,
-        "lon": -73.9958
-      },
-      "relationships": [
-        "agent_013",
-        "agent_015",
-        "agent_018",
-        "agent_035",
-        "agent_040"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": ""
-    },
-    {
-      "id": "agent_018",
-      "name": "Chris Taylor",
-      "age": 35,
-      "occupation": "Architect",
-      "bio": "Chris works at a midsize architecture firm and has professionally designed two highway-adjacent developments. He understands the engineering tradeoffs better than almost anyone in the neighborhood. He hasn't decided how he feels about this proposal \u2014 he wants to see the actual plans first.",
-      "home": {
-        "lat": 40.7275,
-        "lon": -73.9945
-      },
-      "relationships": [
-        "agent_017",
-        "agent_021",
-        "agent_033",
-        "agent_034",
-        "agent_040"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": ""
-    },
-    {
-      "id": "agent_019",
-      "name": "Mei Lin",
-      "age": 58,
-      "occupation": "Restaurant owner",
-      "bio": "Mei has run her Sichuan restaurant two blocks from Atlantic Avenue for 18 years. She survived the 2008 recession and COVID by cutting costs and building loyal regulars. She is pragmatic and worried primarily about whether the construction noise and detours will kill her lunch business.",
-      "home": {
-        "lat": 40.7268,
-        "lon": -73.9962
-      },
-      "relationships": [
-        "agent_001",
-        "agent_017",
-        "agent_020",
-        "agent_037",
-        "agent_035"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": ""
-    },
-    {
-      "id": "agent_020",
-      "name": "Jake Peterson",
-      "age": 22,
-      "occupation": "College student",
-      "bio": "Jake is a junior at the local university who skateboards everywhere and rents a room in a house near Mei's restaurant. He's not politically engaged but loudly opinionated on social media. He's likely to be influenced heavily by whoever he talks to most.",
-      "home": {
-        "lat": 40.7278,
-        "lon": -73.9952
-      },
-      "relationships": [
-        "agent_004",
-        "agent_019",
-        "agent_021",
-        "agent_024",
-        "agent_039"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": ""
-    },
-    {
-      "id": "agent_021",
-      "name": "Angela Davis-Moore",
-      "age": 47,
-      "occupation": "City transportation planner",
-      "bio": "Angela works for the city's Department of Transportation \u2014 not on this project, but in an adjacent division. She knows the politics behind the proposal and has complicated feelings: professionally she sees the case for it, personally she lives near the affected area. She is careful about what she says publicly.",
-      "home": {
-        "lat": 40.7282,
-        "lon": -73.994
-      },
-      "relationships": [
-        "agent_017",
-        "agent_018",
-        "agent_020",
-        "agent_033",
-        "agent_040"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": ""
-    },
-    {
-      "id": "agent_022",
-      "name": "Mike O'Brien",
-      "age": 52,
-      "occupation": "Truck driver",
-      "bio": "Mike drives a delivery truck 10 hours a day and loses 45 minutes daily to Atlantic Avenue congestion. He is blunt, unsentimental, and thinks the highway is long overdue. He has little patience for what he calls 'NIMBYism' but isn't cruel \u2014 he feels bad for people being displaced.",
-      "home": {
-        "lat": 40.727,
-        "lon": -73.9938
-      },
-      "relationships": [
-        "agent_006",
-        "agent_014",
-        "agent_016",
-        "agent_024",
-        "agent_028"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": ""
-    },
-    {
-      "id": "agent_023",
-      "name": "Sandra Lee",
-      "age": 38,
-      "occupation": "Elementary school teacher",
-      "bio": "Sandra teaches second grade at the school three blocks from Atlantic Avenue. She is warm, community-first, and primarily worried about how the construction will affect her students' home lives. Several of her kids live on Atlantic Avenue and she knows their families personally.",
-      "home": {
-        "lat": 40.7276,
-        "lon": -73.997
-      },
-      "relationships": [
-        "agent_005",
-        "agent_011",
-        "agent_017",
-        "agent_025",
-        "agent_035"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": ""
-    },
-    {
-      "id": "agent_024",
-      "name": "Roberto Gonzalez",
-      "age": 44,
-      "occupation": "Construction worker",
-      "bio": "Roberto works construction and has actually worked on highway projects before. He sees it from both sides: he knows the disruption it causes communities but also knows how many jobs it creates. He will likely get offered work on this very project, which makes his opinion complicated.",
-      "home": {
-        "lat": 40.7265,
-        "lon": -73.9944
-      },
-      "relationships": [
-        "agent_006",
-        "agent_014",
-        "agent_020",
-        "agent_022",
-        "agent_032"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": ""
-    },
-    {
-      "id": "agent_025",
-      "name": "Patricia White",
-      "age": 66,
-      "occupation": "Retired librarian",
-      "bio": "Patricia lives on the west side of the neighborhood and has watched it change dramatically over 30 years. She is gentle, thoughtful, and grieves whenever something old is torn down. She worries about the precedent this sets more than the highway itself.",
-      "home": {
-        "lat": 40.7315,
-        "lon": -73.998
-      },
-      "relationships": [
-        "agent_002",
-        "agent_003",
-        "agent_023",
-        "agent_027",
-        "agent_031"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": ""
-    },
-    {
-      "id": "agent_026",
-      "name": "Tyler Brooks",
-      "age": 27,
-      "occupation": "Startup founder",
-      "bio": "Tyler founded a logistics software company and drives a Tesla. He moved to the neighborhood 18 months ago for the 'vibe' but is genuinely indifferent to its preservation. He thinks about urban infrastructure as an optimization problem and is cautiously pro-highway.",
-      "home": {
-        "lat": 40.7308,
-        "lon": -73.9978
-      },
-      "relationships": [
-        "agent_008",
-        "agent_029",
-        "agent_030",
-        "agent_033",
-        "agent_038"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": ""
-    },
-    {
-      "id": "agent_027",
-      "name": "Fatima Hassan",
-      "age": 36,
-      "occupation": "Pharmacist",
-      "bio": "Fatima works at the pharmacy on the west side and is raising two kids with her husband. She is quietly religious, community-oriented, and deeply embedded in the neighborhood's Muslim community through Omar's mosque. She will take her cues partly from the community's collective response.",
-      "home": {
-        "lat": 40.7302,
-        "lon": -73.9982
-      },
-      "relationships": [
-        "agent_011",
-        "agent_025",
-        "agent_028",
-        "agent_031",
-        "agent_038"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": ""
-    },
-    {
-      "id": "agent_028",
-      "name": "Gary Evans",
-      "age": 59,
-      "occupation": "Bar owner",
-      "bio": "Gary owns a dive bar on the west side that's been in his family for 30 years. He's seen plenty of city proposals come and go \u2014 most die quietly. He's cynical about government promises but also worries that increased through-traffic could actually hurt his walk-in business.",
-      "home": {
-        "lat": 40.7295,
-        "lon": -73.9975
-      },
-      "relationships": [
-        "agent_014",
-        "agent_022",
-        "agent_027",
-        "agent_030",
-        "agent_037"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": ""
-    },
-    {
-      "id": "agent_029",
-      "name": "Jessica Young",
-      "age": 31,
-      "occupation": "Marketing manager",
-      "bio": "Jessica rents on the west side and works downtown. She moved here for the commute and likes the neighborhood but isn't attached to it. She follows local news casually and tends to form opinions based on how things affect her personally \u2014 rent, commute, noise.",
-      "home": {
-        "lat": 40.729,
-        "lon": -73.9979
+        "lat": 35.6953,
+        "lon": 139.7048
       },
       "relationships": [
         "agent_007",
-        "agent_026",
-        "agent_030",
-        "agent_034",
-        "agent_039"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": ""
+        "agent_020",
+        "agent_032",
+        "agent_038"
+      ]
     },
     {
-      "id": "agent_030",
-      "name": "Paul Nguyen",
-      "age": 43,
-      "occupation": "Accountant",
-      "bio": "Paul is meticulous, data-driven, and owns a condo on the west side. He's done his own analysis of property value impacts near highways and is skeptical the city's projections will hold. He is not an activist but will submit detailed written comments to the community board.",
+      "id": "agent_015",
+      "name": "\u4e2d\u6751 \u9f8d\u4e4b\u4ecb",
+      "age": 25,
+      "occupation": "\u30b9\u30ab\u30a6\u30c8\u30de\u30f3 (\u6b4c\u821e\u4f0e\u753a\u30a8\u30ea\u30a2\u62c5\u5f53\u3001\u4e8b\u52d9\u6240\u30d5\u30ea\u30fc\u30e9\u30f3\u30b9)",
+      "bio": "\u30bb\u30d6\u30f3-\u30a4\u30ec\u30d6\u30f3\u524d\u306b\u6bce\u6669\u305f\u3080\u308d\u3057\u3001\u4e0a\u4eac\u3057\u305f\u3066\u306e\u5973\u6027\u306b\u58f0\u3092\u304b\u3051\u308b\u306e\u304c\u4ed5\u4e8b\u3002JR\u65b0\u5bbf\u99c5\u306e\u6539\u672d\u5916\u304c\u4e3b\u306a\u6d3b\u52d5\u57df\u3067\u3001\u6708\u53ce\u306f\u6210\u529f\u5831\u916c\u6b21\u7b2c\u3002",
       "home": {
-        "lat": 40.7285,
-        "lon": -73.9976
-      },
-      "relationships": [
-        "agent_010",
-        "agent_026",
-        "agent_028",
-        "agent_029",
-        "agent_033"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": ""
-    },
-    {
-      "id": "agent_031",
-      "name": "Diana Foster",
-      "age": 50,
-      "occupation": "Social worker",
-      "bio": "Diana works for a nonprofit that serves low-income families in the neighborhood. She sees displacement and housing instability daily in her work and understands the social cost of urban disruption better than most. She will advocate hard for tenant protections if the project moves forward.",
-      "home": {
-        "lat": 40.7298,
-        "lon": -73.9985
-      },
-      "relationships": [
-        "agent_005",
-        "agent_017",
-        "agent_025",
-        "agent_027",
-        "agent_035"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": ""
-    },
-    {
-      "id": "agent_032",
-      "name": "Carlos Mendez",
-      "age": 29,
-      "occupation": "Warehouse worker",
-      "bio": "Carlos rents a room on the west side and sends money home to his family every month. He works long hours and doesn't follow local politics. He'll care about this if it directly affects his rent or commute, but he's largely disengaged from neighborhood civic life.",
-      "home": {
-        "lat": 40.728,
-        "lon": -73.9974
-      },
-      "relationships": [
-        "agent_004",
-        "agent_024",
-        "agent_028",
-        "agent_036",
-        "agent_039"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": ""
-    },
-    {
-      "id": "agent_033",
-      "name": "Henry Chang",
-      "age": 61,
-      "occupation": "Real estate developer",
-      "bio": "Henry owns several commercial properties near the east end of the neighborhood and has been quietly lobbying for infrastructure improvements for years. He stands to profit from a highway \u2014 increased accessibility raises commercial property values. He is charming, politically connected, and careful to stay neutral in public.",
-      "home": {
-        "lat": 40.7288,
-        "lon": -73.992
-      },
-      "relationships": [
-        "agent_018",
-        "agent_021",
-        "agent_026",
-        "agent_030",
-        "agent_040"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": ""
-    },
-    {
-      "id": "agent_034",
-      "name": "Amy Sullivan",
-      "age": 34,
-      "occupation": "Local journalist",
-      "bio": "Amy covers the neighborhood for the local paper and broke two stories about city development proposals in the past year. She is sharp, fair, and genuinely loves the community she covers. She will be one of the first to break news about the highway proposal and is already fielding calls.",
-      "home": {
-        "lat": 40.7295,
-        "lon": -73.9925
-      },
-      "relationships": [
-        "agent_013",
-        "agent_017",
-        "agent_018",
-        "agent_029",
-        "agent_040"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": ""
-    },
-    {
-      "id": "agent_035",
-      "name": "Omar Williams",
-      "age": 46,
-      "occupation": "Pastor",
-      "bio": "Omar leads the neighborhood's largest congregation and is trusted across racial and economic lines. He chooses his public statements carefully and sees his role as bridge-builder. He was raised two blocks from Atlantic Avenue and is personally moved by what this proposal could mean for his community.",
-      "home": {
-        "lat": 40.731,
-        "lon": -73.9918
+        "lat": 35.693,
+        "lon": 139.7005
       },
       "relationships": [
         "agent_001",
-        "agent_012",
-        "agent_017",
-        "agent_019",
         "agent_023",
-        "agent_031"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": ""
+        "agent_031",
+        "agent_040"
+      ]
+    },
+    {
+      "id": "agent_016",
+      "name": "\u798f\u7530 \u96c5\u4eba",
+      "age": 36,
+      "occupation": "\u6df1\u591c\u30bf\u30af\u30b7\u30fc\u30c9\u30e9\u30a4\u30d0\u30fc (\u65e5\u672c\u4ea4\u901a\u65b0\u5bbf\u55b6\u696d\u6240)",
+      "bio": "JR\u65b0\u5bbf\u99c5\u6771\u53e3\u3092\u62e0\u70b9\u306b\u6df1\u591c2\u6642\u301c\u671d6\u6642\u306b\u6d41\u3059\u3002\u304b\u3064\u3084\u306e\u65e9\u671d\u5b9a\u98df\u304c\u4e0a\u304c\u308a\u306e\u5100\u5f0f\u3067\u3001\u6b4c\u821e\u4f0e\u753a\u306e\u8def\u5730\u88cf\u306a\u3089\u76ee\u3092\u3064\u3076\u3063\u3066\u3082\u8d70\u308c\u308b\u3068\u8c6a\u8a9e\u3059\u308b\u3002",
+      "home": {
+        "lat": 35.6919,
+        "lon": 139.7015
+      },
+      "relationships": [
+        "agent_008",
+        "agent_024",
+        "agent_034",
+        "agent_039"
+      ]
+    },
+    {
+      "id": "agent_017",
+      "name": "Somchai Wattana (\u30bd\u30e0\u30c1\u30e3\u30a4\u30fb\u30ef\u30c3\u30bf\u30ca\u30fc)",
+      "age": 30,
+      "occupation": "\u30bf\u30a4\u5f0f\u30de\u30c3\u30b5\u30fc\u30b8\u5e2b (\u6b4c\u821e\u4f0e\u753a\u300cThai Relaxation\u300d)",
+      "bio": "\u30bf\u30a4\u51fa\u8eab\u3001\u30ed\u30fc\u30bd\u30f3\u3067\u30bf\u30a4\u5411\u3051\u306e\u56fd\u969b\u9001\u91d1\u3092\u6bce\u6708\u6b20\u304b\u3055\u305a\u884c\u3046\u3002\u30bf\u30a4\u30c8\u30fc\u30b9\u30c6\u30fc\u30b7\u30e7\u30f3\u3067UFO\u30ad\u30e3\u30c3\u30c1\u30e3\u30fc\u3092\u3084\u308a\u306a\u304c\u3089\u65e5\u672c\u8a9e\u3092\u72ec\u5b66\u3067\u935b\u3048\u305f\u3002",
+      "home": {
+        "lat": 35.6945,
+        "lon": 139.7055
+      },
+      "relationships": [
+        "agent_002",
+        "agent_009",
+        "agent_025",
+        "agent_030"
+      ]
+    },
+    {
+      "id": "agent_018",
+      "name": "\u4f0a\u85e4 \u54f2\u4e5f",
+      "age": 50,
+      "occupation": "\u30d3\u30eb\u7ba1\u7406\u6280\u8853\u8005\u30fb\u96fb\u6c17\u5de5\u4e8b\u58eb (\u6b4c\u821e\u4f0e\u753a\u30d3\u30eb\u7ba1\u7406\u4f1a\u793e\u52e4\u52d9)",
+      "bio": "2\u756a\u901a\u308a\u306e\u30d3\u30eb\u7fa4\u306e\u96fb\u6c17\u8a2d\u5099\u3092\u4e00\u624b\u306b\u7ba1\u7406\u3059\u308b\u6709\u8cc7\u683c\u8005\u3002\u30c7\u30a4\u30ea\u30fc\u30e4\u30de\u30b6\u30ad\u3067\u30b3\u30fc\u30d2\u30fc\u3092\u8cb7\u3044\u306a\u304c\u3089\u6bce\u671d\u5de1\u56de\u3057\u3001\u3053\u306e\u8857\u306e\u914d\u96fb\u76e4\u306e\u4f4d\u7f6e\u3092\u5168\u3066\u628a\u63e1\u3057\u3066\u3044\u308b\u3002",
+      "home": {
+        "lat": 35.6926,
+        "lon": 139.7028
+      },
+      "relationships": [
+        "agent_003",
+        "agent_010",
+        "agent_026",
+        "agent_035"
+      ]
+    },
+    {
+      "id": "agent_019",
+      "name": "\u68ee\u7530 \u3042\u304b\u308a",
+      "age": 23,
+      "occupation": "\u30b9\u30c8\u30ea\u30c3\u30d1\u30fc\u30fb\u30d0\u30fc\u30ec\u30b9\u30af\u30d1\u30d5\u30a9\u30fc\u30de\u30fc (\u6b4c\u821e\u4f0e\u753a\u300cClub Noir\u300d)",
+      "bio": "Studio Beans 717\u3067\u30eb\u30fc\u30c6\u30a3\u30f3\u3092\u6bce\u9031\u7df4\u7fd2\u3057\u3001NOA\u30c0\u30f3\u30b9\u6559\u5ba4\u306e\u30b8\u30e3\u30ba\u30af\u30e9\u30b9\u306b\u3082\u901a\u3046\u3002\u30b1\u30f3\u30bf\u30c3\u30ad\u30fc\u30d5\u30e9\u30a4\u30c9\u30c1\u30ad\u30f3\u3067\u30d0\u30a4\u30c8\u4ef2\u9593\u3068\u591c\u660e\u3051\u524d\u306e\u98df\u4e8b\u3092\u5171\u306b\u3059\u308b\u3002",
+      "home": {
+        "lat": 35.6918,
+        "lon": 139.7063
+      },
+      "relationships": [
+        "agent_005",
+        "agent_011",
+        "agent_028",
+        "agent_029"
+      ]
+    },
+    {
+      "id": "agent_020",
+      "name": "\u91ce\u53e3 \u6e80",
+      "age": 67,
+      "occupation": "\u9000\u8077\u8005\u30fb\u5143\u65b0\u5bbf\u533a\u5f79\u6240\u8077\u54e1",
+      "bio": "\u67cf\u6728\u516c\u5712\u3067\u6bce\u671d\u30e9\u30b8\u30aa\u4f53\u64cd\u3092\u3059\u308b\u6570\u5c11\u306a\u3044\u9ad8\u9f62\u8005\u3002\u65b0\u5bbf\u533a\u5f79\u6240\u5728\u5b85\u4ecb\u8b77\u652f\u63f4\u30bb\u30f3\u30bf\u30fc\u306b\u9031\u4e00\u3067\u30dc\u30e9\u30f3\u30c6\u30a3\u30a2\u76f8\u8ac7\u54e1\u3068\u3057\u3066\u9854\u3092\u51fa\u3057\u3001\u5730\u57df\u306e\u9854\u5f79\u3068\u3057\u3066\u77e5\u3089\u308c\u308b\u3002",
+      "home": {
+        "lat": 35.695,
+        "lon": 139.6992
+      },
+      "relationships": [
+        "agent_006",
+        "agent_012",
+        "agent_014",
+        "agent_032"
+      ]
+    },
+    {
+      "id": "agent_021",
+      "name": "Amara Diallo",
+      "age": 32,
+      "occupation": "\u30a2\u30d5\u30ea\u30ab\u30f3\u30ec\u30b9\u30c8\u30e9\u30f3\u30ad\u30e3\u30c3\u30c1\u30fb\u30d5\u30ed\u30a2\u30b9\u30bf\u30c3\u30d5 (3\u756a\u901a\u308a\u300cAfrica Beats\u300d)",
+      "bio": "\u30bb\u30cd\u30ac\u30eb\u51fa\u8eab\u30013\u756a\u901a\u308a\u306e\u30ec\u30b9\u30c8\u30e9\u30f3\u3067\u5ba2\u5f15\u304d\u3068\u63a5\u5ba2\u3092\u517c\u52d9\u3002\u30ed\u30fc\u30bd\u30f3\u3067\u65e5\u672c\u8a9e\u6559\u6750\u3092\u8cb7\u3044\u72ec\u5b66\u3067\u52c9\u5f37\u3057\u306a\u304c\u3089\u3001JR\u65b0\u5bbf\u99c5\u5468\u8fba\u306e\u4eba\u306e\u6d41\u308c\u3092\u8aad\u3093\u3067\u96c6\u5ba2\u3059\u308b\u3002",
+      "home": {
+        "lat": 35.6958,
+        "lon": 139.7045
+      },
+      "relationships": [
+        "agent_007",
+        "agent_013",
+        "agent_030",
+        "agent_036"
+      ]
+    },
+    {
+      "id": "agent_022",
+      "name": "\u6a4b\u672c \u7d17\u8036",
+      "age": 35,
+      "occupation": "\u30d8\u30c3\u30c9\u30cf\u30f3\u30bf\u30fc\u30fb\u591c\u8077\u5c02\u9580\u4eba\u6750\u30a8\u30fc\u30b8\u30a7\u30f3\u30c8 (\u30d5\u30ea\u30fc\u30e9\u30f3\u30b9)",
+      "bio": "\u30c9\u30c8\u30fc\u30eb\u30b3\u30fc\u30d2\u30fc\u30b7\u30e7\u30c3\u30d7\u3067\u663c\u9593\u306b\u9762\u63a5\u3092\u884c\u3044\u3001\u591c\u306f\u6b4c\u821e\u4f0e\u753a\u306e\u5404\u30af\u30e9\u30d6\u3092\u5de1\u56de\u3057\u3066\u4eba\u6750\u3092\u30b9\u30ab\u30a6\u30c8\u3059\u308b\u3002JR\u65b0\u5bbf\u99c5\u69cb\u5185\u306e\u30b3\u30ef\u30fc\u30ad\u30f3\u30b0\u30b9\u30da\u30fc\u30b9\u304c\u4eee\u30aa\u30d5\u30a3\u30b9\u3002",
+      "home": {
+        "lat": 35.6937,
+        "lon": 139.702
+      },
+      "relationships": [
+        "agent_004",
+        "agent_015",
+        "agent_031",
+        "agent_040"
+      ]
+    },
+    {
+      "id": "agent_023",
+      "name": "\u677e\u672c \u7fd4\u592a",
+      "age": 29,
+      "occupation": "\u98a8\u4fd7\u5e97\u5e97\u9577 (\u6b4c\u821e\u4f0e\u753a\u300cRelaxation Club X\u300d)",
+      "bio": "\u30bb\u30d6\u30f3-\u30a4\u30ec\u30d6\u30f3\u304c\u5b9f\u8cea\u7684\u306a\u4e8b\u52d9\u6240\u3067\u3001\u6bce\u6669\u30b7\u30d5\u30c8\u7ba1\u7406\u3068\u58f2\u4e0a\u96c6\u8a08\u3092\u30ec\u30b8\u6a2a\u3067\u3053\u306a\u3059\u3002JR\u65b0\u5bbf\u99c5\u306e\u7d42\u96fb\u5f8c\u304c\u6700\u3082\u5fd9\u3057\u3044\u6642\u9593\u5e2f\u3060\u3068\u8a00\u3044\u5207\u308b\u3002",
+      "home": {
+        "lat": 35.6932,
+        "lon": 139.7003
+      },
+      "relationships": [
+        "agent_001",
+        "agent_015",
+        "agent_016",
+        "agent_039"
+      ]
+    },
+    {
+      "id": "agent_024",
+      "name": "\u5b89\u85e4 \u6d69\u4e8c",
+      "age": 41,
+      "occupation": "\u4ee3\u884c\u904b\u8ee2\u30c9\u30e9\u30a4\u30d0\u30fc (\u500b\u4eba\u4e8b\u696d\u4e3b\u3001\u6b4c\u821e\u4f0e\u753a\u30a8\u30ea\u30a2\u5c02\u5c5e)",
+      "bio": "\u6df1\u591c\u306e\u6b4c\u821e\u4f0e\u753a\u3067\u9154\u3063\u305f\u5ba2\u3092\u81ea\u5b85\u307e\u3067\u9001\u308b\u4ee3\u884c\u696d\u309212\u5e74\u3002\u304b\u3064\u3084\u3067\u4eee\u7720\u524d\u306e\u591c\u98df\u3092\u98df\u3079\u3001JR\u65b0\u5bbf\u99c5\u6771\u53e3\u306b\u623b\u308b\u306e\u304c\u6bce\u6669\u306e\u52d5\u7dda\u3002",
+      "home": {
+        "lat": 35.6923,
+        "lon": 139.7043
+      },
+      "relationships": [
+        "agent_008",
+        "agent_016",
+        "agent_034",
+        "agent_039"
+      ]
+    },
+    {
+      "id": "agent_025",
+      "name": "Lalita Srisook (\u30e9\u30ea\u30bf\u30fb\u30b9\u30ea\u30b9\u30c3\u30af)",
+      "age": 27,
+      "occupation": "\u30bf\u30a4\u7cfb\u30b9\u30ca\u30c3\u30af\u30db\u30b9\u30c6\u30b9 (\u6b4c\u821e\u4f0e\u753a\u300cBangkok Nuit\u300d)",
+      "bio": "\u30b1\u30f3\u30bf\u30c3\u30ad\u30fc\u30d5\u30e9\u30a4\u30c9\u30c1\u30ad\u30f3\u3067\u5915\u65b9\u306b\u8179\u3092\u6e80\u305f\u3057\u3066\u304b\u3089\u51fa\u52e4\u3057\u3001\u30bf\u30a4\u30c8\u30fc\u30b9\u30c6\u30fc\u30b7\u30e7\u30f3\u3067\u30af\u30ec\u30fc\u30f3\u30b2\u30fc\u30e0\u3092\u697d\u3057\u3080\u306e\u304c\u552f\u4e00\u306e\u4f11\u606f\u3002",
+      "home": {
+        "lat": 35.6942,
+        "lon": 139.7058
+      },
+      "relationships": [
+        "agent_009",
+        "agent_017",
+        "agent_030",
+        "agent_037"
+      ]
+    },
+    {
+      "id": "agent_026",
+      "name": "\u5742\u672c \u9686",
+      "age": 48,
+      "occupation": "\u7d66\u6392\u6c34\u8a2d\u5099\u914d\u7ba1\u5de5 (\u65b0\u5bbf\u533a\u5185\u5efa\u8a2d\u4f1a\u793e\u52e4\u52d9)",
+      "bio": "\u6b4c\u821e\u4f0e\u753a\u306e\u30d3\u30eb\u3084\u30e9\u30d6\u30db\u30c6\u30eb\u306e\u914d\u7ba1\u4fee\u7406\u3092\u5c02\u9580\u3068\u3057\u30012\u756a\u901a\u308a\u306e\u30a2\u30d1\u30fc\u30c8\u304b\u3089\u81ea\u8ee2\u8eca\u3067\u73fe\u5834\u3078\u5411\u304b\u3046\u3002\u30c7\u30a4\u30ea\u30fc\u30e4\u30de\u30b6\u30ad\u306e\u7f36\u30b3\u30fc\u30d2\u30fc\u304c\u671d\u306e\u5fc5\u9700\u54c1\u3002",
+      "home": {
+        "lat": 35.6928,
+        "lon": 139.7025
+      },
+      "relationships": [
+        "agent_010",
+        "agent_018",
+        "agent_035",
+        "agent_038"
+      ]
+    },
+    {
+      "id": "agent_027",
+      "name": "\u738b \u82b3 (W\u00e1ng F\u0101ng)",
+      "age": 44,
+      "occupation": "\u4e2d\u56fd\u7cfb\u4e21\u66ff\u5546\u30fb\u9001\u91d1\u696d\u8005 (\u6b4c\u821e\u4f0e\u753a\u300c\u65b0\u5bbf\u4e21\u66ff\u30bb\u30f3\u30bf\u30fc\u300d)",
+      "bio": "\u30e8\u30c9\u30d0\u30b7\u30ab\u30e1\u30e9\u8fd1\u304f\u306e\u30d6\u30fc\u30b9\u3067\u4e2d\u56fd\u4eba\u89b3\u5149\u5ba2\u30fb\u5c45\u4f4f\u8005\u76f8\u624b\u306b\u73fe\u91d1\u4e21\u66ff\u3092\u884c\u3046\u3002JR\u65b0\u5bbf\u99c5\u3067\u4e2d\u56fd\u7cfb\u306e\u6d3e\u9063\u52b4\u50cd\u8005\u306b\u58f0\u3092\u304b\u3051\u9867\u5ba2\u3092\u5897\u3084\u3057\u3066\u304d\u305f\u3002",
+      "home": {
+        "lat": 35.6936,
+        "lon": 139.6998
+      },
+      "relationships": [
+        "agent_013",
+        "agent_036",
+        "agent_040",
+        "agent_033"
+      ]
+    },
+    {
+      "id": "agent_028",
+      "name": "\u77e2\u91ce \u5f69\u82b1",
+      "age": 21,
+      "occupation": "\u30b3\u30b9\u30d7\u30ec\u7cfb\u30d0\u30fc\u5e97\u54e1 (\u6b4c\u821e\u4f0e\u753a\u300cPixelBar\u300d)",
+      "bio": "Studio Beans 717\u3067\u30b3\u30b9\u30d7\u30ec\u64ae\u5f71\u306e\u7df4\u7fd2\u3092\u3057\u3001NOA\u30c0\u30f3\u30b9\u6559\u5ba4\u3067\u30ad\u30e3\u30e9\u30af\u30bf\u30fc\u30c0\u30f3\u30b9\u3092\u78e8\u304f\u3002\u30de\u30af\u30c9\u30ca\u30eb\u30c9\u304c\u6df1\u591c\u306e\u61a9\u3044\u306e\u5834\u3002",
+      "home": {
+        "lat": 35.6915,
+        "lon": 139.707
+      },
+      "relationships": [
+        "agent_005",
+        "agent_011",
+        "agent_019",
+        "agent_029"
+      ]
+    },
+    {
+      "id": "agent_029",
+      "name": "\u5f8c\u85e4 \u5065",
+      "age": 33,
+      "occupation": "\u30d0\u30fc\u30c6\u30f3\u30c0\u30fc (\u6b4c\u821e\u4f0e\u753a\u30af\u30e9\u30d5\u30c8\u30ab\u30af\u30c6\u30eb\u30d0\u30fc\u300cNoir Spirits\u300d)",
+      "bio": "\u30c9\u30c8\u30fc\u30eb\u30b3\u30fc\u30d2\u30fc\u30b7\u30e7\u30c3\u30d7\u3067\u4ed5\u5165\u308c\u306e\u30df\u30fc\u30c6\u30a3\u30f3\u30b0\u3092\u884c\u3044\u3001\u30d3\u30c3\u30af\u30ab\u30e1\u30e9\u3067\u30d0\u30fc\u306e\u97f3\u97ff\u6a5f\u6750\u3092\u8cfc\u5165\u7ba1\u7406\u3059\u308b\u3002\u7d42\u96fb\u5f8c\u306e\u6b4c\u821e\u4f0e\u753a\u6b69\u304d\u304c\u65e5\u8ab2\u3002",
+      "home": {
+        "lat": 35.692,
+        "lon": 139.7062
+      },
+      "relationships": [
+        "agent_011",
+        "agent_019",
+        "agent_028",
+        "agent_037"
+      ]
+    },
+    {
+      "id": "agent_030",
+      "name": "Pham Van Duc (\u30d5\u30a1\u30e0\u30fb\u30d0\u30f3\u30fb\u30c9\u30a5\u30c3\u30af)",
+      "age": 25,
+      "occupation": "\u6df1\u591c\u30b3\u30f3\u30d3\u30cb\u30b9\u30bf\u30c3\u30d5 (\u30ed\u30fc\u30bd\u30f3\u6b4c\u821e\u4f0e\u753a\u5e97)",
+      "bio": "\u30d9\u30c8\u30ca\u30e0\u304b\u3089\u7559\u5b66\u30d3\u30b6\u3067\u6765\u65e5\u3057\u3001\u30ed\u30fc\u30bd\u30f3\u306e\u6df1\u591c\u30b7\u30d5\u30c8\u3067\u751f\u6d3b\u8cbb\u3092\u7a3c\u304e\u306a\u304c\u3089\u65e5\u672c\u8a9e\u5b66\u6821\u306b\u901a\u3046\u3002\u30bf\u30a4\u30c8\u30fc\u30b9\u30c6\u30fc\u30b7\u30e7\u30f3\u3067\u9031\u672b\u3060\u3051\u606f\u629c\u304d\u3092\u3059\u308b\u3002",
+      "home": {
+        "lat": 35.695,
+        "lon": 139.705
+      },
+      "relationships": [
+        "agent_007",
+        "agent_017",
+        "agent_021",
+        "agent_025"
+      ]
+    },
+    {
+      "id": "agent_031",
+      "name": "\u5ca1\u7530 \u7f8e\u7a42",
+      "age": 26,
+      "occupation": "\u30db\u30b9\u30c8\u30af\u30e9\u30d6\u540c\u4f34\u30fb\u30a2\u30d5\u30bf\u30fc\u5c02\u9580\u30a8\u30b9\u30b3\u30fc\u30c8\u5b22 (\u30d5\u30ea\u30fc\u30e9\u30f3\u30b9)",
+      "bio": "JR\u65b0\u5bbf\u99c5\u6771\u53e3\u3067\u5f85\u3061\u5408\u308f\u305b\u3092\u3053\u306a\u3057\u3001\u30de\u30af\u30c9\u30ca\u30eb\u30c9\u3067\u5ba2\u3068\u306e\u4e8b\u524d\u6253\u3061\u5408\u308f\u305b\u3092\u3059\u308b\u3002\u30bb\u30d6\u30f3-\u30a4\u30ec\u30d6\u30f3\u304c\u552f\u4e00\u306e\u4e00\u4eba\u306b\u306a\u308c\u308b\u6642\u9593\u306e\u5834\u6240\u3002",
+      "home": {
+        "lat": 35.6925,
+        "lon": 139.7008
+      },
+      "relationships": [
+        "agent_002",
+        "agent_015",
+        "agent_022",
+        "agent_040"
+      ]
+    },
+    {
+      "id": "agent_032",
+      "name": "\u5409\u7530 \u76f4\u6a39",
+      "age": 39,
+      "occupation": "\u65b0\u5bbf\u533a\u5f79\u6240 \u751f\u6d3b\u4fdd\u8b77\u62c5\u5f53\u30b1\u30fc\u30b9\u30ef\u30fc\u30ab\u30fc",
+      "bio": "\u65b0\u5bbf\u533a\u5f79\u6240\u5728\u5b85\u4ecb\u8b77\u652f\u63f4\u30bb\u30f3\u30bf\u30fc\u3068\u9023\u643a\u3057\u3066\u6b4c\u821e\u4f0e\u753a\u306e\u56f0\u7aae\u8005\u652f\u63f4\u3092\u62c5\u5f53\u3002JR\u65b0\u5bbf\u99c5\u3092\u6bce\u671d\u901a\u52e4\u3057\u3001\u591c\u8077\u304b\u3089\u30c9\u30ed\u30c3\u30d7\u30a2\u30a6\u30c8\u3057\u305f\u4eba\u306e\u76f8\u8ac7\u7a93\u53e3\u3068\u3057\u3066\u4fe1\u983c\u3055\u308c\u308b\u3002",
+      "home": {
+        "lat": 35.6946,
+        "lon": 139.7002
+      },
+      "relationships": [
+        "agent_014",
+        "agent_020",
+        "agent_033",
+        "agent_038"
+      ]
+    },
+    {
+      "id": "agent_033",
+      "name": "\u6751\u4e0a \u5178\u5b50",
+      "age": 55,
+      "occupation": "\u65b0\u5bbf\u533a\u7acb\u5c0f\u5b66\u6821 \u975e\u5e38\u52e4\u6559\u54e1\u30fb\u5b66\u7fd2\u652f\u63f4\u6307\u5c0e\u54e1",
+      "bio": "\u67cf\u6728\u516c\u5712\u305d\u3070\u306b\u4f4f\u307f\u3001\u6771\u5927\u4e45\u4fdd\u516c\u5712\u3067\u5916\u56fd\u4eba\u5150\u7ae5\u306b\u65e5\u672c\u8a9e\u5b66\u7fd2\u652f\u63f4\u3092\u884c\u3046NPO\u3068\u3082\u9023\u643a\u3059\u308b\u3002CoCo\u58f1\u756a\u5c4b\u3067\u663c\u98df\u3092\u53d6\u308b\u306e\u304c\u6bce\u9031\u306e\u7fd2\u6163\u3002",
+      "home": {
+        "lat": 35.6947,
+        "lon": 139.6993
+      },
+      "relationships": [
+        "agent_006",
+        "agent_012",
+        "agent_032",
+        "agent_038"
+      ]
+    },
+    {
+      "id": "agent_034",
+      "name": "\u77f3\u5ddd \u6b63\u9053",
+      "age": 43,
+      "occupation": "\u30d1\u30c1\u30f3\u30b3\u53f0\u30e1\u30f3\u30c6\u30ca\u30f3\u30b9\u6280\u8853\u8005 (\u696d\u52d9\u59d4\u8a17\u3001\u65b0\u5bbf\u30a8\u30ea\u30a2\u62c5\u5f53)",
+      "bio": "2\u756a\u901a\u308a\u304b\u30893\u756a\u901a\u308a\u306e\u8907\u6570\u5e97\u8217\u3092\u5de1\u56de\u3057\u3001\u6545\u969c\u3057\u305f\u53f0\u3092\u5373\u65e5\u4fee\u7406\u3059\u308b\u8077\u4eba\u3002\u304b\u3064\u3084\u3068\u30bb\u30d6\u30f3-\u30a4\u30ec\u30d6\u30f3\u304c\u79fb\u52d5\u4e2d\u306e\u98df\u4e8b\u5834\u6240\u3002",
+      "home": {
+        "lat": 35.693,
+        "lon": 139.7035
+      },
+      "relationships": [
+        "agent_003",
+        "agent_016",
+        "agent_024",
+        "agent_026"
+      ]
+    },
+    {
+      "id": "agent_035",
+      "name": "\u5bae\u5d0e \u5fcd",
+      "age": 37,
+      "occupation": "\u30e9\u30d6\u30db\u30c6\u30eb\u30cf\u30a6\u30b9\u30ad\u30fc\u30d1\u30fc\u30c1\u30fc\u30d5 (Hotel Soleil\u3001\u65e9\u671d\u30b7\u30d5\u30c8)",
+      "bio": "\u30c7\u30a4\u30ea\u30fc\u30e4\u30de\u30b6\u30ad\u3067\u671d5\u6642\u306b\u8cb7\u3044\u7269\u3092\u3057\u3066\u304b\u3089\u6e05\u6383\u30c1\u30fc\u30e0\u3092\u7387\u3044\u308b\u30022\u756a\u901a\u308a\u306e\u5bb6\u8cc35\u4e07\u5186\u53f0\u306e\u7269\u4ef6\u306b\u4f4f\u3080\u3001\u3053\u306e\u5730\u533a\u306e\u6570\u5c11\u306a\u3044\u9577\u671f\u5c45\u4f4f\u8005\u3002",
+      "home": {
+        "lat": 35.6924,
+        "lon": 139.7028
+      },
+      "relationships": [
+        "agent_010",
+        "agent_018",
+        "agent_026",
+        "agent_034"
+      ]
     },
     {
       "id": "agent_036",
-      "name": "Tanya Brown",
-      "age": 28,
-      "occupation": "Hair salon owner",
-      "bio": "Tanya opened her salon on the east side two years ago and is still building her client base. She's young, entrepreneurial, and worried about anything that disrupts foot traffic. She's active on Instagram and talks to clients all day \u2014 she's a rumor hub for the neighborhood.",
+      "name": "\u6797 \u5fd7\u5049 (L\u00edn Zh\u00ecw\u011bi)",
+      "age": 40,
+      "occupation": "\u4e2d\u56fd\u7cfb\u89b3\u5149\u5ba2\u5411\u3051\u30c4\u30a2\u30fc\u30ac\u30a4\u30c9\u517c\u514d\u7a0e\u54c1\u30d6\u30ed\u30fc\u30ab\u30fc (\u500b\u4eba\u4e8b\u696d)",
+      "bio": "\u30e8\u30c9\u30d0\u30b7\u30ab\u30e1\u30e9\u3067\u306e\u7206\u8cb7\u3044\u30c4\u30a2\u30fc\u3092\u30b3\u30fc\u30c7\u30a3\u30cd\u30fc\u30c8\u3057\u3001JR\u65b0\u5bbf\u99c5\u306e\u30a4\u30f3\u30d5\u30a9\u30e1\u30fc\u30b7\u30e7\u30f3\u4ed8\u8fd1\u3067\u30b0\u30eb\u30fc\u30d7\u3068\u5408\u6d41\u3059\u308b\u3002\u30ed\u30fc\u30bd\u30f3\u3067\u30a6\u30a3\u30fc\u30c1\u30e3\u30c3\u30c8\u9001\u91d1\u306e\u78ba\u8a8d\u4f5c\u696d\u3082\u3053\u306a\u3059\u3002",
       "home": {
-        "lat": 40.73,
-        "lon": -73.9922
+        "lat": 35.6954,
+        "lon": 139.7038
       },
       "relationships": [
-        "agent_019",
-        "agent_032",
-        "agent_037",
-        "agent_038",
-        "agent_039"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": ""
+        "agent_004",
+        "agent_013",
+        "agent_021",
+        "agent_027"
+      ]
     },
     {
       "id": "agent_037",
-      "name": "Frank Romano",
-      "age": 57,
-      "occupation": "Pizza shop owner",
-      "bio": "Frank's pizza place is on the east end, far from Atlantic Avenue. He thinks more traffic in the area might actually bring him more business. He's not heartless \u2014 he knows people are being displaced \u2014 but he is small-minded about his own bottom line and probably won't oppose the project publicly.",
+      "name": "\u85e4\u539f \u85ab",
+      "age": 46,
+      "occupation": "\u7cbe\u795e\u79d1\u30fb\u4f9d\u5b58\u75c7\u5c02\u9580\u30af\u30ea\u30cb\u30c3\u30af\u770b\u8b77\u5e2b (\u65b0\u5bbf\u533a\u5185\u30af\u30ea\u30cb\u30c3\u30af\u52e4\u52d9)",
+      "bio": "\u6b4c\u821e\u4f0e\u753a\u306e\u591c\u8077\u8005\u3084\u85ac\u7269\u4f9d\u5b58\u60a3\u8005\u3092\u591a\u304f\u62c5\u5f53\u3059\u308b\u81e8\u5e8a\u7d4c\u9a1315\u5e74\u306e\u30d9\u30c6\u30e9\u30f3\u3002\u67cf\u6728\u516c\u5712\u3067\u663c\u4f11\u307f\u3092\u3068\u308a\u3001CoCo\u58f1\u756a\u5c4b\u3067\u5915\u98df\u3092\u3068\u3063\u3066\u304b\u3089\u591c\u9593\u5916\u6765\u306b\u5099\u3048\u308b\u3002",
       "home": {
-        "lat": 40.7285,
-        "lon": -73.9915
+        "lat": 35.6943,
+        "lon": 139.6998
       },
       "relationships": [
-        "agent_019",
-        "agent_028",
-        "agent_033",
-        "agent_036",
-        "agent_038"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": ""
+        "agent_012",
+        "agent_025",
+        "agent_029",
+        "agent_032"
+      ]
     },
     {
       "id": "agent_038",
-      "name": "Sarah Mitchell",
-      "age": 40,
-      "occupation": "Pediatrician",
-      "bio": "Sarah runs a pediatric practice two blocks east of Atlantic Avenue. She is concerned about air quality impacts from increased traffic and has published research on childhood asthma rates near highways. She will likely oppose the project on public health grounds and can speak credibly in that register.",
+      "name": "\u4e2d\u5cf6 \u9686\u53f8",
+      "age": 58,
+      "occupation": "\u65b0\u5bbf\u533a\u5f79\u6240 \u90fd\u5e02\u6574\u5099\u8ab2 \u5730\u57df\u6574\u5099\u62c5\u5f53\u4e3b\u4efb",
+      "bio": "\u65b0\u5bbf\u533a \u6771\u5927\u4e45\u4fdd\u516c\u5712\u306e\u6574\u5099\u8a08\u753b\u3092\u62c5\u5f53\u3057\u3001\u6b4c\u821e\u4f0e\u753a\u306e\u770b\u677f\u898f\u5236\u3084\u9055\u6cd5\u99d0\u8eca\u5bfe\u7b56\u3092\u63a8\u9032\u3059\u308b\u533a\u8077\u54e1\u3002JR\u65b0\u5bbf\u99c5\u304b\u3089\u81ea\u8ee2\u8eca\u901a\u52e4\u3057\u3001\u67cf\u6728\u516c\u5712\u306e\u5de1\u56de\u70b9\u691c\u3082\u884c\u3046\u3002",
       "home": {
-        "lat": 40.7318,
-        "lon": -73.9924
+        "lat": 35.6951,
+        "lon": 139.6996
       },
       "relationships": [
-        "agent_015",
-        "agent_026",
-        "agent_027",
-        "agent_036",
-        "agent_037"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": ""
+        "agent_014",
+        "agent_020",
+        "agent_032",
+        "agent_033"
+      ]
     },
     {
       "id": "agent_039",
-      "name": "Kevin Adams",
-      "age": 33,
-      "occupation": "Personal trainer",
-      "bio": "Kevin trains clients at a gym on the east side and runs in the neighborhood park every morning. He cares about air quality and green space. He's social, well-liked, and politically in the middle \u2014 he'll be swayed by whoever makes the most compelling personal argument to him.",
+      "name": "\u897f\u6751 \u3048\u307f",
+      "age": 34,
+      "occupation": "\u6df1\u591c\u5c02\u9580\u6551\u6025\u6551\u547d\u58eb (\u65b0\u5bbf\u6d88\u9632\u7f72\u5206\u7f72\u52e4\u52d9)",
+      "bio": "\u6b4c\u821e\u4f0e\u753a\u306e\u6025\u6027\u30a2\u30eb\u30b3\u30fc\u30eb\u4e2d\u6bd2\u30fb\u85ac\u7269\u904e\u591a\u4e8b\u6848\u306b\u6700\u524d\u7dda\u3067\u5bfe\u5fdc\u3059\u308b\u3002\u30bb\u30d6\u30f3-\u30a4\u30ec\u30d6\u30f3\u304c\u4eee\u7720\u524d\u306e\u7acb\u3061\u5bc4\u308a\u30b9\u30dd\u30c3\u30c8\u3067\u3001JR\u65b0\u5bbf\u99c5\u5468\u8fba\u306e\u5730\u7406\u306f\u719f\u77e5\u3057\u3066\u3044\u308b\u3002",
       "home": {
-        "lat": 40.7293,
-        "lon": -73.9918
+        "lat": 35.6921,
+        "lon": 139.704
       },
       "relationships": [
-        "agent_020",
-        "agent_029",
-        "agent_032",
-        "agent_036",
-        "agent_037"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": ""
+        "agent_008",
+        "agent_016",
+        "agent_023",
+        "agent_024"
+      ]
     },
     {
       "id": "agent_040",
-      "name": "Linda Park",
-      "age": 55,
-      "occupation": "City council member",
-      "bio": "Linda represents this district on city council and is facing reelection in 14 months. The highway proposal came from the mayor's office and she hasn't taken a public position yet. She is politically experienced, has conflicting pressures from constituents and party leadership, and is watching the neighborhood's response carefully before deciding.",
+      "name": "\u9060\u85e4 \u5e78\u96c4",
+      "age": 52,
+      "occupation": "\u30e4\u30af\u30b6\u7cfb\u5730\u4e0b\u91d1\u878d\u30fb\u95c7\u91d1\u696d\u8005 (\u6b4c\u821e\u4f0e\u753a\u300c\u4fbf\u5229\u5c4b\u300d\u540d\u7fa9)",
+      "bio": "\u30e8\u30c9\u30d0\u30b7\u30ab\u30e1\u30e9\u65b9\u9762\u306e\u96d1\u5c45\u30d3\u30eb\u306b\u4e8b\u52d9\u6240\u3092\u69cb\u3048\u3001\u591c\u8077\u8005\u5411\u3051\u306e\u77ed\u671f\u30ed\u30fc\u30f3\u3092\u56de\u3057\u3066\u3044\u308b\u3002JR\u65b0\u5bbf\u99c5\u306e\u6539\u672d\u4ed8\u8fd1\u3067\u30c8\u30e9\u30d6\u30eb\u8abf\u505c\u3092\u884c\u3046\u3053\u3068\u3082\u591a\u3044\u3002",
       "home": {
-        "lat": 40.7275,
-        "lon": -73.992
+        "lat": 35.6935,
+        "lon": 139.7
       },
       "relationships": [
-        "agent_017",
-        "agent_018",
-        "agent_021",
-        "agent_033",
-        "agent_034"
-      ],
-      "memory_stream": [],
-      "current_thought": "",
-      "current_plan": "",
-      "sentiment": 0.0,
-      "last_action": ""
+        "agent_015",
+        "agent_022",
+        "agent_027",
+        "agent_031"
+      ]
     }
-  ]
+  ],
+  "map_center": {
+    "lat": 35.6939846366605,
+    "lon": 139.70316898531928
+  },
+  "map_bounds": {
+    "lat_min": 35.691066,
+    "lat_max": 35.696903,
+    "lon_min": 139.697121,
+    "lon_max": 139.709217,
+    "center_lat": 35.693985,
+    "center_lon": 139.703169
+  }
 }
