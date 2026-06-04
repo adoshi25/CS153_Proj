@@ -19,19 +19,24 @@ export default function OnboardingOverlay({ neighborhoodName, neighborhoodDescri
       title: 'Society Simulator',
       body: (
         <>
-          <p style={{ margin: '0 0 14px' }}>
-            You're looking at <strong style={{ color: '#e2e8f0' }}>40 AI-powered residents</strong> of{' '}
+          <p style={{ margin: '0 0 12px' }}>
+            You're looking at <strong style={{ color: '#e2e8f0' }}>40 simulated residents</strong> of{' '}
             <strong style={{ color: '#818cf8' }}>{name}</strong> — each with a real job, a home location,
-            relationships with their neighbors, and a bio grounded in the actual geography of this area.
+            relationships with neighbors, and a bio grounded in the actual geography of this area.
           </p>
-          <p style={{ margin: '0 0 14px' }}>
-            Inject a shock — a policy change, infrastructure event, or community disruption — and watch
-            every agent decide whether they agree, disagree, or are neutral, based purely on who they are
-            and where they live.
+          <p style={{ margin: '0 0 12px' }}>
+            Inject a shock — a policy change, infrastructure event, or community disruption — and watch every
+            agent form a stance based on who they are and where they live. Activated agents physically
+            move on the map toward relevant locations: protests, hospitals, city hall.
+          </p>
+          <p style={{ margin: '0 0 12px' }}>
+            Conversations between co-located agents are recorded and shape their future responses.
+            Past shock experiences persist in each agent's memory — so a resident who lived through
+            a prior disruption reacts differently the next time.
           </p>
           <p style={{ margin: 0 }}>
-            Click any dot on the map to hear a live stream of that resident's day — and after a shock,
-            read their personal response to it.
+            Click any dot on the map to read that resident's live day-in-the-life stream, their
+            personal stance, and their full conversation history.
           </p>
         </>
       ),
@@ -47,9 +52,9 @@ export default function OnboardingOverlay({ neighborhoodName, neighborhoodDescri
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
             {[
               ['40 residents',       'Geo-grounded bios — real streets, real venues, real jobs for this area'],
-              ['Spatial awareness',  'Every agent knows the hospital, school, park, and transit stops near their home'],
+              ['Agent movement',     'Activated agents physically travel to destinations on the map over multiple days'],
               ['Social graph',       'Agents have relationships — neighbors, coworkers, regulars at the same spots'],
-              ['LLM-backed',         'Haiku for shock responses · Sonnet for day-in-the-life narrative streams'],
+              ['Persistent memory',  'Past shock experiences are saved and shape how each agent responds to future events'],
             ].map(([title, desc]) => (
               <div key={title} style={{
                 backgroundColor: '#0f172a', border: '1px solid #1e293b',
@@ -77,12 +82,12 @@ export default function OnboardingOverlay({ neighborhoodName, neighborhoodDescri
       backdropFilter: 'blur(6px)',
     }}>
       <div style={{
-        width: 520, maxWidth: '92vw',
+        width: 560, maxWidth: '94vw',
         backgroundColor: '#0b1120', border: '1px solid #1e293b',
-        borderRadius: 14, padding: '32px 36px',
+        borderRadius: 14, padding: '36px 40px',
         color: '#94a3b8', fontFamily: 'system-ui, sans-serif',
         boxShadow: '0 24px 64px rgba(0,0,0,0.6)',
-        fontSize: 13, lineHeight: 1.6,
+        fontSize: 13, lineHeight: 1.65,
       }}>
 
         {/* Step tabs */}
@@ -103,7 +108,7 @@ export default function OnboardingOverlay({ neighborhoodName, neighborhoodDescri
         </div>
 
         {/* Title */}
-        <h2 style={{ fontSize: 22, fontWeight: 700, color: '#f1f5f9', margin: '0 0 16px', letterSpacing: '-0.01em' }}>
+        <h2 style={{ fontSize: 26, fontWeight: 700, color: '#f1f5f9', margin: '0 0 18px', letterSpacing: '-0.02em' }}>
           {current.title}
         </h2>
 

@@ -274,7 +274,7 @@ def _fetch_osm_pois(lat_min: float, lat_max: float, lon_min: float, lon_max: flo
         f");\nout center;"
     )
     try:
-        result = _overpass_query(query, timeout=25)
+        result = _overpass_query(query, timeout=18)
         elements = result.get("elements", [])
         pois: list[dict] = []
         seen: set[str] = set()
@@ -313,9 +313,9 @@ def _fetch_osm_pois(lat_min: float, lat_max: float, lon_min: float, lon_max: flo
 def _fetch_osm_streets(lat_min: float, lat_max: float, lon_min: float, lon_max: float) -> list[str]:
     """Fetch street names from the Overpass API within a bounding box."""
     bbox = f"{lat_min},{lon_min},{lat_max},{lon_max}"
-    query = f'[out:json][timeout:18];\nway["highway"]["name"]({bbox});\nout tags;'
+    query = f'[out:json][timeout:15];\nway["highway"]["name"]({bbox});\nout tags;'
     try:
-        result = _overpass_query(query, timeout=25)
+        result = _overpass_query(query, timeout=18)
         names: set[str] = {
             el.get("tags", {}).get("name", "")
             for el in result.get("elements", [])
@@ -509,17 +509,18 @@ def generate_agents(
     real_places_section = ""
 
     if explicit_bounds:
-        place_name = _reverse_geocode(c_lat, c_lon) or f"{c_lat:.4f}°, {c_lon:.4f}°"
-        log.info("Reverse-geocoded to: %s", place_name)
-
-        # Profile, POI fetch, and street fetch are independent — run in parallel
+        # Run reverse geocode in parallel with OSM queries — saves ~2s on the critical path.
+        # Profile needs the place name so it runs after this group completes.
         with ThreadPoolExecutor(max_workers=3) as pool:
-            f_profile = pool.submit(_get_neighborhood_profile, place_name, c_lat, c_lon)
+            f_name    = pool.submit(_reverse_geocode, c_lat, c_lon)
             f_pois    = pool.submit(_fetch_osm_pois, lat_min, lat_max, lon_min, lon_max)
             f_streets = pool.submit(_fetch_osm_streets, lat_min, lat_max, lon_min, lon_max)
-        profile  = f_profile.result()
-        raw_pois = f_pois.result()
-        streets  = f_streets.result()
+        place_name = f_name.result() or f"{c_lat:.4f}°, {c_lon:.4f}°"
+        raw_pois   = f_pois.result()
+        streets    = f_streets.result()
+        log.info("Reverse-geocoded to: %s", place_name)
+
+        profile = _get_neighborhood_profile(place_name, c_lat, c_lon)
 
         osm_pois = _sample_pois(raw_pois, max_count=20)
         real_places_section = _build_real_places_section(osm_pois, streets, place_name)
@@ -543,7 +544,7 @@ def generate_agents(
     log.info("generate_agents: calling Sonnet for '%s'", description[:80])
     resp = _get_client().messages.create(
         model="claude-sonnet-4-6",
-        max_tokens=16000,
+        max_tokens=12000,
         system=_SYSTEM,
         messages=[{"role": "user", "content": prompt}],
     )

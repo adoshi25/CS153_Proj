@@ -13,13 +13,17 @@ interface GameMapProps {
   pois?: POI[];
   shockPending?: boolean;
   selectedShockKeywords?: string[];
+  selectedShockText?: string;
+  currentShock?: string;
   spotlightPOI?: { lat: number; lon: number; name: string } | null;
+  shockFlashTrigger?: number;
 }
 
 export default function GameMap({
   agents, onAgentSelect, selectedAgentId,
   mapCenter, setupMode, onBoundaryGenerate, generating,
-  neighborhoodBoundary, pois, shockPending, selectedShockKeywords, spotlightPOI,
+  neighborhoodBoundary, pois, shockPending, selectedShockKeywords, selectedShockText,
+  currentShock, spotlightPOI, shockFlashTrigger,
 }: GameMapProps) {
   return (
     <MapLibreMap
@@ -34,7 +38,10 @@ export default function GameMap({
       pois={pois}
       shockPending={shockPending}
       selectedShockKeywords={selectedShockKeywords}
+      selectedShockText={selectedShockText}
+      currentShock={currentShock}
       spotlightPOI={spotlightPOI}
+      shockFlashTrigger={shockFlashTrigger}
     />
   );
 }

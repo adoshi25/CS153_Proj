@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect, useRef } from 'react';
-import type { Agent, ShockOption } from '../types';
+import type { Agent, ShockOption, POI } from '../types';
+import { LocationText } from './LocationText';
 
 interface Props {
   shockOptions: ShockOption[];
@@ -13,6 +14,12 @@ interface Props {
   onResetShock: () => void;
   onAgentSelect: (agent: Agent) => void;
   onNewCity: () => void;
+  simDay: number;
+  simRunning: boolean;
+  simDays: number;
+  onSimDaysChange: (days: number) => void;
+  pois?: POI[];
+  onPOISpotlight?: (poi: POI) => void;
 }
 
 function stanceColor(stance: 'agree' | 'disagree' | 'neutral'): string {
@@ -103,13 +110,14 @@ function AgentCard({ agent, onSelect }: AgentCardProps) {
 export default function LeftPanel({
   shockOptions, shockOptionsLoading, agents, shockLoading, currentShock,
   selectedShockOption, onShockOptionSelect, onShockSubmit, onResetShock, onAgentSelect,
-  onNewCity,
+  onNewCity, simDay, simRunning, simDays, onSimDaysChange,
+  pois = [], onPOISpotlight,
 }: Props) {
-  const [hoveredId, setHoveredId]     = useState<string | null>(null);
-  const [searchText, setSearchText]   = useState('');
-  const [modalOpen, setModalOpen]     = useState(false);
-  const [modalText, setModalText]     = useState('');
-  const modalTextareaRef              = useRef<HTMLTextAreaElement>(null);
+  const [hoveredId, setHoveredId]   = useState<string | null>(null);
+  const [searchText, setSearchText] = useState('');
+  const [modalOpen, setModalOpen]   = useState(false);
+  const [modalText, setModalText]   = useState('');
+  const modalTextareaRef            = useRef<HTMLTextAreaElement>(null);
 
   const hasStances  = agents.some(a => a.shock_stance !== null);
   const showResults = currentShock !== '' && hasStances;
@@ -147,9 +155,7 @@ export default function LeftPanel({
   };
 
   useEffect(() => {
-    if (modalOpen) {
-      setTimeout(() => modalTextareaRef.current?.focus(), 50);
-    }
+    if (modalOpen) setTimeout(() => modalTextareaRef.current?.focus(), 50);
   }, [modalOpen]);
 
   useEffect(() => {
@@ -194,9 +200,21 @@ export default function LeftPanel({
           borderBottom: '1px solid #1e293b',
           flexShrink: 0,
         }}>
-          <div style={{ fontSize: 14, fontWeight: 800, letterSpacing: '-0.02em' }}>
-            <span style={{ color: '#6366f1' }}>Society</span>
-            <span style={{ color: '#e2e8f0' }}>Sim</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <div style={{ fontSize: 14, fontWeight: 800, letterSpacing: '-0.02em' }}>
+              <span style={{ color: '#6366f1' }}>Society</span>
+              <span style={{ color: '#e2e8f0' }}>Sim</span>
+            </div>
+            {simDay > 0 && (
+              <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+                {simRunning && (
+                  <div style={{ width: 5, height: 5, borderRadius: '50%', background: '#22c55e', boxShadow: '0 0 5px #22c55e', animation: '_shimmer 1.2s ease-in-out infinite', flexShrink: 0 }} />
+                )}
+                <span style={{ fontSize: 11, color: simRunning ? '#22c55e' : '#475569', fontWeight: 700 }}>
+                  Day {simDay}
+                </span>
+              </div>
+            )}
           </div>
           <button
             onClick={onNewCity}
@@ -295,7 +313,21 @@ export default function LeftPanel({
               )}
             </div>
 
-            <div style={{ padding: '4px 12px 14px', flexShrink: 0 }}>
+            <div style={{ padding: '4px 12px 14px', flexShrink: 0, display: 'flex', flexDirection: 'column', gap: 8 }}>
+              {/* Activated agents count */}
+              {(() => {
+                const moving = agents.filter(a => a.activated && a.destination_name && !a.journey_complete);
+                const activated = agents.filter(a => a.activated);
+                if (!activated.length) return null;
+                return (
+                  <div style={{ fontSize: 11, color: '#475569', textAlign: 'center' }}>
+                    {moving.length > 0
+                      ? `${moving.length} agent${moving.length > 1 ? 's' : ''} moving · ${activated.length} total activated`
+                      : `${activated.length} agent${activated.length > 1 ? 's' : ''} activated`}
+                  </div>
+                );
+              })()}
+
               <button
                 onClick={onResetShock}
                 style={{
@@ -382,7 +414,7 @@ export default function LeftPanel({
             </div>
 
             {/* Option list */}
-            <div style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 6, padding: '0 12px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6, padding: '0 12px 8px' }}>
               {shockOptionsLoading
                 ? Array.from({ length: 5 }).map((_, i) => (
                     <div key={i} style={{ background: '#0f172a', border: '1px solid #1e293b', borderRadius: 8, padding: '10px 12px' }}>
@@ -423,12 +455,43 @@ export default function LeftPanel({
                               transition: 'border-color 0.15s, background 0.15s',
                             }}
                           >
-                            <div style={{ fontSize: 13, fontWeight: 700, color: '#e2e8f0' }}>{option.title}</div>
-                            <div style={{ fontSize: 11, color: '#64748b', marginTop: 3, lineHeight: 1.5 }}>{option.description}</div>
+                            <div style={{ fontSize: 13, fontWeight: 700, color: '#e2e8f0' }}>
+                              {pois.length && onPOISpotlight
+                                ? <LocationText text={option.title} pois={pois} onSpotlight={onPOISpotlight} />
+                                : option.title}
+                            </div>
+                            <div style={{ fontSize: 11, color: '#64748b', marginTop: 3, lineHeight: 1.5 }}>
+                              {pois.length && onPOISpotlight
+                                ? <LocationText text={option.description} pois={pois} onSpotlight={onPOISpotlight} />
+                                : option.description}
+                            </div>
                           </div>
                         );
                       })
               }
+            </div>
+
+            {/* Simulation length picker */}
+            <div style={{ padding: '0 12px 8px' }}>
+              <div style={{ fontSize: 10, textTransform: 'uppercase', color: '#475569', fontWeight: 700, letterSpacing: '0.08em', marginBottom: 6 }}>
+                Simulation length
+              </div>
+              <div style={{ display: 'flex', gap: 5 }}>
+                {[3, 5, 7, 10].map(d => (
+                  <button
+                    key={d}
+                    onClick={() => onSimDaysChange(d)}
+                    style={{
+                      flex: 1, padding: '7px 0',
+                      background: simDays === d ? '#4f46e5' : '#0f172a',
+                      border: `1px solid ${simDays === d ? '#6366f1' : '#1e293b'}`,
+                      borderRadius: 6, color: simDays === d ? '#fff' : '#475569',
+                      fontSize: 12, fontWeight: 700, cursor: 'pointer',
+                      fontFamily: 'inherit', transition: 'all 0.12s',
+                    }}
+                  >{d}d</button>
+                ))}
+              </div>
             </div>
 
             {/* Inject button */}
@@ -441,16 +504,26 @@ export default function LeftPanel({
               <button
                 onClick={() => setModalOpen(true)}
                 style={{
-                  width: '100%', background: 'transparent',
-                  border: '1px dashed #1e293b', borderRadius: 8, padding: '9px 12px',
-                  fontSize: 12, color: '#475569',
+                  width: '100%', background: '#0f172a',
+                  border: '1px solid #334155', borderRadius: 8, padding: '11px 12px',
+                  fontSize: 13, fontWeight: 600, color: '#94a3b8',
                   cursor: 'pointer', fontFamily: 'inherit',
-                  marginBottom: 8, transition: 'border-color 0.15s, color 0.15s',
+                  marginBottom: 8, transition: 'border-color 0.15s, color 0.15s, background 0.15s',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7,
                 }}
-                onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = '#334155'; (e.currentTarget as HTMLButtonElement).style.color = '#64748b'; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = '#1e293b'; (e.currentTarget as HTMLButtonElement).style.color = '#475569'; }}
+                onMouseEnter={e => {
+                  const b = e.currentTarget as HTMLButtonElement;
+                  b.style.borderColor = '#6366f1'; b.style.color = '#c7d2fe'; b.style.background = 'rgba(99,102,241,0.08)';
+                }}
+                onMouseLeave={e => {
+                  const b = e.currentTarget as HTMLButtonElement;
+                  b.style.borderColor = '#334155'; b.style.color = '#94a3b8'; b.style.background = '#0f172a';
+                }}
               >
-                ＋ Write your own shock
+                <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                  <line x1="6.5" y1="1" x2="6.5" y2="12"/><line x1="1" y1="6.5" x2="12" y2="6.5"/>
+                </svg>
+                Write your own shock
               </button>
               <button
                 onClick={handleInject}
@@ -483,53 +556,59 @@ export default function LeftPanel({
           style={{
             position: 'fixed', inset: 0, zIndex: 50,
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            backdropFilter: 'blur(4px)',
-            backgroundColor: 'rgba(2,8,23,0.72)',
+            backdropFilter: 'blur(6px)',
+            backgroundColor: 'rgba(2,8,23,0.80)',
           }}
         >
           <div
             onClick={e => e.stopPropagation()}
             style={{
-              width: 480, maxWidth: '92vw',
-              background: '#0b1120', border: '1px solid #334155',
-              borderRadius: 14, padding: '24px 24px 20px',
-              boxShadow: '0 24px 60px rgba(0,0,0,0.8)',
+              width: 520, maxWidth: '92vw',
+              background: '#0d1425', border: '1px solid #4f46e5',
+              borderRadius: 16, padding: '28px 28px 24px',
+              boxShadow: '0 0 0 1px rgba(99,102,241,0.15), 0 24px 60px rgba(0,0,0,0.9)',
             }}
           >
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 6 }}>
-              <span style={{ fontSize: 16, fontWeight: 700, color: '#e2e8f0' }}>Write your own shock</span>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 4 }}>
+              <div>
+                <div style={{ fontSize: 10, color: '#6366f1', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 5 }}>Custom Shock</div>
+                <span style={{ fontSize: 20, fontWeight: 800, color: '#f1f5f9', letterSpacing: '-0.02em' }}>Write your own scenario</span>
+              </div>
               <button
                 onClick={() => setModalOpen(false)}
-                style={{ background: 'none', border: 'none', color: '#475569', cursor: 'pointer', fontSize: 18, padding: 0, lineHeight: 1 }}
+                style={{ background: 'none', border: 'none', color: '#475569', cursor: 'pointer', fontSize: 20, padding: '2px 4px', lineHeight: 1 }}
               >✕</button>
             </div>
-            <p style={{ fontSize: 12, color: '#64748b', margin: '0 0 14px', lineHeight: 1.6 }}>
-              Describe any policy change, infrastructure event, or disruption that affects this neighborhood.
+            <p style={{ fontSize: 13, color: '#64748b', margin: '10px 0 18px', lineHeight: 1.65 }}>
+              Describe any policy change, infrastructure event, or disruption. Be specific — name streets, demographics, or institutions.
             </p>
             <textarea
               ref={modalTextareaRef}
               value={modalText}
               onChange={e => setModalText(e.target.value)}
               rows={4}
-              placeholder="e.g. The city announces a 20% property tax increase to fund public transit expansion…"
+              placeholder="e.g. The city announces a highway expansion that will demolish 40 homes on Flatbush Ave, displacing mostly renters…"
               style={{
                 width: '100%', boxSizing: 'border-box',
-                background: '#0d1425', border: '1px solid #1e293b', borderRadius: 8,
-                padding: '9px 11px', fontSize: 13, color: '#e2e8f0',
-                outline: 'none', fontFamily: 'inherit', resize: 'vertical', lineHeight: 1.6,
-                marginBottom: 14,
+                background: '#080e1f', border: '1px solid #1e293b', borderRadius: 10,
+                padding: '12px 14px', fontSize: 14, color: '#e2e8f0',
+                outline: 'none', fontFamily: 'inherit', resize: 'vertical', lineHeight: 1.65,
+                marginBottom: 18,
               }}
               onFocus={e => (e.target.style.borderColor = '#4f46e5')}
               onBlur={e => (e.target.style.borderColor = '#1e293b')}
             />
-            <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
+            <div style={{ display: 'flex', gap: 10 }}>
               <button
                 onClick={() => { setModalOpen(false); setModalText(''); }}
                 style={{
-                  background: 'transparent', border: '1px solid #1e293b',
-                  borderRadius: 8, padding: '9px 18px', fontSize: 13, color: '#475569',
+                  background: 'transparent', border: '1px solid #334155',
+                  borderRadius: 10, padding: '11px 20px', fontSize: 13, color: '#64748b',
                   cursor: 'pointer', fontFamily: 'inherit', fontWeight: 600,
+                  transition: 'border-color 0.15s, color 0.15s',
                 }}
+                onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = '#475569'; (e.currentTarget as HTMLButtonElement).style.color = '#94a3b8'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = '#334155'; (e.currentTarget as HTMLButtonElement).style.color = '#64748b'; }}
               >
                 Cancel
               </button>
@@ -537,10 +616,11 @@ export default function LeftPanel({
                 onClick={handleModalInject}
                 disabled={!modalText.trim()}
                 style={{
+                  flex: 1,
                   background: modalText.trim() ? '#4f46e5' : '#1e1b4b',
-                  color: modalText.trim() ? '#fff' : '#6366f1',
-                  border: 'none', borderRadius: 8, padding: '9px 18px',
-                  fontSize: 13, fontWeight: 700,
+                  color: modalText.trim() ? '#fff' : '#4f46e5',
+                  border: 'none', borderRadius: 10, padding: '11px 20px',
+                  fontSize: 14, fontWeight: 700,
                   cursor: modalText.trim() ? 'pointer' : 'default',
                   fontFamily: 'inherit', transition: 'background 0.15s',
                 }}

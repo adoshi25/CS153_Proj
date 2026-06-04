@@ -6,17 +6,6 @@ A Smallville-style multi-agent society simulator. 40 LLM-backed agents live in a
 
 ---
 
-## Architecture Diagrams
-
-| Diagram | Description |
-|---|---|
-| [`fig1-overview.html`](fig1-overview.html) | End-to-end system: shock → orchestrator → 40 agents → synthesis → stakeholder brief |
-| [`fig3-memory.html`](fig3-memory.html) | Memory stream retrieval: recency · importance · relevance scoring (Park et al., 2023) |
-
-Open either file directly in a browser — no server required.
-
----
-
 ## Setup & Reproduction
 
 ### Prerequisites

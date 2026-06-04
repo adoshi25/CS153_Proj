@@ -19,6 +19,8 @@ import anthropic
 from engine.agent import Agent
 from engine.simulation import SimulationEngine
 from engine.shock import reset_all, fan_out
+from engine.activation import activate_agents
+from engine.movement import advance_day, save_experiences, reset_movement
 from engine.generate import generate_agents
 import engine.simulation as _sim_module
 
@@ -45,17 +47,26 @@ _sim_module.current_pois = _agents_data.get("pois", [])
 # Cached shock options — invalidated when /generate-scenario runs
 _shock_options_cache: list[dict] | None = None
 
+# Simulation state
+_sim_state = {
+    "running": False,
+    "day": 0,
+    "max_days": 10,
+    "current_shock": "",
+}
+
 
 # ── Models ────────────────────────────────────────────────────────────────
 
 class ShockBody(BaseModel):
     text: str
+    max_days: int = 5
 
 class ScenarioBody(BaseModel):
     description: str
     center_lat: float | None = None
     center_lon: float | None = None
-    polygon: list[list[float]] | None = None  # [[lon, lat], ...] GeoJSON ring
+    polygon: list[list[float]] | None = None
 
 
 # ── Helpers ───────────────────────────────────────────────────────────────
@@ -75,6 +86,58 @@ def _nearest_pois(agent: Agent, pois: list[dict], n: int = 5) -> list[dict]:
     return ranked[:n]
 
 
+def _get_shock_pois(shock_text: str, pois: list[dict]) -> list[dict]:
+    """Find POIs that are named or strongly implied by the shock text."""
+    text = shock_text.lower()
+    matched = [
+        p for p in pois
+        if any(
+            word in text
+            for word in p["name"].lower().split()
+            if len(word) > 3
+        )
+    ]
+    return matched or pois[:6]
+
+
+async def _run_movement_loop() -> None:
+    """Background task: advance agent positions one day at a time until done."""
+    global _sim_state
+    MAX_DAYS = _sim_state["max_days"]
+
+    while _sim_state["running"]:
+        await asyncio.sleep(20.0)
+        if not _sim_state["running"]:
+            break
+
+        _sim_state["day"] += 1
+        day = _sim_state["day"]
+        shock_text = _sim_state["current_shock"]
+
+        loop = asyncio.get_event_loop()
+        conversations = await loop.run_in_executor(
+            None, advance_day, engine.agents, day, shock_text
+        )
+
+        snap = engine._snapshot()
+        snap["sim_day"] = day
+        snap["sim_conversations"] = conversations
+        await engine._broadcast(snap)
+
+        if day >= MAX_DAYS:
+            _sim_state["running"] = False
+            # Persist experiences for future shocks
+            loop2 = asyncio.get_event_loop()
+            await loop2.run_in_executor(
+                None, save_experiences, engine.agents, shock_text
+            )
+            snap2 = engine._snapshot()
+            snap2["sim_day"] = day
+            snap2["sim_complete"] = True
+            await engine._broadcast(snap2)
+            break
+
+
 # ── Routes ────────────────────────────────────────────────────────────────
 
 @app.get("/")
@@ -88,26 +151,61 @@ async def status():
         "tick": engine.current_tick,
         "clients": len(engine.clients),
         "api_key_set": bool(os.environ.get("ANTHROPIC_API_KEY")),
+        "sim_day": _sim_state["day"],
+        "sim_running": _sim_state["running"],
     }
 
 
 @app.post("/shock")
 async def shock(body: ShockBody):
-    global _shock_options_cache
+    global _shock_options_cache, _sim_state
 
-    # Phase 1: reset all stances and broadcast pending state
+    # Save experiences from previous shock BEFORE overwriting state
+    prev_shock = _sim_state.get("current_shock", "")
+    if prev_shock and any(a.activated for a in engine.agents):
+        save_experiences(engine.agents, prev_shock)
+
+    # Stop any running simulation and update state
+    _sim_state["running"] = False
+    _sim_state["day"] = 0
+    _sim_state["max_days"] = max(1, min(10, body.max_days))
+    _sim_state["current_shock"] = body.text
+
     reset_all(engine.agents)
+    reset_movement(engine.agents)
     engine.current_tick += 1
-    await engine._broadcast(engine._snapshot())
 
-    # Phase 2: fan out in background, then broadcast final snapshot
+    snap = engine._snapshot()
+    snap["sim_day"] = 0
+    await engine._broadcast(snap)
+
     async def _background():
         loop = asyncio.get_event_loop()
+        pois = _sim_module.current_pois
+        shock_pois = _get_shock_pois(body.text, pois)
+
+        # Phase 1: All 40 agents classify their stance
         await loop.run_in_executor(None, fan_out, engine.agents, body.text)
-        await engine._broadcast(engine._snapshot())
+        snap1 = engine._snapshot()
+        snap1["sim_day"] = 0
+        await engine._broadcast(snap1)
+
+        # Phase 2: Selective activation + movement planning for most-affected agents
+        await loop.run_in_executor(
+            None, activate_agents, engine.agents, body.text, pois, shock_pois,
+            14, 8, _sim_state["max_days"],
+        )
+        snap2 = engine._snapshot()
+        snap2["sim_day"] = 0
+        await engine._broadcast(snap2)
+
+        # Phase 3: Start movement simulation
+        _sim_state["running"] = True
+        asyncio.create_task(_run_movement_loop())
 
     asyncio.create_task(_background())
     return {"ok": True}
+
 
 
 @app.get("/shock-options")
@@ -156,7 +254,7 @@ async def shock_options():
 
 @app.post("/generate-scenario")
 async def generate_scenario(body: ScenarioBody):
-    global engine, agents, _shock_options_cache
+    global engine, agents, _shock_options_cache, _sim_state
 
     loop = asyncio.get_event_loop()
 
@@ -178,9 +276,9 @@ async def generate_scenario(body: ScenarioBody):
     engine.neighborhood_name = data.get("neighborhood", "City Center")
     engine._neighborhood_description = data.get("neighborhood_description", "")
 
-    # Update module-level POI store and invalidate shock options cache
     _sim_module.current_pois = data.get("pois", [])
     _shock_options_cache = None
+    _sim_state = {"running": False, "day": 0, "max_days": 10, "current_shock": ""}
 
     await engine._broadcast(engine.current_snapshot())
 
@@ -200,6 +298,24 @@ async def generate_scenario(body: ScenarioBody):
 @app.get("/agents")
 async def get_agents():
     return engine.current_snapshot()
+
+
+@app.post("/stop-sim")
+async def stop_sim():
+    _sim_state["running"] = False
+    return {"ok": True}
+
+
+@app.get("/sim-status")
+async def sim_status():
+    return {
+        "day": _sim_state["day"],
+        "running": _sim_state["running"],
+        "max_days": _sim_state["max_days"],
+        "current_shock": _sim_state["current_shock"],
+        "activated_count": sum(1 for a in engine.agents if a.activated),
+        "moving_count": sum(1 for a in engine.agents if a.activated and a.destination_lat and not a.journey_complete),
+    }
 
 
 @app.post("/control")
@@ -237,11 +353,17 @@ async def stream_agent_thinking(ws: WebSocket, agent_id: str):
 
     neighborhood_desc = engine._neighborhood_description or engine.neighborhood_name
 
+    experience_block = ""
+    if agent.experience_log:
+        recent = agent.experience_log[-2:]
+        experience_block = "\n\nPast experiences that shaped you:\n" + "\n".join(f"- {e}" for e in recent)
+
     prompt = (
         f"You are {agent.name}, {agent.age} years old, {agent.occupation}.\n"
         f"Bio: {agent.bio}\n\n"
         f"Neighborhood context: {neighborhood_desc}\n\n"
-        f"The places nearest to your home are: {poi_descriptions}.\n\n"
+        f"The places nearest to your home are: {poi_descriptions}."
+        f"{experience_block}\n\n"
         "Write a 3-4 sentence first-person, present-tense narrative of a typical day in your life. "
         "Name the actual streets, parks, shops, and transit stops nearest to where you live. "
         "Be specific and grounded — this is your identity narrative, not a reaction to any news event."

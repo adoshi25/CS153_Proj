@@ -1,47 +1,9 @@
-import { useEffect, useRef, useState, useMemo } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { Agent } from '../types';
 import type { POI } from '../types';
+import { LocationText } from './LocationText';
 
 const BACKEND_WS = 'ws://localhost:8000';
-
-function parseLocText(text: string, pois: POI[]): { text: string; poi: POI | null }[] {
-  if (!text || !pois.length) return [{ text, poi: null }];
-  const sorted = pois.filter(p => p.name.length > 4).sort((a, b) => b.name.length - a.name.length);
-  const segs: { text: string; poi: POI | null }[] = [];
-  let pos = 0;
-  const lower = text.toLowerCase();
-  while (pos < text.length) {
-    let best: { idx: number; poi: POI } | null = null;
-    for (const poi of sorted) {
-      const idx = lower.indexOf(poi.name.toLowerCase(), pos);
-      if (idx !== -1 && (best === null || idx < best.idx || (idx === best.idx && poi.name.length > best.poi.name.length)))
-        best = { idx, poi };
-    }
-    if (!best) { segs.push({ text: text.slice(pos), poi: null }); break; }
-    if (best.idx > pos) segs.push({ text: text.slice(pos, best.idx), poi: null });
-    segs.push({ text: text.slice(best.idx, best.idx + best.poi.name.length), poi: best.poi });
-    pos = best.idx + best.poi.name.length;
-  }
-  return segs;
-}
-
-function LocationText({ text, pois, onSpotlight }: { text: string; pois: POI[]; onSpotlight: (poi: POI) => void }) {
-  const segs = useMemo(() => parseLocText(text, pois), [text, pois]);
-  return (
-    <>
-      {segs.map((seg, i) =>
-        seg.poi ? (
-          <span key={i} title={`Show ${seg.poi.name} on map`}
-            onClick={() => onSpotlight(seg.poi!)}
-            style={{ color: '#818cf8', fontWeight: 600, cursor: 'pointer', borderBottom: '1px dotted rgba(129,140,248,0.55)', transition: 'color 0.1s' }}
-            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#a5b4fc'; }}
-            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#818cf8'; }}
-          >{seg.text}</span>
-        ) : <span key={i}>{seg.text}</span>
-      )}
-    </>
-  );
-}
 
 interface AgentSidebarProps {
   agent: Agent;
@@ -50,9 +12,11 @@ interface AgentSidebarProps {
   currentShock: string;
   pois?: POI[];
   onPOISpotlight?: (poi: POI) => void;
+  simDay?: number;
+  simDays?: number;
 }
 
-export default function AgentSidebar({ agent, onClose, currentShock, pois, onPOISpotlight }: AgentSidebarProps) {
+export default function AgentSidebar({ agent, onClose, currentShock, pois, onPOISpotlight, simDay = 0, simDays = 7 }: AgentSidebarProps) {
   const [streamedText, setStreamedText] = useState('');
   const [streaming, setStreaming] = useState(false);
   const wsRef = useRef<WebSocket | null>(null);
@@ -270,6 +234,182 @@ export default function AgentSidebar({ agent, onClose, currentShock, pois, onPOI
 
         {/* Section 3: Shock response */}
         {renderShockSection()}
+
+        {/* Section 4: Day-by-day journey timeline — spans full simulation length */}
+        {agent.activated && currentShock && simDays > 0 && (
+          <div style={{ margin: '0 0 4px' }}>
+            <div style={{ fontSize: 10, textTransform: 'uppercase', color: '#475569', fontWeight: 700, letterSpacing: '0.08em', padding: '8px 16px 6px' }}>
+              {simDays}-Day Timeline
+            </div>
+            <div style={{ margin: '0 12px', display: 'flex', flexDirection: 'column', gap: 3 }}>
+              {(() => {
+                const n = agent.total_journey_days;           // 0 = staying home
+                const STAY = 2;                               // days at destination
+                const startDay = agent.journey_start_day ?? 1;
+                const arcEnd = n > 0 ? startDay + n * 2 + STAY - 1 : 0;
+                const hasDestination = n > 0 && agent.destination_name;
+                const convsByDay: Record<number, typeof agent.conversations_log[0]> = {};
+                for (const c of agent.conversations_log ?? []) convsByDay[c.day] = c;
+
+                const destPOI = (agent.destination_name && agent.destination_lat != null && agent.destination_lon != null)
+                  ? { name: agent.destination_name, lat: agent.destination_lat, lon: agent.destination_lon, type: 'destination' }
+                  : null;
+
+                const DestLink = destPOI && onPOISpotlight
+                  ? () => (
+                      <span
+                        title={`Show ${destPOI.name} on map`}
+                        onClick={() => onPOISpotlight(destPOI)}
+                        style={{ color: '#818cf8', fontWeight: 600, cursor: 'pointer', borderBottom: '1px dotted rgba(129,140,248,0.55)' }}
+                        onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#a5b4fc'; }}
+                        onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#818cf8'; }}
+                      >{agent.destination_name}</span>
+                    )
+                  : () => <span>{agent.destination_name ?? ''}</span>;
+
+                // Flavor text for days when the agent is at home
+                const homeLabels = [
+                  'Monitoring the situation',
+                  'Discussing with neighbors',
+                  'Following the news',
+                  'Weighing next steps',
+                  'Talking to family',
+                  'Waiting to see what happens',
+                  'Reflecting at home',
+                ];
+
+                return Array.from({ length: simDays }, (_, d) => {
+                  const day = d + 1;
+                  const isCurrent = day === simDay && simDay > 0;
+                  const isPast    = day < simDay;
+                  const isFuture  = simDay === 0 || day > simDay;
+                  const conv      = convsByDay[day];
+
+                  // Journey-relative day (positive only after departure)
+                  const jDay = day - startDay + 1;
+
+                  let labelNode: React.ReactNode;
+                  if (!hasDestination || day < startDay) {
+                    // Before departure or never traveling — rotating home label
+                    labelNode = <span>{homeLabels[(day - 1) % homeLabels.length]}</span>;
+                  } else if (jDay <= n) {
+                    labelNode = jDay === 1
+                      ? <><span>Left home → </span><DestLink /></>
+                      : <><span>En route to </span><DestLink /></>;
+                  } else if (jDay <= n + STAY) {
+                    labelNode = jDay === n + 1
+                      ? <><span>Arrived at </span><DestLink /></>
+                      : <>{agent.movement_intent ? <span>{agent.movement_intent}</span> : <><span>At </span><DestLink /></>}</>;
+                  } else if (day <= arcEnd) {
+                    labelNode = <span>Heading home</span>;
+                  } else {
+                    // Back home — rotating flavor
+                    labelNode = <span>{homeLabels[(day - 1) % homeLabels.length]}</span>;
+                  }
+
+                  return (
+                    <div key={day} style={{
+                      display: 'flex', gap: 8, alignItems: 'flex-start',
+                      opacity: isFuture ? 0.3 : 1,
+                      transition: 'opacity 0.3s',
+                    }}>
+                      {/* Timeline dot */}
+                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexShrink: 0, paddingTop: 2 }}>
+                        <div style={{
+                          width: 8, height: 8, borderRadius: '50%', flexShrink: 0,
+                          background: isCurrent ? '#818cf8' : isPast ? '#334155' : '#1e293b',
+                          border: isCurrent ? '2px solid #6366f1' : '2px solid transparent',
+                          boxShadow: isCurrent ? '0 0 6px #6366f188' : 'none',
+                        }} />
+                        {day < simDays && <div style={{ width: 1, height: 14, background: '#1e293b', marginTop: 2 }} />}
+                      </div>
+                      {/* Content */}
+                      <div style={{ paddingBottom: 4, flex: 1, minWidth: 0 }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+                          <span style={{ fontSize: 11, color: isCurrent ? '#c7d2fe' : isPast ? '#475569' : '#334155', fontWeight: isCurrent ? 700 : 400, lineHeight: 1.4 }}>
+                            {labelNode}
+                          </span>
+                          <span style={{ fontSize: 9, color: '#334155', flexShrink: 0, marginLeft: 4 }}>D{day}</span>
+                        </div>
+                        {conv && (
+                          <div style={{ marginTop: 3, fontSize: 10, color: '#64748b', fontStyle: 'italic' }}>
+                            Met <span style={{ color: '#818cf8', fontStyle: 'normal', fontWeight: 600 }}>{conv.partner_name}</span> — {conv.my_takeaway}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  );
+                });
+              })()}
+            </div>
+          </div>
+        )}
+
+        {/* Section 5: People met */}
+        {agent.conversations_log && agent.conversations_log.length > 0 && (
+          <div style={{ margin: '0 0 4px' }}>
+            <div style={{ fontSize: 10, textTransform: 'uppercase', color: '#475569', fontWeight: 700, letterSpacing: '0.08em', padding: '8px 16px 6px' }}>
+              People met · {agent.conversations_log.length}
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6, margin: '0 12px' }}>
+              {agent.conversations_log.map((conv, i) => (
+                <div key={i} style={{ background: '#0d1425', border: '1px solid #1e293b', borderRadius: 8, padding: '10px 12px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
+                    <div>
+                      <span style={{ fontSize: 12, fontWeight: 700, color: '#818cf8' }}>{conv.partner_name}</span>
+                      {conv.partner_occupation && (
+                        <span style={{ fontSize: 10, color: '#475569', marginLeft: 6 }}>{conv.partner_occupation}</span>
+                      )}
+                    </div>
+                    <span style={{ fontSize: 9, color: '#334155', flexShrink: 0 }}>Day {conv.day}</span>
+                  </div>
+                  {/* One representative exchange line */}
+                  {conv.exchanges?.[0] && (
+                    <div style={{ fontSize: 11, color: '#64748b', fontStyle: 'italic', lineHeight: 1.45, marginBottom: 4 }}>
+                      <span style={{ color: '#475569', fontStyle: 'normal', fontWeight: 600 }}>{conv.exchanges[0].speaker}: </span>
+                      {conv.exchanges[0].line}
+                    </div>
+                  )}
+                  {conv.my_takeaway && (
+                    <div style={{ fontSize: 11, color: '#94a3b8', borderTop: '1px solid #1e293b', paddingTop: 5, lineHeight: 1.45 }}>
+                      {conv.my_takeaway}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Section 6: Past shock history (persists across shocks) */}
+        <div style={{ margin: '0 0 16px' }}>
+          <div style={{ fontSize: 10, textTransform: 'uppercase', color: '#475569', fontWeight: 700, letterSpacing: '0.08em', padding: '8px 16px 6px', display: 'flex', alignItems: 'center', gap: 6 }}>
+            Past shocks
+            {agent.experience_log?.length > 0 && (
+              <span style={{ background: 'rgba(99,102,241,0.18)', color: '#818cf8', borderRadius: 10, fontSize: 10, padding: '1px 6px', fontWeight: 700 }}>
+                {agent.experience_log.length}
+              </span>
+            )}
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 4, margin: '0 12px' }}>
+            {(!agent.experience_log || agent.experience_log.length === 0) ? (
+              <div style={{
+                border: '1px dashed #1e293b', borderRadius: 7, padding: '10px 12px',
+                fontSize: 11, color: '#334155', lineHeight: 1.5, textAlign: 'center',
+              }}>
+                No previous shocks — history appears here after each simulation completes.
+              </div>
+            ) : agent.experience_log.slice().reverse().map((exp, i) => (
+              <div key={i} style={{
+                background: 'rgba(99,102,241,0.05)', border: '1px solid rgba(99,102,241,0.15)',
+                borderRadius: 7, padding: '8px 11px',
+                fontSize: 11, color: '#64748b', lineHeight: 1.5,
+              }}>
+                {exp}
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </>
   );

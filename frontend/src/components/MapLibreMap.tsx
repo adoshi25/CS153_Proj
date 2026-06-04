@@ -12,6 +12,32 @@ function stanceColor(stance: Agent['shock_stance']): string {
   return '#d4a927';
 }
 
+// ── Per-agent organic movement helpers ───────────────────────────────────────
+
+// Deterministic hash → personal walk speed (0.55 – 1.45×)
+function personalSpeed(id: string): number {
+  let h = 5381;
+  for (let i = 0; i < id.length; i++) h = (h * 33 ^ id.charCodeAt(i)) & 0xffff;
+  return 0.55 + (h % 100) / 111;
+}
+
+// Small sinusoidal wander: each agent has its own frequency & amplitude
+function wanderOffset(id: string, t: number): [number, number] {
+  let h = 0;
+  for (let i = 0; i < id.length; i++) h = (h * 17 + id.charCodeAt(i)) & 0xffff;
+  const freq = 0.00055 + (h % 15) * 0.000035;
+  const amp  = 0.000016 + (h % 10) * 0.0000038;
+  return [
+    Math.sin(t * freq        + h) * amp,
+    Math.cos(t * freq * 1.37 + h) * amp,
+  ];
+}
+
+// Easing: agents accelerate away from stops, decelerate approaching them
+function ease(t: number): number {
+  return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+}
+
 // Agents are rendered as a GeoJSON circle layer (canvas-based, not HTML markers).
 // This ensures perfect zoom/pan behavior — no DOM jitter.
 
@@ -55,7 +81,10 @@ interface Props {
   pois?: POI[];
   shockPending?: boolean;
   selectedShockKeywords?: string[];
+  selectedShockText?: string;
+  currentShock?: string;
   spotlightPOI?: { lat: number; lon: number; name: string } | null;
+  shockFlashTrigger?: number;
 }
 
 type DrawMode = 'idle' | 'drawing' | 'selected';
@@ -64,17 +93,27 @@ export default function MapLibreMap({
   agents, onAgentSelect, selectedAgentId,
   mapCenter, setupMode = false, onBoundaryGenerate, generating = false,
   neighborhoodBoundary = null, pois = [], shockPending = false, selectedShockKeywords = [],
-  spotlightPOI = null,
+  selectedShockText = '', currentShock = '', spotlightPOI = null, shockFlashTrigger = 0,
 }: Props) {
   const containerRef        = useRef<HTMLDivElement>(null);
   const mapRef              = useRef<maplibregl.Map | null>(null);
   const poiMarkersRef       = useRef<maplibregl.Marker[]>([]);
   const spotlightMarkerRef  = useRef<maplibregl.Marker | null>(null);
   const thinkingMarkersRef  = useRef<maplibregl.Marker[]>([]);
+  const emojiMarkersRef       = useRef<Map<string, maplibregl.Marker>>(new Map());
+  const emojiElementsRef      = useRef<Map<string, HTMLElement>>(new Map());
+  const hoverPopupRef         = useRef<maplibregl.Popup | null>(null);
+  // Records the real timestamp when each agent first became moving (for continuous position calc)
+  const agentStartTimesRef    = useRef<Map<string, number>>(new Map());
   const onSelectRef   = useRef(onAgentSelect);
   const agentsRef     = useRef(agents);
   agentsRef.current   = agents;
   useEffect(() => { onSelectRef.current = onAgentSelect; }, [onAgentSelect]);
+
+  const setupModeRef  = useRef(setupMode);
+  setupModeRef.current = setupMode;
+  const selectedIdRef = useRef(selectedAgentId);
+  selectedIdRef.current = selectedAgentId;
 
   const [drawMode, setDrawMode]       = useState<DrawMode>(setupMode ? 'drawing' : 'idle');
   const [vertices, setVertices]       = useState<LngLat[]>([]);
@@ -227,6 +266,21 @@ export default function MapLibreMap({
         },
       });
 
+      // Outer ring for activated (moving) agents — larger, more transparent
+      map.addLayer({ id: '_agent-activated', type: 'circle', source: '_agents',
+        filter: ['==', ['get', 'moving'], true],
+        paint: {
+          'circle-radius': 30,
+          'circle-color': 'rgba(0,0,0,0)',
+          'circle-stroke-width': 1.5,
+          'circle-stroke-color': ['case',
+            ['==', ['get', 'stance'], 'agree'],    'rgba(74,222,128,0.55)',
+            ['==', ['get', 'stance'], 'disagree'], 'rgba(248,113,113,0.55)',
+            'rgba(251,191,36,0.55)',
+          ],
+        },
+      });
+
       // Soft glow behind each dot (stance-coloured, blurred)
       map.addLayer({ id: '_agent-glow', type: 'circle', source: '_agents',
         paint: {
@@ -284,11 +338,40 @@ export default function MapLibreMap({
         const agent = agentsRef.current.find(a => a.id === id);
         if (agent) onSelectRef.current(agent);
       });
-      map.on('mouseenter', '_agent-dots', () => {
-        if (drawModeRef.current !== 'drawing') map.getCanvas().style.cursor = 'pointer';
+      map.on('mouseenter', '_agent-dots', (e) => {
+        if (drawModeRef.current === 'drawing') return;
+        map.getCanvas().style.cursor = 'pointer';
+
+        const id = e.features?.[0]?.properties?.id as string | undefined;
+        if (!id) return;
+        const agent = agentsRef.current.find(a => a.id === id);
+        if (!agent) return;
+
+        hoverPopupRef.current?.remove();
+
+        const moving = agent.activated && agent.destination_lat != null && !agent.journey_complete;
+        const atDest = moving && agent.journey_day >= agent.total_journey_days && agent.journey_day < agent.total_journey_days + 2;
+        const returning = moving && agent.journey_day >= agent.total_journey_days + 2;
+        const phase = returning ? 'Heading home'
+                    : atDest   ? `At ${agent.destination_name}`
+                    : moving   ? `Day ${agent.journey_day} → ${agent.destination_name}`
+                    : '';
+
+        const html = `<div style="font-family:system-ui,sans-serif;font-size:12px;color:#e2e8f0;line-height:1.5;">
+          <div style="font-weight:700;margin-bottom:2px;">${agent.name}</div>
+          <div style="color:#64748b;font-size:11px;">${agent.occupation ?? ''}</div>
+          ${phase ? `<div style="color:#818cf8;font-size:11px;margin-top:4px;">${phase}</div>` : ''}
+          ${moving && agent.movement_intent ? `<div style="color:#475569;font-size:10px;font-style:italic;margin-top:2px;">${agent.movement_intent}</div>` : ''}
+        </div>`;
+
+        hoverPopupRef.current = new maplibregl.Popup({
+          closeButton: false, closeOnClick: false, offset: 16, maxWidth: '220px',
+        }).setLngLat(e.lngLat).setHTML(html).addTo(map);
       });
       map.on('mouseleave', '_agent-dots', () => {
         map.getCanvas().style.cursor = drawModeRef.current === 'drawing' ? 'crosshair' : '';
+        hoverPopupRef.current?.remove();
+        hoverPopupRef.current = null;
       });
     });
 
@@ -341,8 +424,16 @@ export default function MapLibreMap({
     return () => {
       for (const m of poiMarkersRef.current) m.remove();
       poiMarkersRef.current = [];
+      for (const m of flashMarkersRef.current) m.remove();
+      flashMarkersRef.current = [];
+      for (const m of shockTextMarkersRef.current) m.remove();
+      shockTextMarkersRef.current = [];
       for (const m of thinkingMarkersRef.current) m.remove();
       thinkingMarkersRef.current = [];
+      for (const m of emojiMarkersRef.current.values()) m.remove();
+      emojiMarkersRef.current.clear();
+      emojiElementsRef.current.clear();
+      hoverPopupRef.current?.remove();
       spotlightMarkerRef.current?.remove();
       map.remove();
       mapRef.current = null;
@@ -421,76 +512,283 @@ export default function MapLibreMap({
     }
   }, [neighborhoodBoundary]);
 
-  // ── POI highlight when a shock scenario is selected ──────────────────────────
+  // ── Shared POI matcher: keywords first, text fallback ────────────────────────
+  const matchPOIs = useCallback((keywords: string[], text: string): POI[] => {
+    if (!pois.length) return [];
+    if (keywords.length) {
+      const kws = keywords.map(k => k.toLowerCase());
+      const hit = pois.filter(p => {
+        const pn = p.name.toLowerCase();
+        return kws.some(kw => pn.includes(kw) || kw.includes(pn));
+      });
+      if (hit.length) return hit;
+    }
+    if (!text) return [];
+    const stopwords = new Set(['the','a','an','at','in','on','to','of','and','or','for','is','are','will','that','this','with','from','has','been']);
+    const words = text.toLowerCase().split(/\W+/).filter(w => w.length > 3 && !stopwords.has(w));
+    return pois.filter(p => {
+      const pn = p.name.toLowerCase();
+      return words.some(w => pn.includes(w));
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pois]);
+
+  // ── POI highlight: keyword-based (fires when scenario card is selected) ────────
   useEffect(() => {
     const map = mapRef.current;
     if (!map) return;
 
-    // Remove previous POI markers
     for (const m of poiMarkersRef.current) m.remove();
     poiMarkersRef.current = [];
 
-    if (!selectedShockKeywords.length || !pois.length) return;
+    if (!pois.length || (!selectedShockKeywords.length && !selectedShockText)) return;
 
-    const keywords = selectedShockKeywords.map(k => k.toLowerCase());
-    const matched = pois.filter(p => keywords.some(kw => p.name.toLowerCase().includes(kw)));
+    const matched = matchPOIs(selectedShockKeywords, selectedShockText);
     if (!matched.length) return;
 
     const addMarkers = () => {
       for (const poi of matched) {
         const outer = document.createElement('div');
         outer.style.cssText = 'position:relative;width:0;height:0;pointer-events:none;';
-
-        // Ring that expands outward then fades
         const ring = document.createElement('div');
         ring.className = '_poi-ring';
         outer.appendChild(ring);
-
-        // Persistent red dot that appears after ring
         const dot = document.createElement('div');
         dot.className = '_poi-dot';
         outer.appendChild(dot);
+        poiMarkersRef.current.push(
+          new maplibregl.Marker({ element: outer, anchor: 'center' })
+            .setLngLat([poi.lon, poi.lat])
+            .addTo(map)
+        );
+      }
+    };
 
-        const m = new maplibregl.Marker({ element: outer, anchor: 'center' })
-          .setLngLat([poi.lon, poi.lat])
-          .addTo(map);
-        poiMarkersRef.current.push(m);
+    if (map.loaded()) addMarkers(); else map.once('load', addMarkers);
+  }, [selectedShockKeywords, selectedShockText, matchPOIs]);
+
+  // ── Red flash on shock card click ────────────────────────────────────────────
+  const flashMarkersRef = useRef<maplibregl.Marker[]>([]);
+  useEffect(() => {
+    if (!shockFlashTrigger || !pois.length) return;
+    const map = mapRef.current;
+    if (!map) return;
+
+    const matched = matchPOIs(selectedShockKeywords, selectedShockText);
+    if (!matched.length) return;
+
+    for (const m of flashMarkersRef.current) m.remove();
+    flashMarkersRef.current = [];
+
+    const addFlash = () => {
+      for (const poi of matched) {
+        const outer = document.createElement('div');
+        outer.style.cssText = 'position:relative;width:0;height:0;pointer-events:none;';
+        for (let i = 0; i < 3; i++) {
+          const ring = document.createElement('div');
+          ring.className = '_shock-flash-ring';
+          ring.style.animationDelay = `${i * 0.13}s`;
+          outer.appendChild(ring);
+        }
+        flashMarkersRef.current.push(
+          new maplibregl.Marker({ element: outer, anchor: 'center' })
+            .setLngLat([poi.lon, poi.lat])
+            .addTo(map)
+        );
+      }
+      setTimeout(() => {
+        for (const m of flashMarkersRef.current) m.remove();
+        flashMarkersRef.current = [];
+      }, 1400);
+    };
+
+    if (map.loaded()) addFlash(); else map.once('load', addFlash);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shockFlashTrigger, matchPOIs]);
+
+  // ── POI highlight: text-based fallback (fires on shock injection) ─────────────
+  // Only active for custom shocks where no poi_keywords were specified.
+  const shockTextMarkersRef = useRef<maplibregl.Marker[]>([]);
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map) return;
+
+    for (const m of shockTextMarkersRef.current) m.remove();
+    shockTextMarkersRef.current = [];
+
+    // Only run when there's a shock but NO keyword-based markers (custom shock path)
+    if (!currentShock || selectedShockKeywords.length || !pois.length) return;
+
+    const stopwords = new Set(['the','a','an','at','in','on','to','of','and','or','for','is','are','will','that','this','with','from','has','have','been','by','it','its','as','be']);
+    const shockWords = currentShock.toLowerCase().split(/\W+/).filter(w => w.length > 3 && !stopwords.has(w));
+    const matched = pois.filter(p => {
+      const pn = p.name.toLowerCase();
+      return shockWords.some(w => pn.includes(w));
+    });
+    if (!matched.length) return;
+
+    const addMarkers = () => {
+      for (const poi of matched) {
+        const outer = document.createElement('div');
+        outer.style.cssText = 'position:relative;width:0;height:0;pointer-events:none;';
+        const ring = document.createElement('div');
+        ring.className = '_poi-ring';
+        outer.appendChild(ring);
+        const dot = document.createElement('div');
+        dot.className = '_poi-dot';
+        outer.appendChild(dot);
+        shockTextMarkersRef.current.push(
+          new maplibregl.Marker({ element: outer, anchor: 'center' })
+            .setLngLat([poi.lon, poi.lat])
+            .addTo(map)
+        );
       }
     };
 
     if (map.loaded()) addMarkers(); else map.once('load', addMarkers);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedShockKeywords]);
+  }, [currentShock]);
 
-  // ── Agent GeoJSON source update ───────────────────────────────────────────────
-  // Same reasoning as the neighborhood boundary effect: do NOT use
-  // map.loaded() + map.once('load') — the 'load' event won't re-fire during
-  // a flyTo, so setData() must be called directly on the existing source.
+  // ── Track activation times & manage emoji markers on each snapshot ───────────
   useEffect(() => {
-    const map = mapRef.current;
-    if (!map) return;
-    const src = map.getSource('_agents') as maplibregl.GeoJSONSource | undefined;
-    if (!src) return;
-    if (setupMode || agents.length === 0) {
-      src.setData(EMPTY_POINTS);
+    if (setupMode) {
+      agentStartTimesRef.current.clear();
+      for (const m of emojiMarkersRef.current.values()) m.remove();
+      emojiMarkersRef.current.clear();
       return;
     }
-    src.setData({
-      type: 'FeatureCollection',
-      features: agents
-        .filter(a => a.lat != null && a.lon != null)
-        .map(a => ({
-          type: 'Feature' as const,
-          geometry: { type: 'Point' as const, coordinates: [a.lon, a.lat] },
-          properties: {
-            id: a.id,
-            name: a.name ?? '',
-            stance: a.shock_stance ?? 'neutral',
-            selected: a.id === selectedAgentId,
-          },
-        })),
-    });
-  }, [agents, setupMode, selectedAgentId]);
+    const map = mapRef.current;
+    const now = performance.now();
+
+    for (const a of agents) {
+      const moving = a.activated && a.destination_lat != null && !a.journey_complete;
+
+      if (moving) {
+        // Record when this agent first started moving (only once per journey)
+        if (!agentStartTimesRef.current.has(a.id)) {
+          agentStartTimesRef.current.set(a.id, now);
+        }
+        // Create emoji marker if needed
+        if (map && !emojiMarkersRef.current.has(a.id)) {
+          const emoji = a.shock_stance === 'disagree' ? '📢'
+                      : a.shock_stance === 'agree'    ? '🙋'
+                      : '🚶';
+          const el = document.createElement('div');
+          el.style.cssText = 'font-size:15px;line-height:1;pointer-events:none;user-select:none;';
+          el.textContent = emoji;
+          const marker = new maplibregl.Marker({ element: el, anchor: 'bottom', offset: [0, -18] })
+            .setLngLat([a.current_lon ?? a.lon, a.current_lat ?? a.lat])
+            .addTo(map);
+          emojiMarkersRef.current.set(a.id, marker);
+          emojiElementsRef.current.set(a.id, el);
+        }
+      } else {
+        // Journey ended — clean up
+        agentStartTimesRef.current.delete(a.id);
+        const em = emojiMarkersRef.current.get(a.id);
+        if (em) { em.remove(); emojiMarkersRef.current.delete(a.id); emojiElementsRef.current.delete(a.id); }
+      }
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [agents, setupMode]);
+
+  // ── RAF loop: per-agent organic continuous movement ───────────────────────────
+  // Each agent moves at their own personal speed, with a subtle sinusoidal wander.
+  // Position is computed from first principles (start time + speed) rather than
+  // interpolating between backend snapshots — this makes movement feel human.
+  useEffect(() => {
+    let rafId: number;
+    const DEST_STAY_DAYS = 2;
+    const BASE_DAY_MS    = 20000; // matches backend tick interval
+
+    const loop = (now: number) => {
+      const map = mapRef.current;
+      const src = map?.getSource('_agents') as maplibregl.GeoJSONSource | undefined;
+
+      if (src && !setupModeRef.current && agentsRef.current.length > 0) {
+        const features: GeoJSON.Feature[] = [];
+
+        for (const a of agentsRef.current) {
+          if (a.lat == null) continue;
+
+          const moving = a.activated && a.destination_lat != null && !a.journey_complete;
+          let lon: number, lat: number;
+
+          if (moving) {
+            const startTime  = agentStartTimesRef.current.get(a.id) ?? now;
+            const speed      = personalSpeed(a.id);
+            const totalDays  = (a.total_journey_days * 2) + DEST_STAY_DAYS;
+            const totalMs    = (totalDays * BASE_DAY_MS) / speed;
+            const progress   = Math.min(1, (now - startTime) / totalMs);
+
+            const goFrac   = a.total_journey_days / totalDays;
+            const stayFrac = DEST_STAY_DAYS / totalDays;
+            const dLon     = a.destination_lon!;
+            const dLat     = a.destination_lat!;
+
+            if (progress <= goFrac) {
+              const t = ease(progress / goFrac);
+              lon = a.lon + t * (dLon - a.lon);
+              lat = a.lat + t * (dLat - a.lat);
+            } else if (progress <= goFrac + stayFrac) {
+              lon = dLon; lat = dLat;
+            } else {
+              const t = ease(Math.min(1, (progress - goFrac - stayFrac) / goFrac));
+              lon = dLon + t * (a.lon - dLon);
+              lat = dLat + t * (a.lat - dLat);
+            }
+
+            // Organic micro-wander perpendicular to path
+            const [wx, wy] = wanderOffset(a.id, now);
+            lon += wx; lat += wy;
+
+            const em = emojiMarkersRef.current.get(a.id);
+            if (em) {
+              em.setLngLat([lon, lat]);
+              // Update emoji based on journey phase
+              const el = emojiElementsRef.current.get(a.id);
+              if (el) {
+                const returning = progress > goFrac + stayFrac;
+                const atDest    = progress > goFrac && progress <= goFrac + stayFrac;
+                const next = returning ? '🏠'
+                           : atDest    ? '📍'
+                           : a.shock_stance === 'disagree' ? '📢'
+                           : a.shock_stance === 'agree'    ? '🙋'
+                           : '🚶';
+                if (el.textContent !== next) el.textContent = next;
+              }
+            }
+          } else {
+            lon = a.current_lon ?? a.lon;
+            lat = a.current_lat ?? a.lat;
+          }
+
+          features.push({
+            type: 'Feature',
+            geometry: { type: 'Point', coordinates: [lon, lat] },
+            properties: {
+              id: a.id,
+              name: a.name ?? '',
+              stance: a.shock_stance ?? 'neutral',
+              selected: a.id === selectedIdRef.current,
+              activated: a.activated ?? false,
+              moving,
+            },
+          });
+        }
+
+        src.setData({ type: 'FeatureCollection', features });
+      } else if (src && (setupModeRef.current || agentsRef.current.length === 0)) {
+        src.setData(EMPTY_POINTS);
+      }
+
+      rafId = requestAnimationFrame(loop);
+    };
+
+    rafId = requestAnimationFrame(loop);
+    return () => cancelAnimationFrame(rafId);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // ── Shock-pending pulse animation ─────────────────────────────────────────────
   const pulseRafRef = useRef<number | null>(null);
@@ -632,6 +930,17 @@ export default function MapLibreMap({
           top:-5px; left:-5px; border-radius:50%;
           background: #818cf8;
           box-shadow: 0 0 8px #818cf8aa;
+        }
+        @keyframes _shockFlashRing {
+          0%   { width:6px;  height:6px;  top:-3px;  left:-3px;  opacity:0.9; }
+          30%  { opacity:1; }
+          100% { width:90px; height:90px; top:-45px; left:-45px; opacity:0; }
+        }
+        ._shock-flash-ring {
+          position:absolute; border-radius:50%;
+          border:3px solid #ef4444;
+          box-shadow:0 0 12px #ef444466;
+          animation: _shockFlashRing 0.65s cubic-bezier(0.1,0,0.25,1) forwards;
         }
         @keyframes _thinkRing {
           from { transform: rotate(0deg); }
@@ -822,6 +1131,8 @@ export default function MapLibreMap({
 
       <style>{`
         .maplibregl-ctrl-bottom-right { bottom:8px !important; right:8px !important; }
+        .maplibregl-popup-content { background:#0d1425 !important; border:1px solid #1e293b !important; border-radius:8px !important; padding:10px 12px !important; box-shadow:0 4px 20px rgba(0,0,0,0.6) !important; }
+        .maplibregl-popup-tip { display:none !important; }
       `}</style>
     </div>
   );

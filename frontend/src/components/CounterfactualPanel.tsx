@@ -27,9 +27,11 @@ function aggregateSeries(series: { tick: number; groups: Record<string, number> 
 
 interface Props {
   result: CounterfactualResult;
+  currentShock?: string;
+  onClose?: () => void;
 }
 
-export default function CounterfactualPanel({ result }: Props) {
+export default function CounterfactualPanel({ result, currentShock, onClose }: Props) {
   const maxTick = result.n_ticks - 1;
   const baseAgg = aggregateSeries(result.baseline);
   const policyAgg = aggregateSeries(result.with_policy);
@@ -48,9 +50,21 @@ export default function CounterfactualPanel({ result }: Props) {
     ? [0, Math.round(maxTick / 2), maxTick].filter((v, i, a) => a.indexOf(v) === i)
     : [0];
 
-  return (
-    <div style={{ marginTop: 10 }}>
-      {/* Policy label */}
+  const inner = (
+    <div style={{ marginTop: onClose ? 0 : 10 }}>
+      {/* Baseline vs alternative label */}
+      {currentShock && (
+        <div style={{ marginBottom: 8 }}>
+          <div style={{ fontSize: 10, color: '#64748b', marginBottom: 2 }}>
+            <span style={{ fontWeight: 700 }}>Baseline: </span>{currentShock}
+          </div>
+          <div style={{ fontSize: 10, color: '#c4b5fd' }}>
+            <span style={{ fontWeight: 700 }}>Alternative: </span>{result.policy}
+          </div>
+        </div>
+      )}
+      {/* Policy label (compact fallback) */}
+      {!currentShock && (
       <div style={{
         fontSize: 10, color: '#475569', fontStyle: 'italic',
         marginBottom: 8, lineHeight: 1.4,
@@ -59,6 +73,7 @@ export default function CounterfactualPanel({ result }: Props) {
       }}>
         "{result.policy}"
       </div>
+      )}
 
       {/* Aggregate trajectory chart */}
       <div style={{ fontSize: 10, color: '#64748b', marginBottom: 4, display: 'flex', gap: 12, alignItems: 'center' }}>
@@ -149,4 +164,25 @@ export default function CounterfactualPanel({ result }: Props) {
       )}
     </div>
   );
+
+  if (onClose) {
+    return (
+      <div style={{
+        position: 'absolute', top: 0, bottom: 0, right: 300, width: 340,
+        background: 'rgba(10,12,24,0.97)', borderLeft: '1px solid #1e293b',
+        overflowY: 'auto', zIndex: 19, fontFamily: 'system-ui, sans-serif',
+      }}>
+        <div style={{ padding: '14px 16px 12px', borderBottom: '1px solid #1e293b', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div>
+            <div style={{ fontSize: 10, color: '#7c3aed', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 2 }}>Counterfactual</div>
+            <div style={{ fontSize: 14, fontWeight: 800, color: '#e2e8f0' }}>What if?</div>
+          </div>
+          <button onClick={onClose} style={{ background: 'none', border: 'none', color: '#475569', cursor: 'pointer', fontSize: 18, padding: 0, lineHeight: 1 }}>✕</button>
+        </div>
+        <div style={{ padding: '12px 14px' }}>{inner}</div>
+      </div>
+    );
+  }
+
+  return inner;
 }

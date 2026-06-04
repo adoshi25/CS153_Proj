@@ -14,11 +14,29 @@ def reset_all(agents: list[Agent]) -> None:
         agent.shock_rationale = None
 
 
+def _extract_keywords(text: str) -> list[str]:
+    import re
+    stopwords = {"the","a","an","is","are","will","to","of","and","in","for","on","that","this","with","from","at","be","has","have","been","by","it","its","as"}
+    words = re.findall(r'\b[a-z]{4,}\b', text.lower())
+    return list(dict.fromkeys(w for w in words if w not in stopwords))[:10]
+
+
 def _classify_agent(agent: Agent, shock_text: str) -> tuple[str, str]:
     client = anthropic.Anthropic()
+
+    experience_block = ""
+    if agent.experience_log:
+        recent = agent.experience_log[-3:]
+        experience_block = (
+            "\nYour past experiences in this neighborhood:\n"
+            + "\n".join(f"- {e}" for e in recent)
+            + "\n"
+        )
+
     prompt = (
         f"You are {agent.name}, {agent.age} years old, {agent.occupation}.\n"
-        f"Background: {agent.bio}\n\n"
+        f"Background: {agent.bio}\n"
+        f"{experience_block}\n"
         f"Policy announced in your neighborhood: {shock_text}\n\n"
         f"Respond with exactly:\n"
         f"Line 1: stance: agree|disagree|neutral\n"

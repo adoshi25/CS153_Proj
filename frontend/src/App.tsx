@@ -18,6 +18,7 @@ export default function App() {
   const [selectedAgent, setSelectedAgent] = useState<Agent | null>(null);
   const [shockOptions, setShockOptions] = useState<ShockOption[]>([]);
   const [selectedShockOption, setSelectedShockOption] = useState<ShockOption | null>(null);
+  const [shockFlashTrigger, setShockFlashTrigger] = useState(0);
   const [shockLoading, setShockLoading] = useState(false);
   const [shockOptionsLoading, setShockOptionsLoading] = useState(false);
   const [currentShock, setCurrentShock] = useState('');
@@ -32,6 +33,9 @@ export default function App() {
   const [neighborhoodBoundary, setNeighborhoodBoundary] = useState<[number, number][] | null>(null);
   const [pois, setPois] = useState<POI[]>([]);
   const [spotlightPOI, setSpotlightPOI] = useState<{ lat: number; lon: number; name: string } | null>(null);
+  const [simDay, setSimDay] = useState(0);
+  const [simRunning, setSimRunning] = useState(false);
+  const [simDays, setSimDays] = useState(7);
 
   const genStartRef = useRef<number>(0);
   const wsRef = useRef<WebSocket | null>(null);
@@ -41,6 +45,11 @@ export default function App() {
   const appPhaseRef = useRef(appPhase);
   appPhaseRef.current = appPhase;
 
+  // Tracks whether a shock is currently active from the user's perspective.
+  // Used to ignore stale WS broadcasts (e.g. old movement loop) after a reset.
+  const currentShockRef = useRef(currentShock);
+  currentShockRef.current = currentShock;
+
   const connectWS = useCallback(() => {
     if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) return;
     const ws = new WebSocket(WS_URL);
@@ -48,11 +57,18 @@ export default function App() {
     ws.onmessage = (event: MessageEvent) => {
       try {
         const snap = JSON.parse(event.data as string) as Snapshot;
-        // Ignore WS snapshots during draw/setup — only apply once in ready phase
         if (appPhaseRef.current !== 'ready') return;
         setAgents(snap.agents);
         setSelectedAgent(prev => prev ? (snap.agents.find(a => a.id === prev.id) ?? prev) : null);
-        if (snap.agents.some(a => a.shock_stance !== null)) setShockLoading(false);
+        // Guard: only dismiss loading / advance sim state if a shock is currently active.
+        // Without this, stale movement-loop broadcasts from the previous shock fire
+        // setShockLoading(false) right after the user injects a new shock.
+        if (currentShockRef.current) {
+          if (snap.agents.some(a => a.shock_stance !== null)) setShockLoading(false);
+          if (snap.sim_day !== undefined) setSimDay(snap.sim_day);
+          if (snap.sim_complete) setSimRunning(false);
+          else if (snap.sim_day !== undefined && snap.sim_day > 0) setSimRunning(true);
+        }
       } catch (err) { console.error('WS parse error', err); }
     };
     ws.onclose = () => { wsRef.current = null; reconnectTimerRef.current = setTimeout(connectWS, 3000); };
@@ -157,18 +173,32 @@ export default function App() {
   const handleShockSubmit = async (text: string) => {
     setCurrentShock(text);
     setShockLoading(true);
+    setSimDay(0);
+    setSimRunning(false);
     try {
       await fetch(`${BACKEND_URL}/shock`, {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text }),
+        body: JSON.stringify({ text, max_days: simDays }),
       });
     } catch (err) { console.error('shock failed', err); setShockLoading(false); }
   };
 
+
   const handleResetShock = () => {
+    // Tell backend to stop the movement loop so stale broadcasts stop immediately
+    fetch(`${BACKEND_URL}/stop-sim`, { method: 'POST' }).catch(() => {});
     setCurrentShock('');
     setSelectedShockOption(null);
-    setAgents(prev => prev.map(a => ({ ...a, shock_stance: null, shock_rationale: null })));
+    setSimDay(0);
+    setSimRunning(false);
+    setAgents(prev => prev.map(a => ({
+      ...a,
+      shock_stance: null, shock_rationale: null,
+      activated: false, destination_lat: null, destination_lon: null,
+      destination_name: null, movement_intent: null,
+      current_lat: a.lat, current_lon: a.lon,
+      journey_day: 0, journey_complete: false, conversations_log: [],
+    })));
   };
 
   const handleNewCity = useCallback(() => {
@@ -189,7 +219,15 @@ export default function App() {
     setNeighborhoodBoundary(null);
     setPois([]);
     setSpotlightPOI(null);
+    setSimDay(0);
+    setSimRunning(false);
   }, []);
+
+  const selectedShockKeywords = useMemo(() => selectedShockOption?.poi_keywords ?? [], [selectedShockOption]);
+  const selectedShockText = useMemo(
+    () => selectedShockOption ? `${selectedShockOption.title} ${selectedShockOption.description}` : '',
+    [selectedShockOption],
+  );
 
   if (appPhase === 'setup') return <SetupScreen onSubmit={handleSetupCoords} />;
 
@@ -217,7 +255,10 @@ export default function App() {
         pois={isReady ? pois : []}
         shockPending={shockLoading}
         selectedShockKeywords={selectedShockOption?.poi_keywords ?? []}
+        selectedShockText={selectedShockOption ? `${selectedShockOption.title} ${selectedShockOption.description}` : ''}
+        currentShock={currentShock}
         spotlightPOI={isReady ? spotlightPOI : null}
+        shockFlashTrigger={shockFlashTrigger}
       />
 
       {/* Draw-phase instruction banner */}
@@ -324,6 +365,45 @@ export default function App() {
         </div>
       )}
 
+      {/* Sim-days badge — top-left of map, to the right of the panel */}
+      {isReady && (
+        <div style={{
+          position: 'absolute', left: 308, top: 14, zIndex: 25,
+          background: 'rgba(10,12,24,0.92)', border: '1px solid rgba(99,102,241,0.35)',
+          borderRadius: 7, padding: '4px 10px',
+          fontSize: 11, color: '#818cf8', fontWeight: 700, letterSpacing: '0.04em',
+          backdropFilter: 'blur(4px)',
+        }}>
+          {simDays}d
+        </div>
+      )}
+
+      {/* Emoji legend — shown whenever agents are moving */}
+      {isReady && currentShock && agents.some(a => a.activated) && (
+        <div style={{
+          position: 'absolute', bottom: 28, left: '50%', transform: 'translateX(-50%)',
+          zIndex: 20, pointerEvents: 'none',
+          background: 'rgba(8,11,24,0.82)', border: '1px solid #1e293b',
+          borderRadius: 20, padding: '5px 14px',
+          display: 'flex', alignItems: 'center', gap: 14,
+          backdropFilter: 'blur(6px)',
+          fontFamily: 'system-ui, sans-serif',
+        }}>
+          {([
+            { emoji: '🙋', label: 'Supports',    color: '#22c55e' },
+            { emoji: '📢', label: 'Opposes',     color: '#ef4444' },
+            { emoji: '🚶', label: 'Neutral',     color: '#d4a927' },
+            { emoji: '📍', label: 'At dest.',    color: '#818cf8' },
+            { emoji: '🏠', label: 'Returning',   color: '#64748b' },
+          ] as const).map(({ emoji, label, color }) => (
+            <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+              <span style={{ fontSize: 13, lineHeight: 1 }}>{emoji}</span>
+              <span style={{ fontSize: 10, color, fontWeight: 600 }}>{label}</span>
+            </div>
+          ))}
+        </div>
+      )}
+
       {/* Ready-phase UI */}
       {isReady && <OnboardingOverlay neighborhoodName={currentNeighborhood} neighborhoodDescription={neighborhoodDescription} />}
       {isReady && (
@@ -334,13 +414,23 @@ export default function App() {
           shockLoading={shockLoading}
           currentShock={currentShock}
           selectedShockOption={selectedShockOption}
-          onShockOptionSelect={setSelectedShockOption}
+          onShockOptionSelect={(option) => {
+            setSelectedShockOption(option);
+            if (option) setShockFlashTrigger(prev => prev + 1);
+          }}
           onShockSubmit={handleShockSubmit}
           onResetShock={handleResetShock}
           onAgentSelect={setSelectedAgent}
           onNewCity={handleNewCity}
+          simDay={simDay}
+          simRunning={simRunning}
+          simDays={simDays}
+          onSimDaysChange={setSimDays}
+          pois={pois}
+          onPOISpotlight={setSpotlightPOI}
         />
       )}
+
       {isReady && selectedAgent && (
         <AgentSidebar
           agent={selectedAgent}
@@ -349,6 +439,8 @@ export default function App() {
           currentShock={currentShock}
           pois={pois}
           onPOISpotlight={setSpotlightPOI}
+          simDay={simDay}
+          simDays={simDays}
         />
       )}
     </div>
