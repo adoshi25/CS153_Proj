@@ -143,7 +143,7 @@ Claude Code (Anthropic's CLI) was used during development for code iteration and
 
 ---
 
-## Sources & Credits
+## Sources & Credits + Acknowledgements
 
 - **Park et al., 2023** — "Generative Agents: Interactive Simulacra of Human Behavior" — memory retrieval formula, agent architecture inspiration
 - **Relevant papers recommended by TA Ramya:**
@@ -152,3 +152,4 @@ Claude Code (Anthropic's CLI) was used during development for code iteration and
 - Agent profiles generated for the F/N Ward neighborhood (Mumbai, Maharashtra) using `generate_agents.py`
 - Frontend built with React + TypeScript + MapLibre GL
 - Backend built with FastAPI + WebSockets + Anthropic SDK
+- **Acknowledgements** - Ramya, Jaanak for advice. Staff TAs for providing us access to compute (Thijs, Adrian, Anthony, Jessica).
