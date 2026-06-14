@@ -1,4 +1,4 @@
-# Society Simulation — CS153 Final Project
+# Society Sim
 
 A multi-agent society simulator. 40 LLM-backed agents live in a fictional urban neighborhood. When a policy shock is injected (rezoning, infrastructure change, eviction policy), every agent reacts based on their individual biography, memory stream, social relationships, and past experience — then an orchestrator synthesizes collective behavior into a stakeholder brief.
 
